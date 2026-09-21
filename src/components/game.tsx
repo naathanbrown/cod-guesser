@@ -549,7 +549,7 @@ function Question({
               onClick={() => onPick(map)}
               className={cn(
                 "h-auto min-h-16 justify-start gap-3 px-3 py-3 text-left whitespace-normal disabled:opacity-100",
-                isAnswer && "border-emerald-500 bg-emerald-950/50 text-foreground",
+                isAnswer && "border-primary bg-primary/20 text-foreground ring-2 ring-primary",
                 isWrong && "border-destructive bg-destructive/15 text-foreground",
               )}
             >

@@ -272,6 +272,35 @@ def image_score(filename: str) -> int:
     return score
 
 
+def label_tabs(label: str) -> set[str]:
+    parts = re.split(r"[&/,+]|\band\b", label, flags=re.I)
+    return {norm_tab(part) for part in parts if norm_tab(part)}
+
+
+def tab_matches(label: str, tabs: set[str]) -> bool:
+    parts = label_tabs(label)
+    return bool(parts & tabs) or norm_tab(label) in tabs
+
+
+def pick_minimap(wikitext: str, tabs: set[str]) -> str | None:
+    match = re.search(r"\|minimap\s*=\s*(.*?)\n\|[A-Za-z]", wikitext, re.S)
+    if not match:
+        match = re.search(r"\|minimap\s*=\s*(.*?)(?:\n\}\}|\n<)", wikitext, re.S)
+    if not match:
+        return None
+    section = match.group(1)
+    if "<tabber>" in section.lower() or "|-|" in section:
+        for label, filename in re.findall(
+            r"\|-\|\s*([^=\n]+?)\s*=\s*\[\[(?:File|file):([^\]|]+)",
+            section,
+        ):
+            if tab_matches(label, tabs):
+                return filename.strip()
+        return None
+    found = re.search(r"\[\[(?:File|file):([^\]|]+)", section)
+    return found.group(1).strip() if found else None
+
+
 def pick_file(wikitext: str, tabs: set[str]) -> str | None:
     # Stop at the next infobox field. Tabber rows also start with "|",
     # so require a letter after the pipe (game, teams, place, ...).
@@ -389,6 +418,88 @@ def download_jpeg(url: str, dest: Path) -> None:
         tmp.unlink(missing_ok=True)
 
 
+def download_minimap(url: str, dest: Path) -> None:
+    sep = "&" if "?" in url else "?"
+    jpeg_url = f"{url}{sep}format=original"
+    req = urllib.request.Request(jpeg_url, headers={**UA, "Accept": "image/jpeg"})
+    with urllib.request.urlopen(req, timeout=60) as res:
+        data = res.read()
+    tmp = dest.with_suffix(".part")
+    tmp.write_bytes(data)
+    try:
+        with Image.open(tmp) as im:
+            if "A" in im.getbands():
+                rgba = im.convert("RGBA")
+                canvas = Image.new("RGB", rgba.size, (12, 15, 11))
+                canvas.paste(rgba, mask=rgba.getchannel("A"))
+                im = canvas
+            else:
+                im = im.convert("RGB")
+            if min(im.size) < 180:
+                raise ValueError(f"too small: {im.width}x{im.height}")
+            im.thumbnail((1024, 1024))
+            im.save(dest, "JPEG", quality=82, optimize=True)
+    finally:
+        tmp.unlink(missing_ok=True)
+
+
+def attach_minimaps() -> None:
+    """Fill maps.json minimap paths from each page's infobox minimap field."""
+    import urllib.parse
+
+    minimap_dir = ROOT / "public" / "minimaps"
+    minimap_dir.mkdir(parents=True, exist_ok=True)
+    records = json.loads(DATA_PATH.read_text())
+    tabs_for = {game["id"]: game["tabs"] for game in GAMES}
+
+    def page_title(source: str) -> str:
+        slug_part = urllib.parse.unquote(source.rsplit("/", 1)[-1])
+        return slug_part.replace("_", " ")
+
+    titles = list(dict.fromkeys(page_title(record["source"]) for record in records))
+    print(f"reading {len(titles)} wiki pages", flush=True)
+    texts = fetch_wikitext(titles)
+    jobs: list[tuple[dict, str]] = []
+    missing: list[str] = []
+    for record in records:
+        text = texts.get(page_title(record["source"]), "")
+        filename = pick_minimap(text, tabs_for[record["gameId"]]) if text else None
+        if not filename:
+            record["minimap"] = None
+            missing.append(record["id"])
+            continue
+        record["minimap"] = f"/minimaps/{record['id']}.jpg"
+        jobs.append((record, filename))
+
+    print(f"downloading {len(jobs)} minimaps, {len(missing)} without one", flush=True)
+    urls = file_urls([filename for _, filename in jobs])
+    failures: list[str] = []
+
+    def fetch_one(record: dict, filename: str) -> None:
+        url = urls.get(filename) or urls.get(filename.replace("_", " "))
+        if not url:
+            raise RuntimeError(f"no url for {filename}")
+        download_minimap(url, minimap_dir / f"{record['id']}.jpg")
+
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        futures = {pool.submit(fetch_one, record, filename): record for record, filename in jobs}
+        for future in as_completed(futures):
+            record = futures[future]
+            try:
+                future.result()
+            except Exception as exc:
+                record["minimap"] = None
+                failures.append(f"{record['id']}: {exc}")
+                print(f"fail {record['id']}: {exc}", flush=True)
+
+    DATA_PATH.write_text(json.dumps(records, indent=2) + "\n")
+    print(f"wrote {DATA_PATH}", flush=True)
+    if missing:
+        print("no minimap:", ", ".join(missing))
+    if failures:
+        print("failed:", "; ".join(failures))
+
+
 def main() -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     records = []
@@ -483,4 +594,9 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    import sys
+
+    if "--minimaps" in sys.argv:
+        attach_minimaps()
+    else:
+        main()

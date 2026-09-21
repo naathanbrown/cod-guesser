@@ -19,6 +19,7 @@ import {
   type AnswerMode,
   type GameId,
   type MapCard,
+  type Picture,
   type Round,
   type RoundLength,
 } from "@/lib/game";
@@ -40,6 +41,7 @@ type Guess = { mapId?: string | null; text?: string | null };
 
 type Run = {
   mode: AnswerMode;
+  picture: Picture;
   unlimited: boolean;
   pool: MapCard[];
   dealt: string[];
@@ -103,6 +105,7 @@ export function Game() {
   const [roster, setRoster] = useState<Roster>("launch");
   const [roundLength, setRoundLength] = useState<RoundLength>(10);
   const [answerMode, setAnswerMode] = useState<AnswerMode>("choice");
+  const [picture, setPicture] = useState<Picture>("loading");
   const [mutedOverride, setMutedOverride] = useState<boolean | undefined>(undefined);
   const [bestOverride, setBestOverride] = useState<Best | null | undefined>(undefined);
   const [newBest, setNewBest] = useState(false);
@@ -125,9 +128,12 @@ export function Game() {
   const pool = useMemo(
     () =>
       maps.filter(
-        (map) => selected.includes(map.gameId) && (roster === "all" || map.standard),
+        (map) =>
+          selected.includes(map.gameId) &&
+          (roster === "all" || map.standard) &&
+          (picture === "loading" || Boolean(map.minimap)),
       ),
-    [roster, selected],
+    [picture, roster, selected],
   );
 
   const minimumMaps = answerMode === "choice" ? 4 : 1;
@@ -154,6 +160,7 @@ export function Game() {
     setImageFailed(false);
     setRun({
       mode: answerMode,
+      picture,
       unlimited,
       pool,
       dealt: rounds.map((round) => round.answer.id),
@@ -349,6 +356,7 @@ export function Game() {
       {screen === "menu" ? (
         <Menu
           answerMode={answerMode}
+          picture={picture}
           best={best}
           minimumMaps={minimumMaps}
           plannedRounds={plannedRounds}
@@ -358,6 +366,7 @@ export function Game() {
           roundLength={roundLength}
           selected={selected}
           onAnswerMode={setAnswerMode}
+          onPicture={setPicture}
           onRoster={setRoster}
           onRoundLength={setRoundLength}
           onStart={start}
@@ -402,6 +411,7 @@ function Menu({
   answerMode,
   best,
   minimumMaps,
+  picture,
   plannedRounds,
   poolSize,
   ready,
@@ -409,6 +419,7 @@ function Menu({
   roundLength,
   selected,
   onAnswerMode,
+  onPicture,
   onRoster,
   onRoundLength,
   onStart,
@@ -417,6 +428,7 @@ function Menu({
   answerMode: AnswerMode;
   best: Best | null;
   minimumMaps: number;
+  picture: Picture;
   plannedRounds: number | null;
   poolSize: number;
   ready: boolean;
@@ -424,6 +436,7 @@ function Menu({
   roundLength: RoundLength;
   selected: GameId[];
   onAnswerMode: (mode: AnswerMode) => void;
+  onPicture: (picture: Picture) => void;
   onRoster: (roster: Roster) => void;
   onRoundLength: (length: RoundLength) => void;
   onStart: () => void;
@@ -437,8 +450,8 @@ function Menu({
           <span className="block text-primary">before you spawn.</span>
         </h1>
         <p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg">
-          A loading screen comes up. Pick the name, or type it. You have twenty seconds. The run covers Call of Duty 4
-          through Black Ops II, World at War and Modern Warfare 3 included.
+          A loading screen or a minimap comes up. Pick the name, or type it. You have twenty seconds. The run covers
+          Call of Duty 4 through Black Ops II, World at War and Modern Warfare 3 included.
         </p>
       </div>
 
@@ -508,6 +521,27 @@ function Menu({
             <p className="font-display text-xs tracking-[0.22em] text-muted-foreground">Match</p>
             <p className="mt-2 font-display text-4xl text-foreground">{poolSize}</p>
             <p className="text-sm text-muted-foreground">maps in this pool</p>
+            <p className="mt-4 mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Picture</p>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                type="button"
+                size="sm"
+                variant={picture === "loading" ? "default" : "outline"}
+                aria-pressed={picture === "loading"}
+                onClick={() => onPicture("loading")}
+              >
+                Loading screen
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant={picture === "minimap" ? "default" : "outline"}
+                aria-pressed={picture === "minimap"}
+                onClick={() => onPicture("minimap")}
+              >
+                Minimap
+              </Button>
+            </div>
             <p className="mt-4 mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Answer</p>
             <div className="flex flex-wrap gap-2">
               <Button
@@ -613,16 +647,16 @@ function Question({
         <p className="text-lg text-foreground tabular-nums">{formatScore(run.score)}</p>
       </div>
 
-      <figure className="overflow-hidden border border-border bg-black">
-        <div className="relative aspect-video">
+      <figure className={cn("overflow-hidden border border-border bg-black", run.picture === "minimap" && "mx-auto w-full max-w-xl")}>
+        <div className={cn("relative", run.picture === "minimap" ? "aspect-square" : "aspect-video")}>
           {imageFailed ? (
             <div className="absolute inset-0 flex items-center justify-center px-6 text-center text-sm text-muted-foreground">
-              This loading screen failed to load. You can still guess, or wait and the round will expire.
+              This picture failed to load. You can still guess, or wait and the round will expire.
             </div>
           ) : (
             <Image
-              key={round.answer.id}
-              src={round.answer.image}
+              key={`${run.picture}-${round.answer.id}`}
+              src={run.picture === "minimap" && round.answer.minimap ? round.answer.minimap : round.answer.image}
               alt=""
               fill
               priority
@@ -791,7 +825,13 @@ function Results({
           return (
             <figure key={`${answer.mapId}-${map.id}`} className="overflow-hidden border border-border bg-black">
               <div className="relative aspect-video">
-                <Image src={map.image} alt="" fill sizes="180px" className="object-cover" />
+                <Image
+                  src={run.picture === "minimap" && map.minimap ? map.minimap : map.image}
+                  alt=""
+                  fill
+                  sizes="180px"
+                  className={run.picture === "minimap" ? "object-contain" : "object-cover"}
+                />
               </div>
               <figcaption className="space-y-1 p-2">
                 <p className={cn("font-display text-sm leading-tight tracking-wide", answer.correct ? "text-emerald-400" : "text-destructive")}>

@@ -12,6 +12,7 @@ export type MapCard = {
   standard: boolean;
   blurb: string;
   image: string;
+  minimap: string | null;
   source: string;
 };
 
@@ -35,6 +36,7 @@ export const ROUND_MS = 20_000;
 export const ROUND_OPTIONS = [5, 10, 15] as const;
 export type RoundLength = (typeof ROUND_OPTIONS)[number] | "unlimited";
 export type AnswerMode = "choice" | "typed";
+export type Picture = "loading" | "minimap";
 
 export function normalizeGuess(value: string): string {
   return value

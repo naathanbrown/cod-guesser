@@ -9,7 +9,8 @@
     "standard": true,
     "blurb": "Large desert town. Excels in Sabotage matches",
     "image": "/maps/ambush-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Ambush_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Ambush_%28map%29",
+    "minimap": "/minimaps/ambush-cod4.jpg"
   },
   {
     "id": "backlot-cod4",
@@ -21,7 +22,8 @@
     "standard": true,
     "blurb": "Medium sized construction site. Great level for any mode",
     "image": "/maps/backlot-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Backlot"
+    "source": "https://callofduty.fandom.com/wiki/Backlot",
+    "minimap": "/minimaps/backlot-cod4.jpg"
   },
   {
     "id": "bloc-cod4",
@@ -33,7 +35,8 @@
     "standard": true,
     "blurb": "Large Russian apartment bloc. Intense Domination matches",
     "image": "/maps/bloc-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Bloc"
+    "source": "https://callofduty.fandom.com/wiki/Bloc",
+    "minimap": "/minimaps/bloc-cod4.jpg"
   },
   {
     "id": "bog-cod4",
@@ -45,7 +48,8 @@
     "standard": true,
     "blurb": "Small desert bog. Open level, excellent for smaller groups",
     "image": "/maps/bog-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Bog"
+    "source": "https://callofduty.fandom.com/wiki/Bog",
+    "minimap": "/minimaps/bog-cod4.jpg"
   },
   {
     "id": "broadcast-cod4",
@@ -57,7 +61,8 @@
     "standard": false,
     "blurb": "Middle Eastern TV station. Good for big teams",
     "image": "/maps/broadcast-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Broadcast"
+    "source": "https://callofduty.fandom.com/wiki/Broadcast",
+    "minimap": "/minimaps/broadcast-cod4.jpg"
   },
   {
     "id": "chinatown-cod4",
@@ -69,7 +74,8 @@
     "standard": false,
     "blurb": "Small city at night. Great for any mode",
     "image": "/maps/chinatown-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Chinatown"
+    "source": "https://callofduty.fandom.com/wiki/Chinatown",
+    "minimap": "/minimaps/chinatown-cod4.jpg"
   },
   {
     "id": "countdown-cod4",
@@ -81,7 +87,8 @@
     "standard": true,
     "blurb": "Open launch pad. Huge sight lines and dangerous maneuvering",
     "image": "/maps/countdown-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Countdown_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Countdown_%28map%29",
+    "minimap": "/minimaps/countdown-cod4.jpg"
   },
   {
     "id": "crash-cod4",
@@ -93,7 +100,8 @@
     "standard": true,
     "blurb": "Downed Sea Knight in a desert town. Fantastic team games",
     "image": "/maps/crash-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Crash_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Crash_%28map%29",
+    "minimap": "/minimaps/crash-cod4.jpg"
   },
   {
     "id": "creek-cod4",
@@ -105,7 +113,8 @@
     "standard": false,
     "blurb": "Outdoor Russian environment, great for snipers",
     "image": "/maps/creek-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Creek"
+    "source": "https://callofduty.fandom.com/wiki/Creek",
+    "minimap": "/minimaps/creek-cod4.jpg"
   },
   {
     "id": "crossfire-cod4",
@@ -117,7 +126,8 @@
     "standard": true,
     "blurb": "Small desert town. Intense interior fighting and strong firefights",
     "image": "/maps/crossfire-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Crossfire"
+    "source": "https://callofduty.fandom.com/wiki/Crossfire",
+    "minimap": "/minimaps/crossfire-cod4.jpg"
   },
   {
     "id": "district-cod4",
@@ -129,7 +139,8 @@
     "standard": true,
     "blurb": "Large urban town with a market in the middle. Great for team games",
     "image": "/maps/district-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/District"
+    "source": "https://callofduty.fandom.com/wiki/District",
+    "minimap": "/minimaps/district-cod4.jpg"
   },
   {
     "id": "downpour-cod4",
@@ -141,7 +152,8 @@
     "standard": true,
     "blurb": "Big rainy Russian farm. Excellent for Sabotage matches",
     "image": "/maps/downpour-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Downpour"
+    "source": "https://callofduty.fandom.com/wiki/Downpour",
+    "minimap": "/minimaps/downpour-cod4.jpg"
   },
   {
     "id": "killhouse-cod4",
@@ -153,7 +165,8 @@
     "standard": false,
     "blurb": "Speedball style warehouse interior. Great for small teams",
     "image": "/maps/killhouse-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Killhouse_%28Call_of_Duty_4%29"
+    "source": "https://callofduty.fandom.com/wiki/Killhouse_%28Call_of_Duty_4%29",
+    "minimap": "/minimaps/killhouse-cod4.jpg"
   },
   {
     "id": "overgrown-cod4",
@@ -165,7 +178,8 @@
     "standard": true,
     "blurb": "Large overgrown rural Russian area. Sniper ghilliie suits make for good cover",
     "image": "/maps/overgrown-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Overgrown"
+    "source": "https://callofduty.fandom.com/wiki/Overgrown",
+    "minimap": "/minimaps/overgrown-cod4.jpg"
   },
   {
     "id": "pipeline-cod4",
@@ -177,7 +191,8 @@
     "standard": true,
     "blurb": "Russian trainyard. Excellent team games",
     "image": "/maps/pipeline-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Pipeline"
+    "source": "https://callofduty.fandom.com/wiki/Pipeline",
+    "minimap": "/minimaps/pipeline-cod4.jpg"
   },
   {
     "id": "shipment-cod4",
@@ -189,7 +204,8 @@
     "standard": true,
     "blurb": "Tiny Russian shipyard. Fast paced action with no hiding",
     "image": "/maps/shipment-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Shipment"
+    "source": "https://callofduty.fandom.com/wiki/Shipment",
+    "minimap": "/minimaps/shipment-cod4.jpg"
   },
   {
     "id": "showdown-cod4",
@@ -201,7 +217,8 @@
     "standard": true,
     "blurb": "Small desert arena. Great fast gameplay for small numbers of players",
     "image": "/maps/showdown-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Showdown"
+    "source": "https://callofduty.fandom.com/wiki/Showdown",
+    "minimap": "/minimaps/showdown-cod4.jpg"
   },
   {
     "id": "strike-cod4",
@@ -213,7 +230,8 @@
     "standard": true,
     "blurb": "Large urban desert town. Excellent team games",
     "image": "/maps/strike-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Strike_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Strike_%28map%29",
+    "minimap": "/minimaps/strike-cod4.jpg"
   },
   {
     "id": "vacant-cod4",
@@ -225,7 +243,8 @@
     "standard": true,
     "blurb": "Deserted Russian office. Intense interior fighting",
     "image": "/maps/vacant-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Vacant"
+    "source": "https://callofduty.fandom.com/wiki/Vacant",
+    "minimap": "/minimaps/vacant-cod4.jpg"
   },
   {
     "id": "wet-work-cod4",
@@ -237,7 +256,8 @@
     "standard": true,
     "blurb": "Medium-large cargo ship. Fast-paced Search and Destroy matches",
     "image": "/maps/wet-work-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Wet_Work"
+    "source": "https://callofduty.fandom.com/wiki/Wet_Work",
+    "minimap": "/minimaps/wet-work-cod4.jpg"
   },
   {
     "id": "winter-crash-cod4",
@@ -249,7 +269,8 @@
     "standard": false,
     "blurb": "Dark and snowy holiday themed Crash. Beware the airstrikes",
     "image": "/maps/winter-crash-cod4.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Winter_Crash"
+    "source": "https://callofduty.fandom.com/wiki/Winter_Crash",
+    "minimap": "/minimaps/winter-crash-cod4.jpg"
   },
   {
     "id": "airfield-waw",
@@ -261,7 +282,8 @@
     "standard": true,
     "blurb": "A Pacific airstrip with parked fighters and a control tower.",
     "image": "/maps/airfield-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Airfield_%28multiplayer%29"
+    "source": "https://callofduty.fandom.com/wiki/Airfield_%28multiplayer%29",
+    "minimap": "/minimaps/airfield-waw.jpg"
   },
   {
     "id": "asylum-waw",
@@ -273,7 +295,8 @@
     "standard": true,
     "blurb": "A dark asylum: tight wards around an open courtyard.",
     "image": "/maps/asylum-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Asylum"
+    "source": "https://callofduty.fandom.com/wiki/Asylum",
+    "minimap": "/minimaps/asylum-waw.jpg"
   },
   {
     "id": "banzai-waw",
@@ -285,7 +308,8 @@
     "standard": false,
     "blurb": "A night beach assault through bunkers and palm cover.",
     "image": "/maps/banzai-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Banzai_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Banzai_%28map%29",
+    "minimap": "/minimaps/banzai-waw.jpg"
   },
   {
     "id": "battery-waw",
@@ -297,7 +321,8 @@
     "standard": false,
     "blurb": "A coastal gun battery dug into a cliff.",
     "image": "/maps/battery-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Battery_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Battery_%28map%29",
+    "minimap": "/minimaps/battery-waw.jpg"
   },
   {
     "id": "breach-waw",
@@ -309,7 +334,8 @@
     "standard": false,
     "blurb": "Keep a sharp eye out through the dense, overcast city streets in set at Berlin's historic Brandenburg Gate",
     "image": "/maps/breach-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Breach_%28World_at_War%29"
+    "source": "https://callofduty.fandom.com/wiki/Breach_%28World_at_War%29",
+    "minimap": "/minimaps/breach-waw.jpg"
   },
   {
     "id": "castle-waw",
@@ -321,7 +347,8 @@
     "standard": true,
     "blurb": "Castle and courtyard battlefield",
     "image": "/maps/castle-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Castle"
+    "source": "https://callofduty.fandom.com/wiki/Castle",
+    "minimap": "/minimaps/castle-waw.jpg"
   },
   {
     "id": "cliffside-waw",
@@ -333,7 +360,8 @@
     "standard": true,
     "blurb": "A Japanese cliff village with a long sightline down the slope.",
     "image": "/maps/cliffside-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Cliffside"
+    "source": "https://callofduty.fandom.com/wiki/Cliffside",
+    "minimap": "/minimaps/cliffside-waw.jpg"
   },
   {
     "id": "corrosion-waw",
@@ -345,7 +373,8 @@
     "standard": false,
     "blurb": "A rusted industrial yard under grey skies.",
     "image": "/maps/corrosion-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Corrosion"
+    "source": "https://callofduty.fandom.com/wiki/Corrosion",
+    "minimap": "/minimaps/corrosion-waw.jpg"
   },
   {
     "id": "courtyard-waw",
@@ -357,7 +386,8 @@
     "standard": true,
     "blurb": "Wooden Buildings",
     "image": "/maps/courtyard-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Courtyard_%28World_at_War%29"
+    "source": "https://callofduty.fandom.com/wiki/Courtyard_%28World_at_War%29",
+    "minimap": "/minimaps/courtyard-waw.jpg"
   },
   {
     "id": "dome-waw",
@@ -369,7 +399,8 @@
     "standard": true,
     "blurb": "After heavy damage to the Reichstag Building in Berlin, Allied forces storm the bombed-out structure while Axis stand their ground. This small-sized asymmetrical arena is a reimagining of Treyarch\u2019s",
     "image": "/maps/dome-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Dome_%28World_at_War%29"
+    "source": "https://callofduty.fandom.com/wiki/Dome_%28World_at_War%29",
+    "minimap": "/minimaps/dome-waw.jpg"
   },
   {
     "id": "downfall-waw",
@@ -381,7 +412,8 @@
     "standard": true,
     "blurb": "The streets in front of the Reichstag.",
     "image": "/maps/downfall-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Downfall_%28multiplayer%29"
+    "source": "https://callofduty.fandom.com/wiki/Downfall_%28multiplayer%29",
+    "minimap": "/minimaps/downfall-waw.jpg"
   },
   {
     "id": "hangar-waw",
@@ -393,7 +425,8 @@
     "standard": true,
     "blurb": "A Japanese aircraft hangar opening onto the field.",
     "image": "/maps/hangar-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Hangar"
+    "source": "https://callofduty.fandom.com/wiki/Hangar",
+    "minimap": "/minimaps/hangar-waw.jpg"
   },
   {
     "id": "knee-deep-waw",
@@ -405,7 +438,8 @@
     "standard": false,
     "blurb": "A flooded trench line fought at water level.",
     "image": "/maps/knee-deep-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Knee_Deep"
+    "source": "https://callofduty.fandom.com/wiki/Knee_Deep",
+    "minimap": "/minimaps/knee-deep-waw.jpg"
   },
   {
     "id": "makin-waw",
@@ -417,7 +451,8 @@
     "standard": true,
     "blurb": "The Makin beach, with bunkers behind the sand.",
     "image": "/maps/makin-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Makin"
+    "source": "https://callofduty.fandom.com/wiki/Makin",
+    "minimap": "/minimaps/makin-waw.jpg"
   },
   {
     "id": "makin-day-waw",
@@ -429,7 +464,8 @@
     "standard": false,
     "blurb": "The Makin landing again, this time in daylight.",
     "image": "/maps/makin-day-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Makin_Day"
+    "source": "https://callofduty.fandom.com/wiki/Makin_Day",
+    "minimap": "/minimaps/makin-day-waw.jpg"
   },
   {
     "id": "nightfire-waw",
@@ -441,7 +477,8 @@
     "standard": false,
     "blurb": "The roundhouse fight, moved to nighttime.",
     "image": "/maps/nightfire-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Nightfire"
+    "source": "https://callofduty.fandom.com/wiki/Nightfire",
+    "minimap": "/minimaps/nightfire-waw.jpg"
   },
   {
     "id": "outskirts-waw",
@@ -453,7 +490,8 @@
     "standard": true,
     "blurb": "The snowy edge of a Russian town.",
     "image": "/maps/outskirts-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Outskirts"
+    "source": "https://callofduty.fandom.com/wiki/Outskirts",
+    "minimap": "/minimaps/outskirts-waw.jpg"
   },
   {
     "id": "revolution-waw",
@@ -465,7 +503,8 @@
     "standard": false,
     "blurb": "A bombed European street and a close-range fight.",
     "image": "/maps/revolution-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Revolution_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Revolution_%28map%29",
+    "minimap": "/minimaps/revolution-waw.jpg"
   },
   {
     "id": "roundhouse-waw",
@@ -477,7 +516,8 @@
     "standard": true,
     "blurb": "A locomotive roundhouse built around its turntable.",
     "image": "/maps/roundhouse-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Roundhouse"
+    "source": "https://callofduty.fandom.com/wiki/Roundhouse",
+    "minimap": "/minimaps/roundhouse-waw.jpg"
   },
   {
     "id": "seelow-waw",
@@ -489,7 +529,8 @@
     "standard": true,
     "blurb": "Mud, trenches, and the road up to Seelow Heights.",
     "image": "/maps/seelow-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Seelow"
+    "source": "https://callofduty.fandom.com/wiki/Seelow",
+    "minimap": "/minimaps/seelow-waw.jpg"
   },
   {
     "id": "station-waw",
@@ -501,7 +542,8 @@
     "standard": false,
     "blurb": "A train station and the yards beside the tracks.",
     "image": "/maps/station-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Station_%28World_at_War%29"
+    "source": "https://callofduty.fandom.com/wiki/Station_%28World_at_War%29",
+    "minimap": "/minimaps/station-waw.jpg"
   },
   {
     "id": "sub-pens-waw",
@@ -513,7 +555,8 @@
     "standard": false,
     "blurb": "A multiplayer map from World at War.",
     "image": "/maps/sub-pens-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Sub_Pens_%28World_at_War%29"
+    "source": "https://callofduty.fandom.com/wiki/Sub_Pens_%28World_at_War%29",
+    "minimap": "/minimaps/sub-pens-waw.jpg"
   },
   {
     "id": "upheaval-waw",
@@ -525,7 +568,8 @@
     "standard": true,
     "blurb": "A ruined Berlin plaza and a toppled monument.",
     "image": "/maps/upheaval-waw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Upheaval"
+    "source": "https://callofduty.fandom.com/wiki/Upheaval",
+    "minimap": "/minimaps/upheaval-waw.jpg"
   },
   {
     "id": "afghan-mw2",
@@ -537,7 +581,8 @@
     "standard": true,
     "blurb": "Medium sized open desert. Intense Demolition battles",
     "image": "/maps/afghan-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Afghan"
+    "source": "https://callofduty.fandom.com/wiki/Afghan",
+    "minimap": "/minimaps/afghan-mw2.jpg"
   },
   {
     "id": "bailout-mw2",
@@ -549,7 +594,8 @@
     "standard": false,
     "blurb": "Overrun apartment complex. Long sight lines with great flank routes",
     "image": "/maps/bailout-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Bailout"
+    "source": "https://callofduty.fandom.com/wiki/Bailout",
+    "minimap": "/minimaps/bailout-mw2.jpg"
   },
   {
     "id": "carnival-mw2",
@@ -561,7 +607,8 @@
     "standard": false,
     "blurb": "Large abandoned theme park. Great for all game modes",
     "image": "/maps/carnival-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Carnival"
+    "source": "https://callofduty.fandom.com/wiki/Carnival",
+    "minimap": "/minimaps/carnival-mw2.jpg"
   },
   {
     "id": "crash-mw2",
@@ -573,7 +620,8 @@
     "standard": false,
     "blurb": "Downed Sea Knight in a desert town. Fantastic team games",
     "image": "/maps/crash-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Crash_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Crash_%28map%29",
+    "minimap": "/minimaps/crash-mw2.jpg"
   },
   {
     "id": "derail-mw2",
@@ -585,7 +633,8 @@
     "standard": true,
     "blurb": "Trainwreck in a large snowy area. Epic large battles",
     "image": "/maps/derail-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Derail"
+    "source": "https://callofduty.fandom.com/wiki/Derail",
+    "minimap": "/minimaps/derail-mw2.jpg"
   },
   {
     "id": "estate-mw2",
@@ -597,7 +646,8 @@
     "standard": true,
     "blurb": "Cabin in the woods. Fight for control of the cabin",
     "image": "/maps/estate-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Estate"
+    "source": "https://callofduty.fandom.com/wiki/Estate",
+    "minimap": "/minimaps/estate-mw2.jpg"
   },
   {
     "id": "favela-mw2",
@@ -609,7 +659,8 @@
     "standard": true,
     "blurb": "Alleyways of Brazil. Great for all game modes and all sizes",
     "image": "/maps/favela-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Favela"
+    "source": "https://callofduty.fandom.com/wiki/Favela",
+    "minimap": "/minimaps/favela-mw2.jpg"
   },
   {
     "id": "fuel-mw2",
@@ -621,7 +672,8 @@
     "standard": false,
     "blurb": "Large oil refinery. Good balance of medium to long range fire fights",
     "image": "/maps/fuel-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Fuel"
+    "source": "https://callofduty.fandom.com/wiki/Fuel",
+    "minimap": "/minimaps/fuel-mw2.jpg"
   },
   {
     "id": "highrise-mw2",
@@ -633,7 +685,8 @@
     "standard": true,
     "blurb": "Rooftop skyscraper. Hectic Domination games",
     "image": "/maps/highrise-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Highrise"
+    "source": "https://callofduty.fandom.com/wiki/Highrise",
+    "minimap": "/minimaps/highrise-mw2.jpg"
   },
   {
     "id": "invasion-mw2",
@@ -645,7 +698,8 @@
     "standard": true,
     "blurb": "City in the desert. Classic street to street firefights",
     "image": "/maps/invasion-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Invasion"
+    "source": "https://callofduty.fandom.com/wiki/Invasion",
+    "minimap": "/minimaps/invasion-mw2.jpg"
   },
   {
     "id": "karachi-mw2",
@@ -657,7 +711,8 @@
     "standard": true,
     "blurb": "Ravaged desert town. Tactical street fights abound",
     "image": "/maps/karachi-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Karachi"
+    "source": "https://callofduty.fandom.com/wiki/Karachi",
+    "minimap": "/minimaps/karachi-mw2.jpg"
   },
   {
     "id": "overgrown-mw2",
@@ -669,7 +724,8 @@
     "standard": false,
     "blurb": "Large overgrown rural Russian area. Sniper ghilliie suits make for good cover",
     "image": "/maps/overgrown-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Overgrown"
+    "source": "https://callofduty.fandom.com/wiki/Overgrown",
+    "minimap": "/minimaps/overgrown-mw2.jpg"
   },
   {
     "id": "quarry-mw2",
@@ -681,7 +737,8 @@
     "standard": true,
     "blurb": "Medium-sized quarry. Intense Capture the Flag matches",
     "image": "/maps/quarry-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Quarry"
+    "source": "https://callofduty.fandom.com/wiki/Quarry",
+    "minimap": "/minimaps/quarry-mw2.jpg"
   },
   {
     "id": "rundown-mw2",
@@ -693,7 +750,8 @@
     "standard": true,
     "blurb": "Village in Brazil. Fight from all angles",
     "image": "/maps/rundown-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Rundown"
+    "source": "https://callofduty.fandom.com/wiki/Rundown",
+    "minimap": "/minimaps/rundown-mw2.jpg"
   },
   {
     "id": "rust-mw2",
@@ -705,7 +763,8 @@
     "standard": true,
     "blurb": "Tiny desert sandstorm. Fast-paced action on a small map",
     "image": "/maps/rust-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Rust"
+    "source": "https://callofduty.fandom.com/wiki/Rust",
+    "minimap": "/minimaps/rust-mw2.jpg"
   },
   {
     "id": "salvage-mw2",
@@ -717,7 +776,8 @@
     "standard": false,
     "blurb": "A snow-covered junkyard. Lots of fast-paced action",
     "image": "/maps/salvage-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Salvage_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Salvage_%28map%29",
+    "minimap": "/minimaps/salvage-mw2.jpg"
   },
   {
     "id": "scrapyard-mw2",
@@ -729,7 +789,8 @@
     "standard": true,
     "blurb": "Small airplane graveyard. Great for any number of players",
     "image": "/maps/scrapyard-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Scrapyard"
+    "source": "https://callofduty.fandom.com/wiki/Scrapyard",
+    "minimap": "/minimaps/scrapyard-mw2.jpg"
   },
   {
     "id": "skidrow-mw2",
@@ -741,7 +802,8 @@
     "standard": true,
     "blurb": "Urban city fighting. In and out of apartments close range engagements",
     "image": "/maps/skidrow-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Skidrow"
+    "source": "https://callofduty.fandom.com/wiki/Skidrow",
+    "minimap": "/minimaps/skidrow-mw2.jpg"
   },
   {
     "id": "storm-mw2",
@@ -753,7 +815,8 @@
     "standard": false,
     "blurb": "Stormy warehouse district. Intense team battles",
     "image": "/maps/storm-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Storm"
+    "source": "https://callofduty.fandom.com/wiki/Storm",
+    "minimap": "/minimaps/storm-mw2.jpg"
   },
   {
     "id": "strike-mw2",
@@ -765,7 +828,8 @@
     "standard": false,
     "blurb": "Large urban desert town. Excellent team games",
     "image": "/maps/strike-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Strike_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Strike_%28map%29",
+    "minimap": "/minimaps/strike-mw2.jpg"
   },
   {
     "id": "sub-base-mw2",
@@ -777,7 +841,8 @@
     "standard": true,
     "blurb": "Snowy submarine base. Great vertical gameplay",
     "image": "/maps/sub-base-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Sub_Base"
+    "source": "https://callofduty.fandom.com/wiki/Sub_Base",
+    "minimap": "/minimaps/sub-base-mw2.jpg"
   },
   {
     "id": "terminal-mw2",
@@ -789,7 +854,8 @@
     "standard": true,
     "blurb": "Medium-sized airport. Great for all game modes",
     "image": "/maps/terminal-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Terminal_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Terminal_%28map%29",
+    "minimap": "/minimaps/terminal-mw2.jpg"
   },
   {
     "id": "trailer-park-mw2",
@@ -801,7 +867,8 @@
     "standard": false,
     "blurb": "Medium-sized trailer park with lots of cover and flank routes. Fight from all angles",
     "image": "/maps/trailer-park-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Trailer_Park"
+    "source": "https://callofduty.fandom.com/wiki/Trailer_Park",
+    "minimap": "/minimaps/trailer-park-mw2.jpg"
   },
   {
     "id": "underpass-mw2",
@@ -813,7 +880,8 @@
     "standard": true,
     "blurb": "Rainy underpass. Good balance of medium to long range fighting",
     "image": "/maps/underpass-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Underpass"
+    "source": "https://callofduty.fandom.com/wiki/Underpass",
+    "minimap": "/minimaps/underpass-mw2.jpg"
   },
   {
     "id": "vacant-mw2",
@@ -825,7 +893,8 @@
     "standard": false,
     "blurb": "Deserted Russian office. Intense interior fighting",
     "image": "/maps/vacant-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Vacant"
+    "source": "https://callofduty.fandom.com/wiki/Vacant",
+    "minimap": "/minimaps/vacant-mw2.jpg"
   },
   {
     "id": "wasteland-mw2",
@@ -837,7 +906,8 @@
     "standard": true,
     "blurb": "Chernobyl in the open. Great for snipers and long range firefights",
     "image": "/maps/wasteland-mw2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Wasteland"
+    "source": "https://callofduty.fandom.com/wiki/Wasteland",
+    "minimap": "/minimaps/wasteland-mw2.jpg"
   },
   {
     "id": "array-bo1",
@@ -849,7 +919,8 @@
     "standard": true,
     "blurb": "Snow covered landscape. Good for snipers and long range firefights",
     "image": "/maps/array-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Array"
+    "source": "https://callofduty.fandom.com/wiki/Array",
+    "minimap": "/minimaps/array-bo1.jpg"
   },
   {
     "id": "berlin-wall-bo1",
@@ -861,7 +932,8 @@
     "standard": false,
     "blurb": "Beware of no man's land as you battle over control of the Berlin Wall",
     "image": "/maps/berlin-wall-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Berlin_Wall"
+    "source": "https://callofduty.fandom.com/wiki/Berlin_Wall",
+    "minimap": "/minimaps/berlin-wall-bo1.jpg"
   },
   {
     "id": "convoy-bo1",
@@ -873,7 +945,8 @@
     "standard": false,
     "blurb": "Intense combat in the aftermath of a Soviet ambush on American soil",
     "image": "/maps/convoy-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Convoy"
+    "source": "https://callofduty.fandom.com/wiki/Convoy",
+    "minimap": "/minimaps/convoy-bo1.jpg"
   },
   {
     "id": "cracked-bo1",
@@ -885,7 +958,8 @@
     "standard": true,
     "blurb": "Streets of Vietnam. Close engagements in and out of war-torn buildings",
     "image": "/maps/cracked-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Cracked"
+    "source": "https://callofduty.fandom.com/wiki/Cracked",
+    "minimap": "/minimaps/cracked-bo1.jpg"
   },
   {
     "id": "crisis-bo1",
@@ -897,7 +971,8 @@
     "standard": true,
     "blurb": "Hidden missile facility in Cuba. Intense indoor and outdoor battles",
     "image": "/maps/crisis-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Crisis"
+    "source": "https://callofduty.fandom.com/wiki/Crisis",
+    "minimap": "/minimaps/crisis-bo1.jpg"
   },
   {
     "id": "discovery-bo1",
@@ -909,7 +984,8 @@
     "standard": false,
     "blurb": "Unlock the mysteries of this abandoned German research station in Antarctica",
     "image": "/maps/discovery-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Discovery"
+    "source": "https://callofduty.fandom.com/wiki/Discovery",
+    "minimap": "/minimaps/discovery-bo1.jpg"
   },
   {
     "id": "drive-in-bo1",
@@ -921,7 +997,8 @@
     "standard": false,
     "blurb": "Close-quarter fights and powerful overwatches at an abandoned outdoor cinema",
     "image": "/maps/drive-in-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Drive-In"
+    "source": "https://callofduty.fandom.com/wiki/Drive-In",
+    "minimap": "/minimaps/drive-in-bo1.jpg"
   },
   {
     "id": "firing-range-bo1",
@@ -933,7 +1010,8 @@
     "standard": true,
     "blurb": "Military practice facility. Hectic Domination games",
     "image": "/maps/firing-range-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Firing_Range"
+    "source": "https://callofduty.fandom.com/wiki/Firing_Range",
+    "minimap": "/minimaps/firing-range-bo1.jpg"
   },
   {
     "id": "grid-bo1",
@@ -945,7 +1023,8 @@
     "standard": true,
     "blurb": "Soviet intelligence station. Fantastic Headquarters matches",
     "image": "/maps/grid-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Grid"
+    "source": "https://callofduty.fandom.com/wiki/Grid",
+    "minimap": "/minimaps/grid-bo1.jpg"
   },
   {
     "id": "hangar-18-bo1",
@@ -957,7 +1036,8 @@
     "standard": false,
     "blurb": "Soviet forces have infiltrated a highly classified U.S. facility",
     "image": "/maps/hangar-18-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Hangar_18"
+    "source": "https://callofduty.fandom.com/wiki/Hangar_18",
+    "minimap": "/minimaps/hangar-18-bo1.jpg"
   },
   {
     "id": "hanoi-bo1",
@@ -969,7 +1049,8 @@
     "standard": true,
     "blurb": "Fight in the infamous prison camp. Fierce Capture the Flag matches",
     "image": "/maps/hanoi-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Hanoi"
+    "source": "https://callofduty.fandom.com/wiki/Hanoi",
+    "minimap": "/minimaps/hanoi-bo1.jpg"
   },
   {
     "id": "havana-bo1",
@@ -981,7 +1062,8 @@
     "standard": true,
     "blurb": "Cuban city. An abundance of tactical street fights",
     "image": "/maps/havana-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Havana"
+    "source": "https://callofduty.fandom.com/wiki/Havana",
+    "minimap": "/minimaps/havana-bo1.jpg"
   },
   {
     "id": "hazard-bo1",
@@ -993,7 +1075,8 @@
     "standard": false,
     "blurb": "Keep an eye out for snipers as you battle up and down the fairway of this cliffside golf course",
     "image": "/maps/hazard-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Hazard"
+    "source": "https://callofduty.fandom.com/wiki/Hazard",
+    "minimap": "/minimaps/hazard-bo1.jpg"
   },
   {
     "id": "hotel-bo1",
@@ -1005,7 +1088,8 @@
     "standard": false,
     "blurb": "Battle to control the rooftop of a swanky Cuban hotel",
     "image": "/maps/hotel-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Hotel"
+    "source": "https://callofduty.fandom.com/wiki/Hotel",
+    "minimap": "/minimaps/hotel-bo1.jpg"
   },
   {
     "id": "jungle-bo1",
@@ -1017,7 +1101,8 @@
     "standard": true,
     "blurb": "Great vertical gameplay along a river valley in Vietnam",
     "image": "/maps/jungle-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Jungle_%28Black_Ops%29"
+    "source": "https://callofduty.fandom.com/wiki/Jungle_%28Black_Ops%29",
+    "minimap": "/minimaps/jungle-bo1.jpg"
   },
   {
     "id": "kowloon-bo1",
@@ -1029,7 +1114,8 @@
     "standard": false,
     "blurb": "Sniping spots and sneaky pathways on the rooftops of Kowloon City",
     "image": "/maps/kowloon-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Kowloon"
+    "source": "https://callofduty.fandom.com/wiki/Kowloon",
+    "minimap": "/minimaps/kowloon-bo1.jpg"
   },
   {
     "id": "launch-bo1",
@@ -1041,7 +1127,8 @@
     "standard": true,
     "blurb": "Battle at the launch pad of this cosmodrome. Perfect for any game mode",
     "image": "/maps/launch-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Launch"
+    "source": "https://callofduty.fandom.com/wiki/Launch",
+    "minimap": "/minimaps/launch-bo1.jpg"
   },
   {
     "id": "nuketown-bo1",
@@ -1053,7 +1140,8 @@
     "standard": true,
     "blurb": "Nuclear testing grounds. Lots of fast paced action",
     "image": "/maps/nuketown-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Nuketown_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Nuketown_%28map%29",
+    "minimap": "/minimaps/nuketown-bo1.jpg"
   },
   {
     "id": "radiation-bo1",
@@ -1065,7 +1153,8 @@
     "standard": true,
     "blurb": "Uranium processing plant. Excellent objective gameplay",
     "image": "/maps/radiation-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Radiation"
+    "source": "https://callofduty.fandom.com/wiki/Radiation",
+    "minimap": "/minimaps/radiation-bo1.jpg"
   },
   {
     "id": "silo-bo1",
@@ -1077,7 +1166,8 @@
     "standard": false,
     "blurb": "An open missile silo complex.",
     "image": "/maps/silo-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Silo"
+    "source": "https://callofduty.fandom.com/wiki/Silo",
+    "minimap": "/minimaps/silo-bo1.jpg"
   },
   {
     "id": "stadium-bo1",
@@ -1089,7 +1179,8 @@
     "standard": false,
     "blurb": "Frenzied combat in and around the hockey rink at Chance Stadium",
     "image": "/maps/stadium-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Stadium"
+    "source": "https://callofduty.fandom.com/wiki/Stadium",
+    "minimap": "/minimaps/stadium-bo1.jpg"
   },
   {
     "id": "stockpile-bo1",
@@ -1101,7 +1192,8 @@
     "standard": false,
     "blurb": "Fight over the tight interiors and long roads of a rural Soviet town",
     "image": "/maps/stockpile-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Stockpile"
+    "source": "https://callofduty.fandom.com/wiki/Stockpile",
+    "minimap": "/minimaps/stockpile-bo1.jpg"
   },
   {
     "id": "summit-bo1",
@@ -1113,7 +1205,8 @@
     "standard": true,
     "blurb": "Research facility on a snowy mountain. Fight from all angles",
     "image": "/maps/summit-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Summit"
+    "source": "https://callofduty.fandom.com/wiki/Summit",
+    "minimap": "/minimaps/summit-bo1.jpg"
   },
   {
     "id": "villa-bo1",
@@ -1125,7 +1218,8 @@
     "standard": true,
     "blurb": "Cuban estate. Good corridors for long range firefights",
     "image": "/maps/villa-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Villa"
+    "source": "https://callofduty.fandom.com/wiki/Villa",
+    "minimap": "/minimaps/villa-bo1.jpg"
   },
   {
     "id": "wmd-bo1",
@@ -1137,7 +1231,8 @@
     "standard": true,
     "blurb": "Abandoned Soviet base. Perfect for team games",
     "image": "/maps/wmd-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/WMD_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/WMD_%28map%29",
+    "minimap": "/minimaps/wmd-bo1.jpg"
   },
   {
     "id": "zoo-bo1",
@@ -1149,7 +1244,8 @@
     "standard": false,
     "blurb": "Best dry-aged meat this side of the Ukraine. Aromas that will tantalize the senses",
     "image": "/maps/zoo-bo1.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Zoo"
+    "source": "https://callofduty.fandom.com/wiki/Zoo",
+    "minimap": "/minimaps/zoo-bo1.jpg"
   },
   {
     "id": "aground-mw3",
@@ -1161,7 +1257,8 @@
     "standard": false,
     "blurb": "Shipwreck on the Irish coast. Open layout allows for long distance engagements",
     "image": "/maps/aground-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Aground"
+    "source": "https://callofduty.fandom.com/wiki/Aground",
+    "minimap": "/minimaps/aground-mw3.jpg"
   },
   {
     "id": "arkaden-mw3",
@@ -1173,7 +1270,8 @@
     "standard": true,
     "blurb": "Medium-sized German mall. Intense Search & Destroy games",
     "image": "/maps/arkaden-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Arkaden"
+    "source": "https://callofduty.fandom.com/wiki/Arkaden",
+    "minimap": "/minimaps/arkaden-mw3.jpg"
   },
   {
     "id": "bakaara-mw3",
@@ -1185,7 +1283,8 @@
     "standard": true,
     "blurb": "Crash site in an African city. Classic urban combat",
     "image": "/maps/bakaara-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Bakaara"
+    "source": "https://callofduty.fandom.com/wiki/Bakaara",
+    "minimap": "/minimaps/bakaara-mw3.jpg"
   },
   {
     "id": "black-box-mw3",
@@ -1197,7 +1296,8 @@
     "standard": false,
     "blurb": "The wreck of a stealth aircraft and the team sent in.",
     "image": "/maps/black-box-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Black_Box"
+    "source": "https://callofduty.fandom.com/wiki/Black_Box",
+    "minimap": "/minimaps/black-box-mw3.jpg"
   },
   {
     "id": "boardwalk-mw3",
@@ -1209,7 +1309,8 @@
     "standard": false,
     "blurb": "Head to the Jersey Coast for a sunny afternoon of boardwalk-based Multiplayer battle in which you'll face your enemies on the beach and fight for dominance at the arcade while still finding time to",
     "image": "/maps/boardwalk-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Boardwalk"
+    "source": "https://callofduty.fandom.com/wiki/Boardwalk",
+    "minimap": "/minimaps/boardwalk-mw3.jpg"
   },
   {
     "id": "bootleg-mw3",
@@ -1221,7 +1322,8 @@
     "standard": true,
     "blurb": "Medium sized Asian market. Fun for all game modes",
     "image": "/maps/bootleg-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Bootleg"
+    "source": "https://callofduty.fandom.com/wiki/Bootleg",
+    "minimap": "/minimaps/bootleg-mw3.jpg"
   },
   {
     "id": "carbon-mw3",
@@ -1233,7 +1335,8 @@
     "standard": true,
     "blurb": "Medium sized refinery. Great for any number of players",
     "image": "/maps/carbon-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Carbon"
+    "source": "https://callofduty.fandom.com/wiki/Carbon",
+    "minimap": "/minimaps/carbon-mw3.jpg"
   },
   {
     "id": "decommission-mw3",
@@ -1245,7 +1348,8 @@
     "standard": false,
     "blurb": "A graveyard of rotting ocean liners has not only given birth to a shantytown of locals, but a mid-sized Multiplayer Map populated in chokepoints; providing the perfect setting for shoreline-based",
     "image": "/maps/decommission-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Decommission"
+    "source": "https://callofduty.fandom.com/wiki/Decommission",
+    "minimap": "/minimaps/decommission-mw3.jpg"
   },
   {
     "id": "dome-mw3",
@@ -1257,7 +1361,8 @@
     "standard": true,
     "blurb": "Small outpost in the desert. Fast and frantic action",
     "image": "/maps/dome-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Dome_%28Modern_Warfare_3%29"
+    "source": "https://callofduty.fandom.com/wiki/Dome_%28Modern_Warfare_3%29",
+    "minimap": "/minimaps/dome-mw3.jpg"
   },
   {
     "id": "downturn-mw3",
@@ -1269,7 +1374,8 @@
     "standard": true,
     "blurb": "Urban map with wide streets. Good for long and short range fights",
     "image": "/maps/downturn-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Downturn"
+    "source": "https://callofduty.fandom.com/wiki/Downturn",
+    "minimap": "/minimaps/downturn-mw3.jpg"
   },
   {
     "id": "erosion-mw3",
@@ -1281,7 +1387,8 @@
     "standard": false,
     "blurb": "Roman ruins near Mt. Vesuvius. Strong interiors offset by multi-level flanks",
     "image": "/maps/erosion-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Erosion"
+    "source": "https://callofduty.fandom.com/wiki/Erosion",
+    "minimap": "/minimaps/erosion-mw3.jpg"
   },
   {
     "id": "fallen-mw3",
@@ -1293,7 +1400,8 @@
     "standard": true,
     "blurb": "Derelict Russian ghost town. Great for careful, tactical engagements",
     "image": "/maps/fallen-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Fallen"
+    "source": "https://callofduty.fandom.com/wiki/Fallen",
+    "minimap": "/minimaps/fallen-mw3.jpg"
   },
   {
     "id": "foundation-mw3",
@@ -1305,7 +1413,8 @@
     "standard": false,
     "blurb": "Poured concrete, rebar, and an unfinished site.",
     "image": "/maps/foundation-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Foundation"
+    "source": "https://callofduty.fandom.com/wiki/Foundation",
+    "minimap": "/minimaps/foundation-mw3.jpg"
   },
   {
     "id": "getaway-mw3",
@@ -1317,7 +1426,8 @@
     "standard": false,
     "blurb": "A luxury villa the fight tears through.",
     "image": "/maps/getaway-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Getaway"
+    "source": "https://callofduty.fandom.com/wiki/Getaway",
+    "minimap": "/minimaps/getaway-mw3.jpg"
   },
   {
     "id": "gulch-mw3",
@@ -1329,7 +1439,8 @@
     "standard": false,
     "blurb": "Decades after fires charred this forgotten mining town, the red rock canyon gains new shades of red as a mid-sized Multiplayer Map in which the surrounding mountains, mine shafts, and equipment sheds",
     "image": "/maps/gulch-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Gulch"
+    "source": "https://callofduty.fandom.com/wiki/Gulch",
+    "minimap": "/minimaps/gulch-mw3.jpg"
   },
   {
     "id": "hardhat-mw3",
@@ -1341,7 +1452,8 @@
     "standard": true,
     "blurb": "A small construction site. Fast paced, close quarter action",
     "image": "/maps/hardhat-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Hardhat"
+    "source": "https://callofduty.fandom.com/wiki/Hardhat",
+    "minimap": "/minimaps/hardhat-mw3.jpg"
   },
   {
     "id": "interchange-mw3",
@@ -1353,7 +1465,8 @@
     "standard": true,
     "blurb": "Destroyed freeway. Great for a wide range of spaces and styles",
     "image": "/maps/interchange-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Interchange"
+    "source": "https://callofduty.fandom.com/wiki/Interchange",
+    "minimap": "/minimaps/interchange-mw3.jpg"
   },
   {
     "id": "intersection-mw3",
@@ -1365,7 +1478,8 @@
     "standard": false,
     "blurb": "Four buildings circle a large cross street, encouraging players to dig in and fight it out across the map. Race out into the open and expect to quickly come under fire. Stick to the interior, protect",
     "image": "/maps/intersection-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Intersection"
+    "source": "https://callofduty.fandom.com/wiki/Intersection",
+    "minimap": "/minimaps/intersection-mw3.jpg"
   },
   {
     "id": "liberation-mw3",
@@ -1377,7 +1491,8 @@
     "standard": false,
     "blurb": "A militarized Central Park stretches across a vast landscape, ripe for long-range sniper and LMG fire. Mounted turrets on either end lend power to anyone brave enough to expose themselves in exchange",
     "image": "/maps/liberation-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Liberation_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Liberation_%28map%29",
+    "minimap": "/minimaps/liberation-mw3.jpg"
   },
   {
     "id": "lockdown-mw3",
@@ -1389,7 +1504,8 @@
     "standard": true,
     "blurb": "European city center. Great for Team Defender",
     "image": "/maps/lockdown-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Lockdown_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Lockdown_%28map%29",
+    "minimap": "/minimaps/lockdown-mw3.jpg"
   },
   {
     "id": "lookout-mw3",
@@ -1401,7 +1517,8 @@
     "standard": false,
     "blurb": "A multiplayer map from MW3.",
     "image": "/maps/lookout-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Lookout"
+    "source": "https://callofduty.fandom.com/wiki/Lookout",
+    "minimap": "/minimaps/lookout-mw3.jpg"
   },
   {
     "id": "mission-mw3",
@@ -1413,7 +1530,8 @@
     "standard": true,
     "blurb": "African colonial settlement. Fight to control the center",
     "image": "/maps/mission-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Mission"
+    "source": "https://callofduty.fandom.com/wiki/Mission",
+    "minimap": "/minimaps/mission-mw3.jpg"
   },
   {
     "id": "oasis-mw3",
@@ -1425,7 +1543,8 @@
     "standard": false,
     "blurb": "Luxury resort in Dubai. Features intense Domination matches",
     "image": "/maps/oasis-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Oasis_%28Modern_Warfare_3%29"
+    "source": "https://callofduty.fandom.com/wiki/Oasis_%28Modern_Warfare_3%29",
+    "minimap": "/minimaps/oasis-mw3.jpg"
   },
   {
     "id": "off-shore-mw3",
@@ -1437,7 +1556,8 @@
     "standard": false,
     "blurb": "Trapped on an oil rig in the middle of the ocean, you have nowhere to go but directly at your enemies in this new Multiplayer map boasting helipads, cranes, and countless perches for snipers eager to",
     "image": "/maps/off-shore-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Off_Shore"
+    "source": "https://callofduty.fandom.com/wiki/Off_Shore",
+    "minimap": "/minimaps/off-shore-mw3.jpg"
   },
   {
     "id": "outpost-mw3",
@@ -1449,7 +1569,8 @@
     "standard": true,
     "blurb": "Large Siberian airbase. Great for epic large battles",
     "image": "/maps/outpost-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Outpost"
+    "source": "https://callofduty.fandom.com/wiki/Outpost",
+    "minimap": "/minimaps/outpost-mw3.jpg"
   },
   {
     "id": "overwatch-mw3",
@@ -1461,7 +1582,8 @@
     "standard": false,
     "blurb": "A cliff overlook above a desert road.",
     "image": "/maps/overwatch-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Overwatch_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Overwatch_%28map%29",
+    "minimap": "/minimaps/overwatch-mw3.jpg"
   },
   {
     "id": "parish-mw3",
@@ -1473,7 +1595,8 @@
     "standard": false,
     "blurb": "Wishful thinking won\u2019t keep you safe in New Orleans' war-torn French Quarter, where a local bombed-out parish plays host to a smaller-sized Multiplayer Map well suited for those who want to",
     "image": "/maps/parish-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Parish"
+    "source": "https://callofduty.fandom.com/wiki/Parish",
+    "minimap": "/minimaps/parish-mw3.jpg"
   },
   {
     "id": "piazza-mw3",
@@ -1485,7 +1608,8 @@
     "standard": false,
     "blurb": "This seaside Italian getaway is anything but idyllic, as tight corners and branching pathways pose great risk at every turn. Close-range combat dominates, and the team that best utilizes flanking",
     "image": "/maps/piazza-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Piazza"
+    "source": "https://callofduty.fandom.com/wiki/Piazza",
+    "minimap": "/minimaps/piazza-mw3.jpg"
   },
   {
     "id": "resistance-mw3",
@@ -1497,7 +1621,8 @@
     "standard": true,
     "blurb": "Combat erupts in a mid-sized Parisian district. Long side streets encourage mid-range combat, with nearby homes and storefronts lending defensive positions for ambush and recovery. Watch out for",
     "image": "/maps/resistance-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Resistance_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Resistance_%28map%29",
+    "minimap": "/minimaps/resistance-mw3.jpg"
   },
   {
     "id": "sanctuary-mw3",
@@ -1509,7 +1634,8 @@
     "standard": false,
     "blurb": "A walled compound in the desert.",
     "image": "/maps/sanctuary-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Sanctuary"
+    "source": "https://callofduty.fandom.com/wiki/Sanctuary",
+    "minimap": "/minimaps/sanctuary-mw3.jpg"
   },
   {
     "id": "seatown-mw3",
@@ -1521,7 +1647,8 @@
     "standard": true,
     "blurb": "A coastal town. Narrow streets bring hectic, close encounters",
     "image": "/maps/seatown-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Seatown"
+    "source": "https://callofduty.fandom.com/wiki/Seatown",
+    "minimap": "/minimaps/seatown-mw3.jpg"
   },
   {
     "id": "terminal-mw3",
@@ -1533,7 +1660,8 @@
     "standard": false,
     "blurb": "Medium-sized airport. Great for all game modes",
     "image": "/maps/terminal-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Terminal_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Terminal_%28map%29",
+    "minimap": "/minimaps/terminal-mw3.jpg"
   },
   {
     "id": "u-turn-mw3",
@@ -1545,7 +1673,8 @@
     "standard": false,
     "blurb": "A militarized highway cuts across a burning oil field, with damaged vehicles strewn about four vertical lanes. Minimal overhead cover increases the threat of ariel killstreaks and the surrounding",
     "image": "/maps/u-turn-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/U-Turn"
+    "source": "https://callofduty.fandom.com/wiki/U-Turn",
+    "minimap": "/minimaps/u-turn-mw3.jpg"
   },
   {
     "id": "underground-mw3",
@@ -1557,7 +1686,8 @@
     "standard": true,
     "blurb": "Small subway station. Fast paced action both inside and out",
     "image": "/maps/underground-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Underground"
+    "source": "https://callofduty.fandom.com/wiki/Underground",
+    "minimap": "/minimaps/underground-mw3.jpg"
   },
   {
     "id": "village-mw3",
@@ -1569,7 +1699,8 @@
     "standard": true,
     "blurb": "Large African village. Great for all game modes",
     "image": "/maps/village-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Village"
+    "source": "https://callofduty.fandom.com/wiki/Village",
+    "minimap": "/minimaps/village-mw3.jpg"
   },
   {
     "id": "vortex-mw3",
@@ -1581,7 +1712,8 @@
     "standard": false,
     "blurb": "An old ranch sits threatened by the approach of a raging tornado. The front porch and sprawling shrubbery intensifies combat to the south with a tight line of sight. An open field stretches across",
     "image": "/maps/vortex-mw3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Vortex"
+    "source": "https://callofduty.fandom.com/wiki/Vortex",
+    "minimap": "/minimaps/vortex-mw3.jpg"
   },
   {
     "id": "aftermath-bo2",
@@ -1593,7 +1725,8 @@
     "standard": true,
     "blurb": "Downtown Los Angeles. Close engagements in and out of the fallout of Drone attacks",
     "image": "/maps/aftermath-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Aftermath_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Aftermath_%28map%29",
+    "minimap": "/minimaps/aftermath-bo2.jpg"
   },
   {
     "id": "cargo-bo2",
@@ -1605,7 +1738,8 @@
     "standard": true,
     "blurb": "Port of Singapore. Good for close quarters engagements and verticality",
     "image": "/maps/cargo-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Cargo_%28Black_Ops_II%29"
+    "source": "https://callofduty.fandom.com/wiki/Cargo_%28Black_Ops_II%29",
+    "minimap": "/minimaps/cargo-bo2.jpg"
   },
   {
     "id": "carrier-bo2",
@@ -1617,7 +1751,8 @@
     "standard": true,
     "blurb": "Chinese Supercarrier. Open engagements on the deck, with great close quarters fights in the passageways",
     "image": "/maps/carrier-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Carrier_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Carrier_%28map%29",
+    "minimap": "/minimaps/carrier-bo2.jpg"
   },
   {
     "id": "cove-bo2",
@@ -1629,7 +1764,8 @@
     "standard": false,
     "blurb": "Fight on this isolated island, use the flanks on the water edges to outsmart your enemies",
     "image": "/maps/cove-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Cove"
+    "source": "https://callofduty.fandom.com/wiki/Cove",
+    "minimap": "/minimaps/cove-bo2.jpg"
   },
   {
     "id": "detour-bo2",
@@ -1641,7 +1777,8 @@
     "standard": false,
     "blurb": "Battle on top of and through the belly of this ambushed future bridge",
     "image": "/maps/detour-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Detour"
+    "source": "https://callofduty.fandom.com/wiki/Detour",
+    "minimap": "/minimaps/detour-bo2.jpg"
   },
   {
     "id": "dig-bo2",
@@ -1653,7 +1790,8 @@
     "standard": false,
     "blurb": "Battle your way through the close quarter engagements of this archaeological dig site located in the Afghan desert",
     "image": "/maps/dig-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Dig"
+    "source": "https://callofduty.fandom.com/wiki/Dig",
+    "minimap": "/minimaps/dig-bo2.jpg"
   },
   {
     "id": "downhill-bo2",
@@ -1665,7 +1803,8 @@
     "standard": false,
     "blurb": "Luxurious ski resort in the French Alps. Great varied engagements and verticality up and down each lane",
     "image": "/maps/downhill-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Downhill"
+    "source": "https://callofduty.fandom.com/wiki/Downhill",
+    "minimap": "/minimaps/downhill-bo2.jpg"
   },
   {
     "id": "drone-bo2",
@@ -1677,7 +1816,8 @@
     "standard": true,
     "blurb": "Hidden drone facility in the heart of the Myanmar jungles. Great long engagements down the center, fun close quarters fights inside the facility",
     "image": "/maps/drone-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Drone_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Drone_%28map%29",
+    "minimap": "/minimaps/drone-bo2.jpg"
   },
   {
     "id": "encore-bo2",
@@ -1689,7 +1829,8 @@
     "standard": false,
     "blurb": "Be a rockstar, take the stage and control the sight lines in this rock amphitheater",
     "image": "/maps/encore-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Encore"
+    "source": "https://callofduty.fandom.com/wiki/Encore",
+    "minimap": "/minimaps/encore-bo2.jpg"
   },
   {
     "id": "express-bo2",
@@ -1701,7 +1842,8 @@
     "standard": true,
     "blurb": "Los Angeles bullet train station. Good long to medium engagements up and down the bullet train tracks",
     "image": "/maps/express-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Express_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Express_%28map%29",
+    "minimap": "/minimaps/express-bo2.jpg"
   },
   {
     "id": "frost-bo2",
@@ -1713,7 +1855,8 @@
     "standard": false,
     "blurb": "Fresh snow meets explosive gunpowder in this snow-capped European city, where the bridge over a frozen canal separates it into two sides, requiring players to employ multi-level traversal strategies",
     "image": "/maps/frost-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Frost_%28Black_Ops_II_map%29"
+    "source": "https://callofduty.fandom.com/wiki/Frost_%28Black_Ops_II_map%29",
+    "minimap": "/minimaps/frost-bo2.jpg"
   },
   {
     "id": "grind-bo2",
@@ -1725,7 +1868,8 @@
     "standard": false,
     "blurb": "Drop into a city skate park as gunfire erupts and the park slams shut",
     "image": "/maps/grind-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Grind"
+    "source": "https://callofduty.fandom.com/wiki/Grind",
+    "minimap": "/minimaps/grind-bo2.jpg"
   },
   {
     "id": "hijacked-bo2",
@@ -1737,7 +1881,8 @@
     "standard": true,
     "blurb": "Luxurious super yacht. Frantic, yet controlled close quarters engagements",
     "image": "/maps/hijacked-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Hijacked"
+    "source": "https://callofduty.fandom.com/wiki/Hijacked",
+    "minimap": "/minimaps/hijacked-bo2.jpg"
   },
   {
     "id": "hydro-bo2",
@@ -1749,7 +1894,8 @@
     "standard": false,
     "blurb": "Hydroelectric power plant in the heart of Pakistan. Fast, close quarters fights on each lane. Beware of the spillway",
     "image": "/maps/hydro-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Hydro"
+    "source": "https://callofduty.fandom.com/wiki/Hydro",
+    "minimap": "/minimaps/hydro-bo2.jpg"
   },
   {
     "id": "magma-bo2",
@@ -1761,7 +1907,8 @@
     "standard": false,
     "blurb": "Tight engagements in this lava overrun Japanese city",
     "image": "/maps/magma-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Magma"
+    "source": "https://callofduty.fandom.com/wiki/Magma",
+    "minimap": "/minimaps/magma-bo2.jpg"
   },
   {
     "id": "meltdown-bo2",
@@ -1773,7 +1920,8 @@
     "standard": true,
     "blurb": "Pakistan nuclear power plant. Battle for control of the nuclear cooling tower and the surrounding facilities",
     "image": "/maps/meltdown-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Meltdown"
+    "source": "https://callofduty.fandom.com/wiki/Meltdown",
+    "minimap": "/minimaps/meltdown-bo2.jpg"
   },
   {
     "id": "mirage-bo2",
@@ -1785,7 +1933,8 @@
     "standard": false,
     "blurb": "Sand blasted and covered resort in the Gobi Desert. The sand offers interesting, varied fights",
     "image": "/maps/mirage-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Mirage"
+    "source": "https://callofduty.fandom.com/wiki/Mirage",
+    "minimap": "/minimaps/mirage-bo2.jpg"
   },
   {
     "id": "nuketown-2025-bo2",
@@ -1797,7 +1946,8 @@
     "standard": true,
     "blurb": "The fan favorite returns, reimagined in a vision of the future!",
     "image": "/maps/nuketown-2025-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Nuketown_2025"
+    "source": "https://callofduty.fandom.com/wiki/Nuketown_2025",
+    "minimap": "/minimaps/nuketown-2025-bo2.jpg"
   },
   {
     "id": "overflow-bo2",
@@ -1809,7 +1959,8 @@
     "standard": true,
     "blurb": "Peshawar, Pakistan. Great urban engagements in the flooded streets",
     "image": "/maps/overflow-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Overflow"
+    "source": "https://callofduty.fandom.com/wiki/Overflow",
+    "minimap": "/minimaps/overflow-bo2.jpg"
   },
   {
     "id": "plaza-bo2",
@@ -1821,7 +1972,8 @@
     "standard": true,
     "blurb": "Floating resort in the middle of the Indian Ocean. Tight corners and angles throughout",
     "image": "/maps/plaza-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Plaza"
+    "source": "https://callofduty.fandom.com/wiki/Plaza",
+    "minimap": "/minimaps/plaza-bo2.jpg"
   },
   {
     "id": "pod-bo2",
@@ -1833,7 +1985,8 @@
     "standard": false,
     "blurb": "A failed utopian community from the 70\u2019s has left stacks of dilapidated residential pods nestled into an abandoned cliff side in Taiwan. Its residents long gone, the modernist compound now hosts",
     "image": "/maps/pod-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Pod"
+    "source": "https://callofduty.fandom.com/wiki/Pod",
+    "minimap": "/minimaps/pod-bo2.jpg"
   },
   {
     "id": "raid-bo2",
@@ -1845,7 +1998,8 @@
     "standard": true,
     "blurb": "Fight through this hillside mansion in the Hollywood Hills. Hectic close quarters engagements",
     "image": "/maps/raid-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Raid"
+    "source": "https://callofduty.fandom.com/wiki/Raid",
+    "minimap": "/minimaps/raid-bo2.jpg"
   },
   {
     "id": "rush-bo2",
@@ -1857,7 +2011,8 @@
     "standard": false,
     "blurb": "Fast paced engagements and lots of cover allow you to work through each lane",
     "image": "/maps/rush-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Rush"
+    "source": "https://callofduty.fandom.com/wiki/Rush",
+    "minimap": "/minimaps/rush-bo2.jpg"
   },
   {
     "id": "slums-bo2",
@@ -1869,7 +2024,8 @@
     "standard": true,
     "blurb": "Run down section of Panama. Great close quarters engagements and tough chokes to fight over",
     "image": "/maps/slums-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Slums"
+    "source": "https://callofduty.fandom.com/wiki/Slums",
+    "minimap": "/minimaps/slums-bo2.jpg"
   },
   {
     "id": "standoff-bo2",
@@ -1881,7 +2037,8 @@
     "standard": true,
     "blurb": "Border town between China and Kyrgyzstan. Classic engagements and destinations to fight over",
     "image": "/maps/standoff-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Standoff"
+    "source": "https://callofduty.fandom.com/wiki/Standoff",
+    "minimap": "/minimaps/standoff-bo2.jpg"
   },
   {
     "id": "studio-bo2",
@@ -1893,7 +2050,8 @@
     "standard": false,
     "blurb": "Set on a Hollywood studio backlot, players will take cover in a wide-array of classic movie sets in this reimagined adaptation on the fan-favorite multiplayer map Firing Range",
     "image": "/maps/studio-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Studio"
+    "source": "https://callofduty.fandom.com/wiki/Studio",
+    "minimap": "/minimaps/studio-bo2.jpg"
   },
   {
     "id": "takeoff-bo2",
@@ -1905,7 +2063,8 @@
     "standard": false,
     "blurb": "Fans of Stadium from the original Call of Duty: Black Ops First Strike DLC will find themselves at home on Takeoff. Marooned in the middle of the Pacific Ocean, this remote launch site is all about",
     "image": "/maps/takeoff-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Takeoff"
+    "source": "https://callofduty.fandom.com/wiki/Takeoff",
+    "minimap": "/minimaps/takeoff-bo2.jpg"
   },
   {
     "id": "turbine-bo2",
@@ -1917,7 +2076,8 @@
     "standard": true,
     "blurb": "Wind farm in the steep hills of Yemen. Fight across the different tiers and angles",
     "image": "/maps/turbine-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Turbine_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Turbine_%28map%29",
+    "minimap": "/minimaps/turbine-bo2.jpg"
   },
   {
     "id": "uplink-bo2",
@@ -1929,7 +2089,8 @@
     "standard": false,
     "blurb": "Fan favorite Summit returns, re-imagined as a futuristic mountain top facility",
     "image": "/maps/uplink-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Uplink"
+    "source": "https://callofduty.fandom.com/wiki/Uplink",
+    "minimap": "/minimaps/uplink-bo2.jpg"
   },
   {
     "id": "vertigo-bo2",
@@ -1941,7 +2102,8 @@
     "standard": false,
     "blurb": "Fight through and take control of the tallest building in the world, in the heart of India",
     "image": "/maps/vertigo-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Vertigo_%28Black_Ops_II%29"
+    "source": "https://callofduty.fandom.com/wiki/Vertigo_%28Black_Ops_II%29",
+    "minimap": "/minimaps/vertigo-bo2.jpg"
   },
   {
     "id": "yemen-bo2",
@@ -1953,6 +2115,7 @@
     "standard": true,
     "blurb": "Urban streets of Yemen. Tight alleys and close quarters engagements",
     "image": "/maps/yemen-bo2.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Yemen_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Yemen_%28map%29",
+    "minimap": "/minimaps/yemen-bo2.jpg"
   }
 ]

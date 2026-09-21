@@ -6,22 +6,33 @@ import { Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
+  DAILY_ROUNDS,
   ROUND_MS,
   ROUND_OPTIONS,
+  buildDailyRounds,
+  buildRemakeRounds,
   buildRounds,
   choiceLabel,
+  dealRemakeRound,
   dealRound,
+  formatDailyShare,
+  formatDateLabel,
   games,
   guessMatches,
+  localDateKey,
   maps,
   presets,
   rankFor,
+  remakePool,
   sameGameSet,
   scoreRound,
+  versionLabel,
   type AnswerMode,
+  type CoverBox,
   type GameId,
   type MapCard,
   type Picture,
+  type PlayKind,
   type Round,
   type RoundLength,
 } from "@/lib/game";
@@ -42,6 +53,8 @@ type Answer = {
 type Guess = { mapId?: string | null; text?: string | null };
 
 type Run = {
+  kind: PlayKind;
+  dateKey?: string;
   mode: AnswerMode;
   picture: Picture;
   unlimited: boolean;
@@ -62,10 +75,20 @@ type Run = {
   points: number;
 };
 
+type DailyRecord = {
+  date: string;
+  score: number;
+  correct: number;
+  rounds: number;
+  bestStreak: number;
+  answers: Answer[];
+};
+
 type Best = { score: number; correct: number; rounds: number };
 
 const BEST_KEY = "callout-best";
 const MUTE_KEY = "callout-muted";
+const DAILY_KEY = "callout-daily";
 
 function formatScore(value: number) {
   return value.toLocaleString("en-US");
@@ -101,6 +124,62 @@ function subscribeBrowserStore() {
   return () => {};
 }
 
+let cachedDailyRaw: string | null | undefined;
+let cachedDaily: DailyRecord | null = null;
+
+function readDaily(): DailyRecord | null {
+  const raw = window.localStorage.getItem(DAILY_KEY);
+  if (raw === cachedDailyRaw) return cachedDaily;
+  cachedDailyRaw = raw;
+  if (!raw) {
+    cachedDaily = null;
+    return null;
+  }
+  try {
+    cachedDaily = JSON.parse(raw) as DailyRecord;
+  } catch {
+    cachedDaily = null;
+  }
+  return cachedDaily;
+}
+
+function writeDaily(value: DailyRecord) {
+  const raw = JSON.stringify(value);
+  window.localStorage.setItem(DAILY_KEY, raw);
+  cachedDailyRaw = raw;
+  cachedDaily = value;
+}
+
+function runFromDaily(record: DailyRecord): Run {
+  const byId = new Map(maps.map((map) => [map.id, map]));
+  const rounds = record.answers
+    .map((answer) => byId.get(answer.mapId))
+    .filter((map): map is MapCard => Boolean(map))
+    .map((map) => ({ answer: map, choices: [] }));
+  return {
+    kind: "daily",
+    dateKey: record.date,
+    mode: "choice",
+    picture: "loading",
+    unlimited: false,
+    pool: maps.filter((map) => map.standard),
+    dealt: record.answers.map((answer) => answer.mapId),
+    rounds,
+    index: Math.max(0, rounds.length - 1),
+    score: record.score,
+    streak: 0,
+    bestStreak: record.bestStreak,
+    answers: record.answers,
+    intel: false,
+    remaining: 0,
+    phase: "reveal",
+    pickedId: null,
+    guess: null,
+    timedOut: false,
+    points: 0,
+  };
+}
+
 export function Game() {
   const [screen, setScreen] = useState<"menu" | "play" | "results">("menu");
   const [selected, setSelected] = useState<GameId[]>(games.map((game) => game.id));
@@ -108,8 +187,10 @@ export function Game() {
   const [roundLength, setRoundLength] = useState<RoundLength>(10);
   const [answerMode, setAnswerMode] = useState<AnswerMode>("choice");
   const [picture, setPicture] = useState<Picture>("loading");
+  const [playKind, setPlayKind] = useState<PlayKind>("custom");
   const [mutedOverride, setMutedOverride] = useState<boolean | undefined>(undefined);
   const [bestOverride, setBestOverride] = useState<Best | null | undefined>(undefined);
+  const [dailyOverride, setDailyOverride] = useState<DailyRecord | null | undefined>(undefined);
   const [newBest, setNewBest] = useState(false);
   const [run, setRun] = useState<Run | null>(null);
   const [imageFailed, setImageFailed] = useState(false);
@@ -119,15 +200,19 @@ export function Game() {
     () => window.localStorage.getItem(MUTE_KEY) === "1",
     () => false,
   );
+  const storedDaily = useSyncExternalStore(subscribeBrowserStore, readDaily, () => null);
+  const today = useSyncExternalStore(subscribeBrowserStore, localDateKey, () => "");
   const best = bestOverride === undefined ? storedBest : bestOverride;
   const muted = mutedOverride === undefined ? storedMuted : mutedOverride;
+  const dailyRecord = dailyOverride === undefined ? storedDaily : dailyOverride;
+  const dailyToday = dailyRecord && today && dailyRecord.date === today ? dailyRecord : null;
   const mutedRef = useRef(muted);
 
   useEffect(() => {
     mutedRef.current = muted;
   }, [muted]);
 
-  const pool = useMemo(
+  const customPool = useMemo(
     () =>
       maps.filter(
         (map) =>
@@ -137,10 +222,12 @@ export function Game() {
       ),
     [picture, roster, selected],
   );
-
-  const minimumMaps = answerMode === "choice" ? 4 : 1;
-  const ready = pool.length >= minimumMaps;
-  const plannedRounds = roundLength === "unlimited" ? null : Math.min(roundLength, pool.length);
+  const remakes = useMemo(() => remakePool(picture), [picture]);
+  const pool = playKind === "remake" ? remakes : playKind === "daily" ? maps.filter((map) => map.standard) : customPool;
+  const minimumMaps = playKind === "remake" ? 1 : playKind === "daily" ? DAILY_ROUNDS : answerMode === "choice" ? 4 : 1;
+  const ready = playKind === "daily" ? pool.length >= DAILY_ROUNDS : pool.length >= minimumMaps;
+  const plannedRounds =
+    playKind === "daily" ? DAILY_ROUNDS : roundLength === "unlimited" ? null : Math.min(roundLength, pool.length);
 
   function toggleMute() {
     const next = !muted;
@@ -159,14 +246,30 @@ export function Game() {
   }
 
   function start() {
+    if (playKind === "daily" && dailyToday) {
+      setNewBest(false);
+      setImageFailed(false);
+      setRun(runFromDaily(dailyToday));
+      setScreen("results");
+      return;
+    }
     if (!ready) return;
-    const unlimited = roundLength === "unlimited";
-    const rounds = unlimited ? buildRounds(pool, 1, answerMode) : buildRounds(pool, roundLength, answerMode);
+    const unlimited = playKind !== "daily" && roundLength === "unlimited";
+    const dateKey = localDateKey();
+    const count = unlimited || roundLength === "unlimited" ? 1 : roundLength;
+    const rounds =
+      playKind === "daily"
+        ? buildDailyRounds(dateKey)
+        : playKind === "remake"
+          ? buildRemakeRounds(pool, count, picture)
+          : buildRounds(pool, count, answerMode);
     setNewBest(false);
     setImageFailed(false);
     setRun({
-      mode: answerMode,
-      picture,
+      kind: playKind,
+      dateKey: playKind === "daily" ? dateKey : undefined,
+      mode: playKind === "remake" || playKind === "daily" ? "choice" : answerMode,
+      picture: playKind === "daily" ? "loading" : picture,
       unlimited,
       pool,
       dealt: rounds.map((round) => round.answer.id),
@@ -231,6 +334,21 @@ export function Game() {
   function finish(current: Run) {
     const correct = current.answers.filter((answer) => answer.correct).length;
     const next = { score: current.score, correct, rounds: current.answers.length };
+    if (current.kind === "daily" && current.dateKey) {
+      const record: DailyRecord = {
+        date: current.dateKey,
+        score: current.score,
+        correct,
+        rounds: current.answers.length,
+        bestStreak: current.bestStreak,
+        answers: current.answers,
+      };
+      writeDaily(record);
+      setDailyOverride(record);
+      setNewBest(false);
+      setScreen("results");
+      return;
+    }
     if (!best || next.score > best.score) {
       writeBest(next);
       setBestOverride(next);
@@ -271,7 +389,8 @@ export function Game() {
       });
       return;
     }
-    const dealt = dealRound(run.pool, run.dealt, run.mode);
+    const dealt =
+      run.kind === "remake" ? dealRemakeRound(run.pool, run.dealt, run.picture) : dealRound(run.pool, run.dealt, run.mode);
     setRun({
       ...run,
       dealt: dealt.dealt,
@@ -364,15 +483,19 @@ export function Game() {
           answerMode={answerMode}
           picture={picture}
           best={best}
+          dailyToday={dailyToday}
           minimumMaps={minimumMaps}
           plannedRounds={plannedRounds}
+          playKind={playKind}
           poolSize={pool.length}
           ready={ready}
           roster={roster}
           roundLength={roundLength}
           selected={selected}
+          today={today}
           onAnswerMode={setAnswerMode}
           onPicture={setPicture}
+          onPlayKind={setPlayKind}
           onRoster={setRoster}
           onRoundLength={setRoundLength}
           onStart={start}
@@ -417,16 +540,20 @@ export function Game() {
 function Menu({
   answerMode,
   best,
+  dailyToday,
   minimumMaps,
   picture,
   plannedRounds,
+  playKind,
   poolSize,
   ready,
   roster,
   roundLength,
   selected,
+  today,
   onAnswerMode,
   onPicture,
+  onPlayKind,
   onRoster,
   onRoundLength,
   onStart,
@@ -435,16 +562,20 @@ function Menu({
 }: {
   answerMode: AnswerMode;
   best: Best | null;
+  dailyToday: DailyRecord | null;
   minimumMaps: number;
   picture: Picture;
   plannedRounds: number | null;
+  playKind: PlayKind;
   poolSize: number;
   ready: boolean;
   roster: Roster;
   roundLength: RoundLength;
   selected: GameId[];
+  today: string;
   onAnswerMode: (mode: AnswerMode) => void;
   onPicture: (picture: Picture) => void;
+  onPlayKind: (kind: PlayKind) => void;
   onRoster: (roster: Roster) => void;
   onRoundLength: (length: RoundLength) => void;
   onStart: () => void;
@@ -459,13 +590,42 @@ function Menu({
           <span className="block text-primary">before you spawn.</span>
         </h1>
         <p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg">
-          A loading screen or a minimap comes up. Pick the name, or type it. You have twenty seconds. The run covers
-          the mainline games, from the original Call of Duty through Black Ops 7.
+          {playKind === "daily"
+            ? "Ten launch maps, same set for everyone today. Play once, then send the score."
+            : playKind === "remake"
+              ? "A map that came back. You already know the name. Pick which game this version is from."
+              : "A loading screen or a minimap comes up. Pick the name, or type it. You have twenty seconds."}
         </p>
       </div>
 
       <section className="grid gap-6 lg:grid-cols-[1.4fr_0.8fr]">
         <div className="space-y-5">
+          <div>
+            <p className="mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Match</p>
+            <div className="flex flex-wrap gap-2">
+              {(
+                [
+                  ["daily", "Daily"],
+                  ["remake", "Remakes"],
+                  ["custom", "Custom"],
+                ] as const
+              ).map(([id, label]) => (
+                <Button
+                  key={id}
+                  type="button"
+                  size="sm"
+                  variant={playKind === id ? "default" : "outline"}
+                  aria-pressed={playKind === id}
+                  onClick={() => onPlayKind(id)}
+                >
+                  {label}
+                </Button>
+              ))}
+            </div>
+          </div>
+
+          {playKind === "custom" ? (
+          <>
           <div>
             <p className="mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Presets</p>
             <div className="flex flex-wrap gap-2">
@@ -544,13 +704,34 @@ function Menu({
               </Button>
             </div>
           </div>
+          </>
+          ) : playKind === "remake" ? (
+            <p className="max-w-xl text-sm leading-6 text-muted-foreground">
+              Choices are the games that shipped this map. Seasonal reskins stay out.
+            </p>
+          ) : (
+            <p className="max-w-xl text-sm leading-6 text-muted-foreground">
+              {today ? `${formatDateLabel(today)}. ` : ""}
+              Ten launch maps from the whole mainline roster. Same ten for everyone on this date.
+            </p>
+          )}
         </div>
 
         <div className="flex flex-col justify-between gap-4 border border-border bg-card p-4">
           <div>
             <p className="font-display text-xs tracking-[0.22em] text-muted-foreground">Match</p>
-            <p className="mt-2 font-display text-4xl text-foreground">{poolSize}</p>
-            <p className="text-sm text-muted-foreground">maps in this pool</p>
+            <p className="mt-2 font-display text-4xl text-foreground">{playKind === "daily" ? DAILY_ROUNDS : poolSize}</p>
+            <p className="text-sm text-muted-foreground">
+              {playKind === "daily" ? "maps today" : playKind === "remake" ? "remake versions" : "maps in this pool"}
+            </p>
+            {dailyToday && playKind === "daily" ? (
+              <p className="mt-4 text-sm text-muted-foreground">
+                Today you went {dailyToday.correct}/{dailyToday.rounds} for{" "}
+                <span className="font-display text-foreground">{formatScore(dailyToday.score)}</span>.
+              </p>
+            ) : null}
+            {playKind !== "daily" ? (
+              <>
             <p className="mt-4 mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Picture</p>
             <div className="flex flex-wrap gap-2">
               <Button
@@ -572,6 +753,10 @@ function Menu({
                 Minimap
               </Button>
             </div>
+              </>
+            ) : null}
+            {playKind === "custom" ? (
+              <>
             <p className="mt-4 mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Answer</p>
             <div className="flex flex-wrap gap-2">
               <Button
@@ -593,6 +778,10 @@ function Menu({
                 Type the name
               </Button>
             </div>
+              </>
+            ) : null}
+            {playKind !== "daily" ? (
+              <>
             <p className="mt-4 mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Length</p>
             <div className="flex flex-wrap gap-2">
               {ROUND_OPTIONS.map((count) => (
@@ -617,23 +806,77 @@ function Menu({
                 Unlimited
               </Button>
             </div>
-            {best ? (
+              </>
+            ) : null}
+            {best && playKind === "custom" ? (
               <p className="mt-4 text-sm text-muted-foreground">
                 Best score <span className="font-display text-base text-foreground">{formatScore(best.score)}</span>
                 <span className="text-muted-foreground"> · {best.correct}/{best.rounds}</span>
               </p>
             ) : null}
           </div>
-          <Button type="button" size="lg" disabled={!ready} onClick={onStart} className="h-12 font-display text-lg tracking-[0.18em]">
-            {ready
-              ? plannedRounds === null
-                ? "Drop in"
-                : `Drop in · ${plannedRounds}`
-              : `Pick at least ${minimumMaps} ${minimumMaps === 1 ? "map" : "maps"}`}
+          <Button type="button" size="lg" disabled={!ready && playKind !== "daily"} onClick={onStart} className="h-12 font-display text-lg tracking-[0.18em]">
+            {playKind === "daily"
+              ? dailyToday
+                ? "See today's result"
+                : "Play today's ten"
+              : ready
+                ? plannedRounds === null
+                  ? "Drop in"
+                  : `Drop in · ${plannedRounds}`
+                : `Pick at least ${minimumMaps} ${minimumMaps === 1 ? "map" : "maps"}`}
           </Button>
         </div>
       </section>
     </main>
+  );
+}
+
+function Plate({
+  map,
+  picture,
+  sizes,
+  priority,
+  onFail,
+}: {
+  map: MapCard;
+  picture: Picture;
+  sizes: string;
+  priority?: boolean;
+  onFail?: () => void;
+}) {
+  const src = picture === "minimap" && map.minimap ? map.minimap : map.image;
+  const cover = picture === "minimap" ? map.minimapCover : map.cover;
+  return (
+    <>
+      <Image
+        src={src}
+        alt=""
+        fill
+        priority={priority}
+        sizes={sizes}
+        className={picture === "minimap" ? "object-contain" : "object-cover"}
+        onError={onFail}
+      />
+      {cover?.map((box, index) => (
+        <Cover key={`${map.id}-${index}`} box={box} />
+      ))}
+    </>
+  );
+}
+
+function Cover({ box }: { box: CoverBox }) {
+  return (
+    <span
+      aria-hidden
+      className="absolute bg-[#0c0f0b]/90"
+      style={{
+        left: `${box.x * 100}%`,
+        top: `${box.y * 100}%`,
+        width: `${box.w * 100}%`,
+        height: `${box.h * 100}%`,
+      }}
+    />
   );
 }
 
@@ -684,15 +927,13 @@ function Question({
               This picture failed to load. You can still guess, or wait and the round will expire.
             </div>
           ) : (
-            <Image
+            <Plate
               key={`${run.picture}-${round.answer.id}`}
-              src={run.picture === "minimap" && round.answer.minimap ? round.answer.minimap : round.answer.image}
-              alt=""
-              fill
+              map={round.answer}
+              picture={run.picture}
               priority
               sizes="(max-width: 768px) 100vw, 960px"
-              className="object-contain"
-              onError={onFail}
+              onFail={onFail}
             />
           )}
         </div>
@@ -715,7 +956,9 @@ function Question({
               End match
             </Button>
           ) : null}
-          {run.intel ? (
+          {run.kind === "remake" ? (
+            <p className="font-display text-sm tracking-[0.16em] text-primary">{round.answer.name}</p>
+          ) : run.intel ? (
             <p className="font-display text-sm tracking-[0.16em] text-primary">
               {round.answer.short} · {round.answer.year}
             </p>
@@ -737,7 +980,7 @@ function Question({
       ) : (
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2" role="group" aria-label="Map choices">
           {round.choices.map((map, index) => {
-            const label = choiceLabel(map, round.choices);
+            const label = run.kind === "remake" ? versionLabel(map) : choiceLabel(map, round.choices);
             const isAnswer = revealed && map.id === round.answer.id;
             const isWrong = revealed && map.id === run.pickedId && map.id !== round.answer.id;
             return (
@@ -777,9 +1020,11 @@ function Question({
         </div>
       ) : (
         <p className="text-xs text-muted-foreground">
-          {run.mode === "typed"
-            ? "Type the map. Capitalization does not matter. Intel shows the game and cuts the round in half."
-            : "Keys 1 to 4 answer. Intel shows the game and cuts the round in half."}
+          {run.kind === "remake"
+            ? "The map name is on the table. Keys pick the game this version is from."
+            : run.mode === "typed"
+              ? "Type the map. Capitalization does not matter. Intel shows the game and cuts the round in half."
+              : "Keys 1 to 4 answer. Intel shows the game and cuts the round in half."}
         </p>
       )}
 
@@ -832,7 +1077,13 @@ function Results({
   return (
     <main className="flex flex-1 flex-col gap-6">
       <div>
-        <p className="font-display text-xs tracking-[0.28em] text-primary">Match complete</p>
+        <p className="font-display text-xs tracking-[0.28em] text-primary">
+          {run.kind === "daily" && run.dateKey
+            ? `Daily · ${formatDateLabel(run.dateKey)}`
+            : run.kind === "remake"
+              ? "Remakes"
+              : "Match complete"}
+        </p>
         <h1 className="font-display text-6xl leading-none text-foreground sm:text-7xl">{rank.title}</h1>
         <p className="mt-2 text-muted-foreground">{rank.line}</p>
       </div>
@@ -852,29 +1103,27 @@ function Results({
           const map = byId.get(answer.mapId);
           const picked = answer.pickedId ? byId.get(answer.pickedId) : undefined;
           if (!map) return null;
-          const said = answer.guess?.trim() || picked?.name;
+          const said =
+            answer.guess?.trim() ||
+            (picked ? (run.kind === "remake" ? versionLabel(picked) : picked.name) : undefined);
           return (
             <figure
               key={`${answer.mapId}-${map.id}`}
               className="flex overflow-hidden border border-border bg-black sm:flex-col"
             >
               <div className="relative aspect-video w-28 shrink-0 sm:w-auto">
-                <Image
-                  src={run.picture === "minimap" && map.minimap ? map.minimap : map.image}
-                  alt=""
-                  fill
-                  sizes="(max-width: 640px) 112px, 180px"
-                  className={run.picture === "minimap" ? "object-contain" : "object-cover"}
-                />
+                <Plate map={map} picture={run.picture} sizes="(max-width: 640px) 112px, 180px" />
               </div>
               <figcaption className="min-w-0 flex-1 space-y-1 p-2.5 sm:p-2">
                 <p className={cn("font-display text-base leading-tight tracking-wide sm:text-sm", answer.correct ? "text-emerald-400" : "text-destructive")}>
-                  {answer.correct ? "Hit" : "Miss"} · {map.name}
+                  {answer.correct ? "Hit" : "Miss"} · {run.kind === "remake" ? versionLabel(map) : map.name}
                 </p>
-                <p className="text-xs text-muted-foreground sm:text-[11px]">{map.short}</p>
+                <p className="text-xs text-muted-foreground sm:text-[11px]">
+                  {run.kind === "remake" ? map.name : map.short}
+                </p>
                 <p className="text-xs text-muted-foreground sm:text-[11px]">
                   {answer.correct
-                    ? `You said ${said || map.name}`
+                    ? `You said ${said || (run.kind === "remake" ? versionLabel(map) : map.name)}`
                     : answer.timedOut
                       ? "Time ran out"
                       : `You said ${said || "another map"}`}
@@ -886,11 +1135,14 @@ function Results({
       </div>
 
       <div className="flex flex-wrap gap-2">
-        <Button type="button" onClick={onAgain} className="font-display tracking-[0.16em]">
-          Run it back
-        </Button>
+        {run.kind === "daily" && run.dateKey ? <ShareDaily run={run} /> : null}
+        {run.kind === "daily" ? null : (
+          <Button type="button" onClick={onAgain} className="font-display tracking-[0.16em]">
+            Run it back
+          </Button>
+        )}
         <Button type="button" variant="outline" onClick={onMenu}>
-          Change the roster
+          {run.kind === "daily" ? "Back to the lobby" : "Change the roster"}
         </Button>
       </div>
     </main>
@@ -937,6 +1189,35 @@ function TypedAnswer({
         Lock in
       </Button>
     </form>
+  );
+}
+
+function ShareDaily({ run }: { run: Run }) {
+  const [copied, setCopied] = useState(false);
+  if (!run.dateKey) return null;
+  const text = formatDailyShare({
+    date: run.dateKey,
+    correct: run.answers.filter((answer) => answer.correct).length,
+    rounds: run.answers.length,
+    score: run.score,
+  });
+
+  return (
+    <Button
+      type="button"
+      className="font-display tracking-[0.16em]"
+      onClick={async () => {
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch {
+          window.prompt("Copy this score", text);
+        }
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 1600);
+      }}
+    >
+      {copied ? "Copied" : "Copy today's score"}
+    </Button>
   );
 }
 

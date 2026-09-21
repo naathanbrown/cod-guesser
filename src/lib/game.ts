@@ -25,6 +25,13 @@ export type GameId =
   | "bo6"
   | "bo7";
 
+export type CoverBox = {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+};
+
 export type MapCard = {
   id: string;
   name: string;
@@ -36,6 +43,8 @@ export type MapCard = {
   blurb: string;
   image: string;
   minimap: string | null;
+  cover?: CoverBox[];
+  minimapCover?: CoverBox[];
   source: string;
 };
 
@@ -105,6 +114,140 @@ export const ROUND_OPTIONS = [5, 10, 15] as const;
 export type RoundLength = (typeof ROUND_OPTIONS)[number] | "unlimited";
 export type AnswerMode = "choice" | "typed";
 export type Picture = "loading" | "minimap";
+export type PlayKind = "custom" | "daily" | "remake";
+export const DAILY_ROUNDS = 10;
+export const DAILY_SEED_PREFIX = "callout-daily-v1";
+
+const SEASONAL_NAME = /\b(holiday|halloween|christmas|shipmas)\b/;
+
+const REMAKE_FAMILIES: { key: string; names: string[] }[] = [
+  { key: "nuketown", names: ["nuketown", "nuketown 2025", "nuk3town", "nuketown 84"] },
+  { key: "shipment", names: ["shipment", "shipment 1944", "arena shipment", "sunny shipment"] },
+];
+
+export function localDateKey(date: Date = new Date()): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+export function formatDateLabel(key: string): string {
+  const [year, month, day] = key.split("-").map(Number);
+  return new Date(year, month - 1, day).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+export function rngFromSeed(seed: string): () => number {
+  let hash = 2166136261;
+  for (let i = 0; i < seed.length; i += 1) {
+    hash ^= seed.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  let state = hash >>> 0;
+  return () => {
+    state += 0x6d2b79f5;
+    let next = Math.imul(state ^ (state >>> 15), 1 | state);
+    next ^= next + Math.imul(next ^ (next >>> 7), 61 | next);
+    return ((next ^ (next >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+export function dailyPool(): MapCard[] {
+  return maps.filter((map) => map.standard);
+}
+
+export function buildDailyRounds(dateKey: string): Round[] {
+  return buildRounds(dailyPool(), DAILY_ROUNDS, "choice", rngFromSeed(`${DAILY_SEED_PREFIX}-${dateKey}`));
+}
+
+export function formatDailyShare(input: {
+  date: string;
+  correct: number;
+  rounds: number;
+  score: number;
+}): string {
+  const rank = rankFor(input.rounds === 0 ? 0 : input.correct / input.rounds);
+  return `Callout Daily — ${formatDateLabel(input.date)}\n${input.correct}/${input.rounds} · ${rank.title}\n${input.score.toLocaleString("en-US")}`;
+}
+
+export function remakeFamilyKey(map: MapCard): string | null {
+  const name = normalizeGuess(map.name);
+  if (SEASONAL_NAME.test(name)) return null;
+  for (const family of REMAKE_FAMILIES) {
+    if (family.names.includes(name)) return family.key;
+  }
+  return name;
+}
+
+export function remakeGroups(pool: readonly MapCard[] = maps): MapCard[][] {
+  const buckets = new Map<string, MapCard[]>();
+  for (const map of pool) {
+    const key = remakeFamilyKey(map);
+    if (!key) continue;
+    const list = buckets.get(key) ?? [];
+    list.push(map);
+    buckets.set(key, list);
+  }
+  return [...buckets.values()].filter((group) => new Set(group.map((map) => map.gameId)).size >= 2);
+}
+
+export function remakePool(picture: Picture): MapCard[] {
+  const source = maps.filter((map) => picture === "loading" || Boolean(map.minimap));
+  return remakeGroups(source).flat();
+}
+
+export function versionLabel(map: MapCard): string {
+  return `${map.short} · ${map.year}`;
+}
+
+export function buildRemakeRound(
+  answer: MapCard,
+  picture: Picture,
+  rng: () => number = Math.random,
+): Round {
+  const key = remakeFamilyKey(answer);
+  const group =
+    remakeGroups(maps.filter((map) => picture === "loading" || Boolean(map.minimap))).find(
+      (mapsInGroup) => remakeFamilyKey(mapsInGroup[0]) === key,
+    ) ?? [answer];
+  return { answer, choices: shuffle(group, rng) };
+}
+
+export function buildRemakeRounds(
+  pool: readonly MapCard[],
+  count: number,
+  picture: Picture,
+  rng: () => number = Math.random,
+): Round[] {
+  return shuffle(pool, rng)
+    .slice(0, Math.min(count, pool.length))
+    .map((answer) => buildRemakeRound(answer, picture, rng));
+}
+
+export function dealRemakeRound(
+  pool: readonly MapCard[],
+  dealt: readonly string[],
+  picture: Picture,
+  rng: () => number = Math.random,
+): { round: Round; dealt: string[] } {
+  let remaining = pool.filter((map) => !dealt.includes(map.id));
+  let nextDealt = [...dealt];
+  if (remaining.length === 0) {
+    const lastId = dealt.at(-1);
+    remaining = pool.filter((map) => map.id !== lastId);
+    if (remaining.length === 0) remaining = [...pool];
+    nextDealt = [];
+  }
+  const answer = remaining[Math.floor(rng() * remaining.length)];
+  return {
+    round: buildRemakeRound(answer, picture, rng),
+    dealt: [...nextDealt, answer.id],
+  };
+}
 
 export function normalizeGuess(value: string): string {
   return value

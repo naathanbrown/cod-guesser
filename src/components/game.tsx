@@ -14,7 +14,9 @@ import {
   games,
   guessMatches,
   maps,
+  presets,
   rankFor,
+  sameGameSet,
   scoreRound,
   type AnswerMode,
   type GameId,
@@ -150,6 +152,10 @@ export function Game() {
     setSelected((current) =>
       current.includes(id) ? current.filter((gameId) => gameId !== id) : [...current, id],
     );
+  }
+
+  function applyPreset(ids: GameId[]) {
+    setSelected(ids);
   }
 
   function start() {
@@ -370,6 +376,7 @@ export function Game() {
           onRoster={setRoster}
           onRoundLength={setRoundLength}
           onStart={start}
+          onPreset={applyPreset}
           onToggleGame={toggleGame}
         />
       ) : null}
@@ -423,6 +430,7 @@ function Menu({
   onRoster,
   onRoundLength,
   onStart,
+  onPreset,
   onToggleGame,
 }: {
   answerMode: AnswerMode;
@@ -440,6 +448,7 @@ function Menu({
   onRoster: (roster: Roster) => void;
   onRoundLength: (length: RoundLength) => void;
   onStart: () => void;
+  onPreset: (ids: GameId[]) => void;
   onToggleGame: (id: GameId) => void;
 }) {
   return (
@@ -457,6 +466,27 @@ function Menu({
 
       <section className="grid gap-6 lg:grid-cols-[1.4fr_0.8fr]">
         <div className="space-y-5">
+          <div>
+            <p className="mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Presets</p>
+            <div className="flex flex-wrap gap-2">
+              {presets.map((preset) => {
+                const on = sameGameSet(selected, preset.games);
+                return (
+                  <Button
+                    key={preset.id}
+                    type="button"
+                    size="sm"
+                    variant={on ? "default" : "outline"}
+                    aria-pressed={on}
+                    onClick={() => onPreset(preset.games)}
+                  >
+                    {preset.label}
+                  </Button>
+                );
+              })}
+            </div>
+          </div>
+
           <div>
             <p className="mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Games</p>
             <div className="flex flex-wrap gap-2">

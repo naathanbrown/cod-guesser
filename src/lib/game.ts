@@ -72,6 +72,34 @@ export const games: { id: GameId; short: string; year: number }[] = [
   { id: "bo7", short: "Black Ops 7", year: 2025 },
 ];
 
+export type GamePreset = {
+  id: string;
+  label: string;
+  games: GameId[];
+};
+
+export const presets: GamePreset[] = [
+  { id: "pre-mw", label: "Pre-MW", games: ["cod1", "uo", "cod2", "cod3"] },
+  { id: "golden", label: "Golden era", games: ["cod4", "waw", "mw2", "bo1", "mw3", "bo2"] },
+  { id: "treyarch", label: "Treyarch", games: ["cod3", "waw", "bo1", "bo2", "bo3", "bo4", "cw", "bo6", "bo7"] },
+  {
+    id: "infinity-ward",
+    label: "Infinity Ward",
+    games: ["cod1", "cod2", "cod4", "mw2", "mw3", "ghosts", "iw", "mw2019", "mwii"],
+  },
+  { id: "sledgehammer", label: "Sledgehammer", games: ["aw", "wwii", "vg", "mwiii"] },
+  { id: "black-ops", label: "Black Ops", games: ["bo1", "bo2", "bo3", "bo4", "cw", "bo6", "bo7"] },
+  { id: "modern-warfare", label: "Modern Warfare", games: ["cod4", "mw2", "mw3", "mw2019", "mwii", "mwiii"] },
+  { id: "jetpacks", label: "Jetpacks", games: ["aw", "bo3", "iw"] },
+  { id: "all", label: "All", games: games.map((game) => game.id) },
+];
+
+export function sameGameSet(left: readonly GameId[], right: readonly GameId[]): boolean {
+  if (left.length !== right.length) return false;
+  const have = new Set(left);
+  return right.every((id) => have.has(id));
+}
+
 export const ROUND_MS = 20_000;
 export const ROUND_OPTIONS = [5, 10, 15] as const;
 export type RoundLength = (typeof ROUND_OPTIONS)[number] | "unlimited";

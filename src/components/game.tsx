@@ -297,14 +297,16 @@ export function Game() {
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
-      if (
-        event.repeat ||
-        event.target instanceof HTMLButtonElement ||
-        event.target instanceof HTMLInputElement ||
-        event.target instanceof HTMLTextAreaElement
-      ) {
+      if (event.repeat) return;
+      const target = event.target;
+      const onLiveButton = target instanceof HTMLButtonElement && !target.disabled;
+      const inField = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement;
+      if (screen === "play" && run?.phase === "reveal" && event.key === "Enter" && !onLiveButton) {
+        event.preventDefault();
+        nextRound();
         return;
       }
+      if (onLiveButton || inField || target instanceof HTMLButtonElement) return;
       if (screen === "menu" && event.key === "Enter" && ready) {
         event.preventDefault();
         start();
@@ -324,9 +326,6 @@ export function Game() {
           playCue(picked.id === run.rounds[run.index].answer.id ? "correct" : "wrong", muted);
           submit({ mapId: picked.id });
         }
-      } else if (event.key === "Enter" && run.phase === "reveal") {
-        event.preventDefault();
-        nextRound();
       }
     }
     window.addEventListener("keydown", onKey);
@@ -596,9 +595,11 @@ function Question({
   const round = run.rounds[run.index];
   const revealed = run.phase === "reveal";
   const seconds = Math.ceil(run.remaining / 1000);
+  const correct = run.answers.at(-1)?.correct ?? false;
+  const continueLabel = run.unlimited || run.index + 1 < run.rounds.length ? "Next map" : "See the match";
 
   return (
-    <main className="flex flex-1 flex-col gap-4">
+    <main className={cn("flex flex-1 flex-col gap-4", revealed && "pb-28")}>
       <div className="flex items-end justify-between gap-3 font-display tracking-wide">
         <p className="text-sm text-muted-foreground">
           {String(run.index + 1).padStart(2, "0")}
@@ -706,21 +707,9 @@ function Question({
             {round.answer.game} · {round.answer.year}
           </p>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-foreground/90">{round.answer.blurb}</p>
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-            <p className="font-display text-2xl text-primary tabular-nums">
-              {run.points > 0 ? `+${formatScore(run.points)}` : "0"}
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {run.unlimited ? (
-                <Button type="button" variant="outline" onClick={onEnd}>
-                  End match
-                </Button>
-              ) : null}
-              <Button type="button" onClick={onNext} className="font-display tracking-[0.16em]">
-                {run.unlimited || run.index + 1 < run.rounds.length ? "Next map" : "See the match"}
-              </Button>
-            </div>
-          </div>
+          <p className="mt-4 font-display text-2xl text-primary tabular-nums">
+            {run.points > 0 ? `+${formatScore(run.points)}` : "0"}
+          </p>
         </div>
       ) : (
         <p className="text-xs text-muted-foreground">
@@ -729,6 +718,30 @@ function Question({
             : "Keys 1 to 4 answer. Intel shows the game and cuts the round in half."}
         </p>
       )}
+
+      {revealed ? (
+        <div className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-background/95 px-4 py-3 backdrop-blur sm:px-6">
+          <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0">
+              <p className={cn("font-display text-xs tracking-[0.2em]", correct ? "text-emerald-400" : "text-destructive")}>
+                {run.timedOut ? "Time" : correct ? "Confirmed" : "Negative"}
+                <span className="text-primary"> · {run.points > 0 ? `+${formatScore(run.points)}` : "0"}</span>
+              </p>
+              <p className="truncate font-display text-2xl leading-none text-foreground">{round.answer.name}</p>
+            </div>
+            <div className="flex gap-2">
+              {run.unlimited ? (
+                <Button type="button" variant="outline" onClick={onEnd} className="h-12">
+                  End match
+                </Button>
+              ) : null}
+              <Button type="button" onClick={onNext} className="h-12 flex-1 font-display tracking-[0.16em] sm:min-w-40 sm:flex-none">
+                {continueLabel}
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 }

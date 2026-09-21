@@ -838,26 +838,41 @@ function Plate({
   sizes,
   priority,
   onFail,
+  framed = false,
 }: {
   map: MapCard;
   picture: Picture;
   sizes: string;
   priority?: boolean;
   onFail?: () => void;
+  framed?: boolean;
 }) {
   const src = picture === "minimap" && map.minimap ? map.minimap : map.image;
   const cover = picture === "minimap" ? map.minimapCover : map.cover;
   return (
     <>
-      <Image
-        src={src}
-        alt=""
-        fill
-        priority={priority}
-        sizes={sizes}
-        className={picture === "minimap" ? "object-contain" : "object-cover"}
-        onError={onFail}
-      />
+      {framed ? (
+        <Image
+          src={src}
+          alt=""
+          fill
+          priority={priority}
+          sizes={sizes}
+          className={picture === "minimap" ? "object-contain" : "object-cover"}
+          onError={onFail}
+        />
+      ) : (
+        <Image
+          src={src}
+          alt=""
+          width={1600}
+          height={900}
+          priority={priority}
+          sizes={sizes}
+          className="h-auto w-full"
+          onError={onFail}
+        />
+      )}
       {cover?.map((box, index) => (
         <Cover key={`${map.id}-${index}`} box={box} />
       ))}
@@ -921,7 +936,7 @@ function Question({
       </div>
 
       <figure className={cn("overflow-hidden border border-border bg-black", run.picture === "minimap" && "mx-auto w-full max-w-xl")}>
-        <div className={cn("relative", run.picture === "minimap" ? "aspect-square" : "aspect-video")}>
+        <div className="relative">
           {imageFailed ? (
             <div className="absolute inset-0 flex items-center justify-center px-6 text-center text-sm text-muted-foreground">
               This picture failed to load. You can still guess, or wait and the round will expire.
@@ -1112,7 +1127,7 @@ function Results({
               className="flex overflow-hidden border border-border bg-black sm:flex-col"
             >
               <div className="relative aspect-video w-28 shrink-0 sm:w-auto">
-                <Plate map={map} picture={run.picture} sizes="(max-width: 640px) 112px, 180px" />
+                <Plate framed map={map} picture={run.picture} sizes="(max-width: 640px) 112px, 180px" />
               </div>
               <figcaption className="min-w-0 flex-1 space-y-1 p-2.5 sm:p-2">
                 <p className={cn("font-display text-base leading-tight tracking-wide sm:text-sm", answer.correct ? "text-emerald-400" : "text-destructive")}>

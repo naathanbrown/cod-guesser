@@ -57,7 +57,21 @@ def boxes_for(path: Path, name: str) -> list[dict]:
                 "h": round((y2 - y1) / height, 4),
             }
         )
-    return hits
+    return [expand(box) for box in hits]
+
+
+def expand(box: dict) -> dict:
+    x, y, w, h = box["x"], box["y"], box["w"], box["h"]
+    if y > 0.7:
+        return {"x": 0.03, "y": 0.75, "w": 0.74, "h": 0.22}
+    if y < 0.12 and x < 0.2:
+        return {"x": 0.0, "y": 0.0, "w": round(min(0.5, max(w + 0.22, 0.32)), 4), "h": round(min(0.18, max(h + 0.08, 0.12)), 4)}
+    return {
+        "x": round(max(0, x - 0.05), 4),
+        "y": round(max(0, y - 0.05), 4),
+        "w": round(min(1 - max(0, x - 0.05), w + 0.14), 4),
+        "h": round(min(1 - max(0, y - 0.05), h + 0.12), 4),
+    }
 
 
 def job(record: dict, kind: str) -> tuple[str, str, list[dict]]:

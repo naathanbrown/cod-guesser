@@ -205,7 +205,15 @@
     "blurb": "Streets, debris, and cramped buildings",
     "image": "/maps/arnhem-uo.jpg",
     "minimap": "/minimaps/arnhem-uo.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Arnhem_%28Map%29"
+    "source": "https://callofduty.fandom.com/wiki/Arnhem_%28Map%29",
+    "minimapCover": [
+      {
+        "x": 0.03,
+        "y": 0.75,
+        "w": 0.74,
+        "h": 0.22
+      }
+    ]
   },
   {
     "id": "berlin-uo",
@@ -218,7 +226,15 @@
     "blurb": "A multiplayer map from United Offensive.",
     "image": "/maps/berlin-uo.jpg",
     "minimap": "/minimaps/berlin-uo.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Berlin_%28United_Offensive%29"
+    "source": "https://callofduty.fandom.com/wiki/Berlin_%28United_Offensive%29",
+    "minimapCover": [
+      {
+        "x": 0.03,
+        "y": 0.75,
+        "w": 0.74,
+        "h": 0.22
+      }
+    ]
   },
   {
     "id": "bocage-uo",
@@ -543,7 +559,15 @@
     "blurb": "A multiplayer map from United Offensive.",
     "image": "/maps/streets-uo.jpg",
     "minimap": "/minimaps/streets-uo.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Streets"
+    "source": "https://callofduty.fandom.com/wiki/Streets",
+    "minimapCover": [
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "w": 0.4569,
+        "h": 0.166
+      }
+    ]
   },
   {
     "id": "tigertown-uo",
@@ -2376,7 +2400,15 @@
     "blurb": "Medium-sized German mall. Intense Search & Destroy games",
     "image": "/maps/arkaden-mw3.jpg",
     "source": "https://callofduty.fandom.com/wiki/Arkaden",
-    "minimap": "/minimaps/arkaden-mw3.jpg"
+    "minimap": "/minimaps/arkaden-mw3.jpg",
+    "cover": [
+      {
+        "x": 0.7699,
+        "y": 0.5626,
+        "w": 0.2301,
+        "h": 0.2247
+      }
+    ]
   },
   {
     "id": "bakaara-mw3",
@@ -2649,7 +2681,15 @@
     "blurb": "Luxury resort in Dubai. Features intense Domination matches",
     "image": "/maps/oasis-mw3.jpg",
     "source": "https://callofduty.fandom.com/wiki/Oasis_%28Modern_Warfare_3%29",
-    "minimap": "/minimaps/oasis-mw3.jpg"
+    "minimap": "/minimaps/oasis-mw3.jpg",
+    "cover": [
+      {
+        "x": 0.6838,
+        "y": 0.6244,
+        "w": 0.2036,
+        "h": 0.1847
+      }
+    ]
   },
   {
     "id": "off-shore-mw3",
@@ -3650,7 +3690,15 @@
     "blurb": "Atlas Gorge re-envisions the fan-favorite Call of Duty 4: Modern Warfare map Pipeline. The Atlas Corporation has commandeered the world\u2019s largest power source, the Three Gorges Dam in central China, whose sinister backdr",
     "image": "/maps/atlas-gorge-aw.jpg",
     "minimap": "/minimaps/atlas-gorge-aw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Atlas_Gorge"
+    "source": "https://callofduty.fandom.com/wiki/Atlas_Gorge",
+    "cover": [
+      {
+        "x": 0.1206,
+        "y": 0.08,
+        "w": 0.38,
+        "h": 0.3452
+      }
+    ]
   },
   {
     "id": "bio-lab-aw",
@@ -4144,7 +4192,15 @@
     "blurb": "Military practice facility. Hectic Domination games",
     "image": "/maps/firing-range-bo3.jpg",
     "minimap": "/minimaps/firing-range-bo3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Firing_Range"
+    "source": "https://callofduty.fandom.com/wiki/Firing_Range",
+    "minimapCover": [
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "w": 0.451,
+        "h": 0.1586
+      }
+    ]
   },
   {
     "id": "fringe-bo3",
@@ -4235,7 +4291,15 @@
     "blurb": "Great vertical gameplay along a river valley in Vietnam",
     "image": "/maps/jungle-bo3.jpg",
     "minimap": "/minimaps/jungle-bo3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Jungle_%28Black_Ops%29"
+    "source": "https://callofduty.fandom.com/wiki/Jungle_%28Black_Ops%29",
+    "minimapCover": [
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "w": 0.3671,
+        "h": 0.1638
+      }
+    ]
   },
   {
     "id": "knockout-bo3",
@@ -4404,7 +4468,15 @@
     "blurb": "Run down section of Panama. Great close quarters engagements and tough chokes to fight over",
     "image": "/maps/slums-bo3.jpg",
     "minimap": "/minimaps/slums-bo3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Slums"
+    "source": "https://callofduty.fandom.com/wiki/Slums",
+    "minimapCover": [
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "w": 0.3529,
+        "h": 0.1622
+      }
+    ]
   },
   {
     "id": "spire-bo3",
@@ -4456,7 +4528,15 @@
     "blurb": "Research facility on a snowy mountain. Fight from all angles",
     "image": "/maps/summit-bo3.jpg",
     "minimap": "/minimaps/summit-bo3.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Summit"
+    "source": "https://callofduty.fandom.com/wiki/Summit",
+    "minimapCover": [
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "w": 0.3659,
+        "h": 0.164
+      }
+    ]
   },
   {
     "id": "verge-bo3",
@@ -4482,7 +4562,15 @@
     "blurb": "Set in a high-end, sky high shopping mall located on the edges of the universe, Altitude pushes teams around a chaotic center where quick flank routes are key to victory. Additional features include floating lush waterfa",
     "image": "/maps/altitude-iw.jpg",
     "minimap": "/minimaps/altitude-iw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Altitude"
+    "source": "https://callofduty.fandom.com/wiki/Altitude",
+    "cover": [
+      {
+        "x": 0.03,
+        "y": 0.75,
+        "w": 0.74,
+        "h": 0.22
+      }
+    ]
   },
   {
     "id": "archive-iw",
@@ -4534,7 +4622,15 @@
     "blurb": "A post-apocalyptic race track along the California coast, Carnage features long sightlines and environmental hazards including a fire trap players can activate on command to roast their enemies",
     "image": "/maps/carnage-iw.jpg",
     "minimap": "/minimaps/carnage-iw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Carnage"
+    "source": "https://callofduty.fandom.com/wiki/Carnage",
+    "cover": [
+      {
+        "x": 0.03,
+        "y": 0.75,
+        "w": 0.74,
+        "h": 0.22
+      }
+    ]
   },
   {
     "id": "crusher-iw",
@@ -4560,7 +4656,15 @@
     "blurb": "Depot 22 is a watering hole at the end of civilization that focuses on mid-ranged encounters waged in a medium-sized, three-lane map. Players can battle in the cantina for close-quarter combat or engage with enemies wall",
     "image": "/maps/depot-22-iw.jpg",
     "minimap": "/minimaps/depot-22-iw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Depot_22"
+    "source": "https://callofduty.fandom.com/wiki/Depot_22",
+    "cover": [
+      {
+        "x": 0.03,
+        "y": 0.75,
+        "w": 0.74,
+        "h": 0.22
+      }
+    ]
   },
   {
     "id": "dominion-iw",
@@ -4612,7 +4716,15 @@
     "blurb": "In Fore, the only thing miniature about this large map is the golf courses players will be fighting in. Fore features great visual variety as players swing around the sights and sounds of areas that brandish magical fore",
     "image": "/maps/fore-iw.jpg",
     "minimap": "/minimaps/fore-iw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Fore"
+    "source": "https://callofduty.fandom.com/wiki/Fore",
+    "cover": [
+      {
+        "x": 0,
+        "y": 0.5117,
+        "w": 0.2649,
+        "h": 0.2303
+      }
+    ]
   },
   {
     "id": "frontier-iw",
@@ -4677,7 +4789,15 @@
     "blurb": "In Heartland, teams will go head-to-head in a simulation of small town America that is a re-imagining of the classic Call of Duty: Ghosts map, Warhawk. Players can pop into the local ice cream shop for a treat, and then ",
     "image": "/maps/heartland-iw.jpg",
     "minimap": "/minimaps/heartland-iw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Heartland"
+    "source": "https://callofduty.fandom.com/wiki/Heartland",
+    "cover": [
+      {
+        "x": 0.03,
+        "y": 0.75,
+        "w": 0.74,
+        "h": 0.22
+      }
+    ]
   },
   {
     "id": "mayday-iw",
@@ -5015,7 +5135,15 @@
     "blurb": "Cliff-side fortifications atop the Rock of Gibraltar. Intense stand-off battles in the center with vertical combat opportunities to the flanks",
     "image": "/maps/gibraltar-wwii.jpg",
     "minimap": "/minimaps/gibraltar-wwii.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Gibraltar"
+    "source": "https://callofduty.fandom.com/wiki/Gibraltar",
+    "cover": [
+      {
+        "x": 0.5311,
+        "y": 0.3627,
+        "w": 0.3689,
+        "h": 0.2563
+      }
+    ]
   },
   {
     "id": "gustav-cannon-wwii",
@@ -5925,7 +6053,15 @@
     "blurb": "A multiplayer map from MW.",
     "image": "/maps/cheshire-park-mw2019.jpg",
     "minimap": "/minimaps/cheshire-park-mw2019.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Cheshire_Park"
+    "source": "https://callofduty.fandom.com/wiki/Cheshire_Park",
+    "cover": [
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "w": 0.78,
+        "h": 0.24
+      }
+    ]
   },
   {
     "id": "crash-mw2019",
@@ -6185,7 +6321,15 @@
     "blurb": "A multiplayer map from MW.",
     "image": "/maps/piccadilly-mw2019.jpg",
     "minimap": "/minimaps/piccadilly-mw2019.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Piccadilly_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Piccadilly_%28map%29",
+    "cover": [
+      {
+        "x": 0.2498,
+        "y": 0.1005,
+        "w": 0.2827,
+        "h": 0.2523
+      }
+    ]
   },
   {
     "id": "pine-mw2019",
@@ -6432,7 +6576,15 @@
     "blurb": "A multiplayer map from MW.",
     "image": "/maps/verdansk-stadium-mw2019.jpg",
     "minimap": "/minimaps/verdansk-stadium-mw2019.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Verdansk_Stadium"
+    "source": "https://callofduty.fandom.com/wiki/Verdansk_Stadium",
+    "cover": [
+      {
+        "x": 0.6672,
+        "y": 0.0852,
+        "w": 0.3265,
+        "h": 0.2329
+      }
+    ]
   },
   {
     "id": "winter-docks-mw2019",
@@ -6952,7 +7104,15 @@
     "blurb": "Lured and baited by Perseus, Adler and his task force must stop the unleashing of the deadly VFX Nova 6 in a New Jersey mall",
     "image": "/maps/the-pines-cw.jpg",
     "minimap": "/minimaps/the-pines-cw.jpg",
-    "source": "https://callofduty.fandom.com/wiki/The_Pines"
+    "source": "https://callofduty.fandom.com/wiki/The_Pines",
+    "cover": [
+      {
+        "x": 0.1068,
+        "y": 0.3195,
+        "w": 0.3529,
+        "h": 0.2304
+      }
+    ]
   },
   {
     "id": "u-bahn-cw",
@@ -7719,7 +7879,15 @@
     "blurb": "A multiplayer map from MWII.",
     "image": "/maps/mercado-las-almas-mwii.jpg",
     "minimap": "/minimaps/mercado-las-almas-mwii.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Mercado_Las_Almas"
+    "source": "https://callofduty.fandom.com/wiki/Mercado_Las_Almas",
+    "cover": [
+      {
+        "x": 0.4797,
+        "y": 0.2508,
+        "w": 0.3286,
+        "h": 0.2446
+      }
+    ]
   },
   {
     "id": "pelayo-s-lighthouse-mwii",
@@ -7758,7 +7926,15 @@
     "blurb": "A multiplayer map from MWII.",
     "image": "/maps/punta-mar-mwii.jpg",
     "minimap": "/minimaps/punta-mar-mwii.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Punta_Mar"
+    "source": "https://callofduty.fandom.com/wiki/Punta_Mar",
+    "cover": [
+      {
+        "x": 0.6394,
+        "y": 0.4561,
+        "w": 0.2571,
+        "h": 0.1857
+      }
+    ]
   },
   {
     "id": "rohan-oilfields-mwii",
@@ -7771,7 +7947,15 @@
     "blurb": "A multiplayer map from MWII.",
     "image": "/maps/rohan-oilfields-mwii.jpg",
     "minimap": "/minimaps/rohan-oilfields-mwii.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Rohan_Oilfields"
+    "source": "https://callofduty.fandom.com/wiki/Rohan_Oilfields",
+    "cover": [
+      {
+        "x": 0.7054,
+        "y": 0.6033,
+        "w": 0.2293,
+        "h": 0.244
+      }
+    ]
   },
   {
     "id": "sa-id-mwii",
@@ -8473,7 +8657,15 @@
     "blurb": "A multiplayer map from MWIII.",
     "image": "/maps/meat-mwiii.jpg",
     "minimap": "/minimaps/meat-mwiii.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Meat_%28map%29"
+    "source": "https://callofduty.fandom.com/wiki/Meat_%28map%29",
+    "cover": [
+      {
+        "x": 0.7679,
+        "y": 0.0658,
+        "w": 0.2314,
+        "h": 0.2148
+      }
+    ]
   },
   {
     "id": "mercado-las-almas-mwiii",
@@ -8486,7 +8678,15 @@
     "blurb": "A multiplayer map from MWIII.",
     "image": "/maps/mercado-las-almas-mwiii.jpg",
     "minimap": "/minimaps/mercado-las-almas-mwiii.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Mercado_Las_Almas"
+    "source": "https://callofduty.fandom.com/wiki/Mercado_Las_Almas",
+    "cover": [
+      {
+        "x": 0.4797,
+        "y": 0.2508,
+        "w": 0.3286,
+        "h": 0.2446
+      }
+    ]
   },
   {
     "id": "operation-spearhead-mwiii",
@@ -8941,7 +9141,15 @@
     "blurb": "Urban, Desert",
     "image": "/maps/blazetown-bo6.jpg",
     "minimap": "/minimaps/blazetown-bo6.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Blazetown"
+    "source": "https://callofduty.fandom.com/wiki/Blazetown",
+    "cover": [
+      {
+        "x": 0.5248,
+        "y": 0.5281,
+        "w": 0.223,
+        "h": 0.1798
+      }
+    ]
   },
   {
     "id": "blitz-bo6",
@@ -8967,7 +9175,15 @@
     "blurb": "Urban, Desert",
     "image": "/maps/boo-town-bo6.jpg",
     "minimap": "/minimaps/boo-town-bo6.jpg",
-    "source": "https://callofduty.fandom.com/wiki/Boo-Town"
+    "source": "https://callofduty.fandom.com/wiki/Boo-Town",
+    "cover": [
+      {
+        "x": 0.4436,
+        "y": 0.4096,
+        "w": 0.2147,
+        "h": 0.1687
+      }
+    ]
   },
   {
     "id": "bounty-bo6",

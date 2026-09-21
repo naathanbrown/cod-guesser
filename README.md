@@ -2,16 +2,9 @@
 
 A short multiplayer quiz: a Call of Duty loading screen comes up, and you name the map.
 
-The roster runs from **Call of Duty 4: Modern Warfare** through **Black Ops II**:
+The roster is the mainline console games, from the original **Call of Duty** (2003) through **Black Ops 7** (2025). Handheld, mobile, Online, and Warzone maps are left out. Each game can be turned off. Launch maps are the ones that shipped with the game. The full locker adds the later maps.
 
-- Call of Duty 4: Modern Warfare (2007)
-- Call of Duty: World at War (2008)
-- Call of Duty: Modern Warfare 2 (2009)
-- Call of Duty: Black Ops (2010)
-- Call of Duty: Modern Warfare 3 (2011)
-- Call of Duty: Black Ops II (2012)
-
-Launch maps are the default. The full locker adds the DLC maps from those games. Each round can show the loading screen or the minimap. Answer with four choices, or type the map name. Capitalization does not matter. A match can be 5, 10, or 15 rounds, or it can run until you end it. Intel reveals the game and cuts that round's score in half.
+Each round can show the loading screen or the minimap. Answer with four choices, or type the map name. Capitalization does not matter. A match can be 5, 10, or 15 rounds, or it can run until you end it. Intel reveals the game and cuts that round's score in half. The earliest games have almost no minimaps on the wiki, so minimap mode skips them.
 
 ## Run it
 

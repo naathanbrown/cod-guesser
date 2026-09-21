@@ -400,7 +400,7 @@ export function Game() {
       ) : null}
 
       <footer className="mt-auto pt-8 text-xs leading-5 text-muted-foreground">
-        Loading screens from Call of Duty 4: Modern Warfare through Black Ops II, via the Call of Duty Wiki.
+        Loading screens and minimaps from the mainline games, via the Call of Duty Wiki.
         Fan-made quiz. Not affiliated with Activision.
       </footer>
     </div>
@@ -451,7 +451,7 @@ function Menu({
         </h1>
         <p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg">
           A loading screen or a minimap comes up. Pick the name, or type it. You have twenty seconds. The run covers
-          Call of Duty 4 through Black Ops II, World at War and Modern Warfare 3 included.
+          the mainline games, from the original Call of Duty through Black Ops 7.
         </p>
       </div>
 
@@ -494,7 +494,7 @@ function Menu({
                 <span>
                   <span className="font-display block text-base tracking-wide">Launch maps</span>
                   <span className={cn("mt-1 block text-xs font-normal normal-case tracking-normal", roster === "launch" ? "text-primary-foreground/75" : "text-muted-foreground")}>
-                    The maps that shipped with each game, plus Nuketown 2025.
+                    The maps that shipped with each game.
                   </span>
                 </span>
               </Button>
@@ -508,7 +508,7 @@ function Menu({
                 <span>
                   <span className="font-display block text-base tracking-wide">Full locker</span>
                   <span className={cn("mt-1 block text-xs font-normal normal-case tracking-normal", roster === "all" ? "text-primary-foreground/75" : "text-muted-foreground")}>
-                    Launch maps and the DLC packs from that same stretch.
+                    Launch maps plus the later packs for every selected game.
                   </span>
                 </span>
               </Button>

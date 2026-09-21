@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Download Call of Duty loading screens from the Call of Duty Wiki.
 
-Covers multiplayer maps from Call of Duty 4: Modern Warfare through
-Black Ops II. Images are the wiki's loading-screen files for that game.
+Covers multiplayer maps from the mainline console games. Images are the
+wiki's loading-screen files for that game.
 """
 
 from __future__ import annotations
@@ -174,6 +174,417 @@ GAMES = [
             "Nuketown 2025",
         },
     },
+    {
+        "id": "cod1",
+        "name": "Call of Duty",
+        "short": "CoD",
+        "year": 2003,
+        "category": "Category:Call of Duty Multiplayer Maps",
+        "tabs": {"cod", "cod1"},
+        "skip": {"Stalingrad (United Offensive)"},
+        "launch": {
+            "Bocage",
+            "Brecourt",
+            "Carentan",
+            "Chateau",
+            "Dawnville",
+            "Depot",
+            "Harbor",
+            "Hurtgen",
+            "Neuville",
+            "Pavlov",
+            "POW Camp",
+            "Railyard",
+            "Rocket",
+            "Ship",
+            "Tigertown",
+        },
+    },
+    {
+        "id": "uo",
+        "name": "Call of Duty: United Offensive",
+        "short": "United Offensive",
+        "year": 2004,
+        "category": "Category:Call of Duty: United Offensive Multiplayer Maps",
+        "tabs": {"uo", "unitedoffensive"},
+        "launch": {
+            "Arnhem",
+            "Berlin",
+            "Cassino",
+            "Foy",
+            "Italy",
+            "Kharkov",
+            "Kursk",
+            "Peaks",
+            "Ponyri",
+            "Rhinevalley",
+            "Sicily",
+            "Stalingrad",
+            "Stanjel",
+            "Streets",
+        },
+    },
+    {
+        "id": "cod2",
+        "name": "Call of Duty 2",
+        "short": "CoD2",
+        "year": 2005,
+        "category": "Category:Call of Duty 2 Multiplayer Maps",
+        "tabs": {"cod2"},
+        "launch": {
+            "Beltot",
+            "Brecourt",
+            "Burgundy",
+            "Caen",
+            "Carentan",
+            "Dawnville",
+            "El Alamein",
+            "Leningrad",
+            "Matmata",
+            "Moscow",
+            "Toujane",
+            "Villers-Bocage",
+        },
+    },
+    {
+        "id": "cod3",
+        "name": "Call of Duty 3",
+        "short": "CoD3",
+        "year": 2006,
+        "category": "Category:Call of Duty 3 Multiplayer Maps",
+        "tabs": {"cod3"},
+        "launch": {
+            "Aller Haut",
+            "Argentan",
+            "Champs",
+            "Crossing",
+            "Eder Dam",
+            "Fuel Plant",
+            "Gare Centrale",
+            "Ironclad",
+            "La Bourgade",
+            "Les Ormes",
+            "Marseilles",
+            "Mayenne",
+            "Merville",
+            "Poisson",
+            "Rimling",
+            "Rouen",
+            "Seine River",
+            "Stalag 23",
+            "Verdun",
+            "Wildwood",
+        },
+    },
+    {
+        "id": "ghosts",
+        "name": "Call of Duty: Ghosts",
+        "short": "Ghosts",
+        "year": 2013,
+        "category": "Category:Call of Duty: Ghosts Multiplayer Maps",
+        "tabs": {"ghosts", "ghost", "gh"},
+        "launch": {
+            "Chasm",
+            "Flooded",
+            "Free Fall",
+            "Freight",
+            "Octane",
+            "Overlord",
+            "Prison Break",
+            "Siege",
+            "Sovereign",
+            "Stonehaven",
+            "Strikezone",
+            "Stormfront",
+            "Tremor",
+            "Warhawk",
+            "Whiteout",
+        },
+    },
+    {
+        "id": "aw",
+        "name": "Call of Duty: Advanced Warfare",
+        "short": "AW",
+        "year": 2014,
+        "category": "Category:Call of Duty: Advanced Warfare Multiplayer Maps",
+        "tabs": {"aw", "advancedwarfare"},
+        "launch": {
+            "Ascend",
+            "Atlas Gorge",
+            "Bio Lab",
+            "Comeback",
+            "Defender",
+            "Detroit",
+            "Greenband",
+            "Horizon",
+            "Instinct",
+            "Recovery",
+            "Retreat",
+            "Riot",
+            "Solar",
+            "Terrace",
+        },
+    },
+    {
+        "id": "bo3",
+        "name": "Call of Duty: Black Ops III",
+        "short": "Black Ops III",
+        "year": 2015,
+        "category": "Category:Call of Duty: Black Ops III Multiplayer Maps",
+        "tabs": {"bo3", "boiii", "blackops3", "blackopsiii"},
+        "launch": {
+            "Aquarium",
+            "Breach",
+            "Combine",
+            "Evac",
+            "Exodus",
+            "Fringe",
+            "Havoc",
+            "Hunted",
+            "Infection",
+            "Metro",
+            "Nuk3town",
+            "Redwood",
+            "Stronghold",
+        },
+    },
+    {
+        "id": "iw",
+        "name": "Call of Duty: Infinite Warfare",
+        "short": "IW",
+        "year": 2016,
+        "category": "Category:Call of Duty: Infinite Warfare Multiplayer Maps",
+        "tabs": {"iw", "infinitewarfare"},
+        "launch": {
+            "Crusher",
+            "Frontier",
+            "Frost",
+            "Genesis",
+            "Grounded",
+            "Mayday",
+            "Precinct",
+            "Retaliation",
+            "Scorch",
+            "Skydock",
+            "Terminal",
+            "Throwback",
+        },
+    },
+    {
+        "id": "wwii",
+        "name": "Call of Duty: WWII",
+        "short": "WWII",
+        "year": 2017,
+        "category": "Category:Call of Duty: WWII Multiplayer Maps",
+        "tabs": {"wwii", "ww2"},
+        "launch": {
+            "Aachen",
+            "Ardennes Forest",
+            "Carentan",
+            "Flak Tower",
+            "Gibraltar",
+            "Gustav Cannon",
+            "London Docks",
+            "Pointe du Hoc",
+            "Sainte Marie du Mont",
+            "USS Texas",
+        },
+    },
+    {
+        "id": "bo4",
+        "name": "Call of Duty: Black Ops 4",
+        "short": "Black Ops 4",
+        "year": 2018,
+        "category": "Category:Call of Duty: Black Ops 4 Multiplayer Maps",
+        "tabs": {"bo4", "blackops4"},
+        "launch": {
+            "Arsenal",
+            "Contraband",
+            "Firing Range",
+            "Frequency",
+            "Gridlock",
+            "Hacienda",
+            "Icebreaker",
+            "Jungle",
+            "Militia",
+            "Morocco",
+            "Nuketown",
+            "Payload",
+            "Seaside",
+            "Slums",
+            "Summit",
+        },
+    },
+    {
+        "id": "mw2019",
+        "name": "Call of Duty: Modern Warfare",
+        "short": "MW",
+        "year": 2019,
+        "category": "Category:Call of Duty: Modern Warfare (2019) Multiplayer Maps",
+        "tabs": {"mw2019", "mw"},
+        "launch": {
+            "Aniyah Palace",
+            "Arklov Peak",
+            "Azhir Cave",
+            "Euphrates Bridge",
+            "Grazna Raid",
+            "Gun Runner",
+            "Hackney Yard",
+            "Karst River Quarry",
+            "Piccadilly",
+            "Rammaza",
+            "St. Petrograd",
+        },
+    },
+    {
+        "id": "cw",
+        "name": "Call of Duty: Black Ops Cold War",
+        "short": "Cold War",
+        "year": 2020,
+        "category": "Category:Call of Duty: Black Ops Cold War Multiplayer Maps",
+        "tabs": {"cw", "bocw", "coldwar"},
+        "launch": {
+            "Armada",
+            "Cartel",
+            "Checkmate",
+            "Crossroads",
+            "Garrison",
+            "Miami",
+            "Moscow",
+            "Nuketown '84",
+            "Satellite",
+            "The Pines",
+        },
+    },
+    {
+        "id": "vg",
+        "name": "Call of Duty: Vanguard",
+        "short": "Vanguard",
+        "year": 2021,
+        "category": "Category:Call of Duty: Vanguard Multiplayer Maps",
+        "tabs": {"vg", "vanguard"},
+        "launch": {
+            "Berlin",
+            "Bocage",
+            "Castle",
+            "Das Haus",
+            "Demyansk",
+            "Desert Siege",
+            "Dome",
+            "Eagle's Nest",
+            "Gavutu",
+            "Hotel Royal",
+            "Numa Numa",
+            "Oasis",
+            "Red Star",
+            "Sub Pens",
+            "Tuscan",
+        },
+    },
+    {
+        "id": "mwii",
+        "name": "Call of Duty: Modern Warfare II",
+        "short": "MWII",
+        "year": 2022,
+        "category": "Category:Call of Duty: Modern Warfare II Multiplayer Maps",
+        "tabs": {"mwii"},
+        "launch": {
+            "Al Bagra Fortress",
+            "Breenbergh Hotel",
+            "Crown Raceway",
+            "El Asilo",
+            "Embassy",
+            "Farm 18",
+            "Mercado Las Almas",
+            "Santa Seña",
+            "Taraq",
+            "Zarqwa Hydroelectric",
+        },
+    },
+    {
+        "id": "mwiii",
+        "name": "Call of Duty: Modern Warfare III",
+        "short": "MWIII",
+        "year": 2023,
+        "category": "Category:Call of Duty: Modern Warfare III Multiplayer Maps",
+        "tabs": {"mwiii"},
+        "launch": {
+            "Afghan",
+            "Derail",
+            "Estate",
+            "Favela",
+            "Highrise",
+            "Invasion",
+            "Karachi",
+            "Levin Resort",
+            "Orlov Military Base",
+            "Quarry",
+            "Rundown",
+            "Rust",
+            "Scrapyard",
+            "Skidrow",
+            "Sub Base",
+            "Terminal",
+            "Underpass",
+            "Wasteland",
+        },
+    },
+    {
+        "id": "bo6",
+        "name": "Call of Duty: Black Ops 6",
+        "short": "Black Ops 6",
+        "year": 2024,
+        "category": "Category:Call of Duty: Black Ops 6 Multiplayer Maps",
+        "tabs": {"bo6", "blackops6"},
+        "launch": {
+            "Babylon",
+            "Derelict",
+            "Gala",
+            "Lowtown",
+            "Nuketown",
+            "Payback",
+            "Pit",
+            "Protocol",
+            "Red Card",
+            "Rewind",
+            "SCUD",
+            "Skyline",
+            "Stakeout",
+            "Subsonic",
+            "Vault",
+            "Vorkuta",
+            "Warhead",
+        },
+    },
+    {
+        "id": "bo7",
+        "name": "Call of Duty: Black Ops 7",
+        "short": "Black Ops 7",
+        "year": 2025,
+        "category": "Category:Call of Duty: Black Ops 7 Multiplayer Maps",
+        "tabs": {"bo7", "blackops7"},
+        "launch": {
+            "Blackheart",
+            "Colossus",
+            "Cortex",
+            "Den",
+            "Exposure",
+            "Express",
+            "Flagship",
+            "Hijacked",
+            "Homestead",
+            "Imprint",
+            "Mission: Edge",
+            "Mission: Tide",
+            "Nuketown 2025",
+            "Paranoia",
+            "Raid",
+            "Retrieval",
+            "Scar",
+            "The Forge",
+            "Toshin",
+        },
+    },
 ]
 
 
@@ -252,23 +663,31 @@ def image_score(filename: str) -> int:
         for bad in (
             "minimap",
             "mini map",
-            "icon",
             "emblem",
             "logo",
             "compass",
             "promo",
             "winners",
-            "menu",
         )
     ):
         return -10
-    score = 0
+    # Tiny HUD icons. Menu icons are the only splash some Black Ops III pages have.
+    if "menu icon" in low or "menuicon" in low:
+        score = 1
+    elif "icon" in low and "menuscreen" not in low and "menu screen" not in low:
+        return -8
+    else:
+        score = 0
+    if "menuscreen" in low or "menu screen" in low or "menu_screen" in low:
+        score += 4
     if "bare" in low and "load" in low:
         score += 6
     if any(token in low for token in ("load screen", "loadscreen", "loading screen", "loadingscreen", "loading_screen")):
         score += 4
     elif "load" in low:
         score += 2
+    if "night" in low or "holiday" in low or "halloween" in low:
+        score -= 1
     return score
 
 
@@ -296,7 +715,6 @@ def pick_minimap(wikitext: str, tabs: set[str]) -> str | None:
         ):
             if tab_matches(label, tabs):
                 return filename.strip()
-        return None
     found = re.search(r"\[\[(?:File|file):([^\]|]+)", section)
     return found.group(1).strip() if found else None
 
@@ -328,9 +746,37 @@ def pick_file(wikitext: str, tabs: set[str]) -> str | None:
             if score >= 0:
                 candidates.append((score, filename))
     if not candidates:
-        return None
+        # No tab matched. Use the best remaining splash, preferring a daytime plate.
+        loose = []
+        for filename in re.findall(r"\[\[(?:File|file):([^\]|]+)", section):
+            filename = filename.strip()
+            score = image_score(filename)
+            if score >= 0:
+                loose.append((score, filename))
+        if not loose:
+            return None
+        loose.sort(key=lambda item: item[0], reverse=True)
+        return loose[0][1]
     candidates.sort(key=lambda item: item[0], reverse=True)
     return candidates[0][1]
+
+
+def is_launch(page: str, name: str, launch: set[str]) -> bool:
+    base = page.split(" (")[0]
+    return page in launch or name in launch or base in launch
+
+
+def display_name(page: str, infobox_name: str | None) -> str:
+    """Prefer the page title when the infobox glues two names together."""
+    page_name = page.split(" (")[0]
+    name = (infobox_name or "").strip() or page_name
+    compact = re.sub(r"[\s_]+", "", name).lower()
+    page_compact = re.sub(r"[\s_]+", "", page_name).lower()
+    if compact == page_compact:
+        return page_name
+    if name.startswith(page_name) and len(name) > len(page_name) and name[len(page_name)].isupper():
+        return page_name
+    return name
 
 
 def field(wikitext: str, name: str) -> str | None:
@@ -410,7 +856,7 @@ def download_jpeg(url: str, dest: Path) -> None:
     try:
         with Image.open(tmp) as im:
             im = im.convert("RGB")
-            if im.width < 640:
+            if im.width < 480:
                 raise ValueError(f"too small: {im.width}x{im.height}")
             im.thumbnail((1440, 1440))
             im.save(dest, "JPEG", quality=78, optimize=True)
@@ -479,7 +925,10 @@ def attach_minimaps() -> None:
         url = urls.get(filename) or urls.get(filename.replace("_", " "))
         if not url:
             raise RuntimeError(f"no url for {filename}")
-        download_minimap(url, minimap_dir / f"{record['id']}.jpg")
+        dest = minimap_dir / f"{record['id']}.jpg"
+        if dest.exists() and dest.stat().st_size > 4000:
+            return
+        download_minimap(url, dest)
 
     with ThreadPoolExecutor(max_workers=8) as pool:
         futures = {pool.submit(fetch_one, record, filename): record for record, filename in jobs}
@@ -500,12 +949,14 @@ def attach_minimaps() -> None:
         print("failed:", "; ".join(failures))
 
 
-def main() -> None:
+def main(games: list[dict] | None = None, merge: bool = False) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    selected = GAMES if games is None else games
+    existing = json.loads(DATA_PATH.read_text()) if merge and DATA_PATH.exists() else []
     records = []
     missing = []
-    for game in GAMES:
-        pages = category_pages(game["category"])
+    for game in selected:
+        pages = [page for page in category_pages(game["category"]) if page not in game.get("skip", ())]
         print(f"{game['id']}: {len(pages)} pages", flush=True)
         texts = fetch_wikitext(pages)
         for page in pages:
@@ -517,7 +968,7 @@ def main() -> None:
             if not filename:
                 missing.append((game["id"], page, "no image"))
                 continue
-            name = field(text, "name") or page.split(" (")[0]
+            name = display_name(page, field(text, "name"))
             records.append(
                 {
                     "page": page,
@@ -528,7 +979,7 @@ def main() -> None:
                     "game": game["name"],
                     "short": game["short"],
                     "year": game["year"],
-                    "standard": name in game["launch"],
+                    "standard": is_launch(page, name, game["launch"]),
                     "blurb": blurb_from(text, name) or f"A multiplayer map from {game['short']}.",
                     "source": "https://callofduty.fandom.com/wiki/"
                     + urllib.parse.quote(page.replace(" ", "_")),
@@ -545,7 +996,10 @@ def main() -> None:
             continue
         dest = OUT_DIR / f"{record['id']}.jpg"
         record["image"] = f"/maps/{record['id']}.jpg"
+        record["minimap"] = None
         kept.append(record)
+        if dest.exists() and dest.stat().st_size > 4000:
+            continue
         jobs.append((url, dest, record["id"]))
 
     print(f"downloading {len(jobs)} images", flush=True)
@@ -578,8 +1032,12 @@ def main() -> None:
             "standard",
             "blurb",
             "image",
+            "minimap",
             "source",
         )})
+    seen = {record["id"] for record in existing}
+    final = [record for record in final if record["id"] not in seen]
+    final = existing + final
     final.sort(key=lambda item: (item["year"], item["name"], item["id"]))
     DATA_PATH.write_text(json.dumps(final, indent=2) + "\n")
     print(f"wrote {len(final)} maps")
@@ -598,5 +1056,12 @@ if __name__ == "__main__":
 
     if "--minimaps" in sys.argv:
         attach_minimaps()
+    elif "--extend" in sys.argv or "--fill" in sys.argv:
+        existing = json.loads(DATA_PATH.read_text())
+        have = {record["gameId"] for record in existing}
+        # --fill retries maps that were skipped inside games already added.
+        main([game for game in GAMES if game["id"] not in have or "--fill" in sys.argv and game["id"] not in {
+            "cod4", "waw", "mw2", "bo1", "mw3", "bo2"
+        }], merge=True)
     else:
         main()

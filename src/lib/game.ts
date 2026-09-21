@@ -1,6 +1,29 @@
 import mapsJson from "@/data/maps.json";
 
-export type GameId = "cod4" | "waw" | "mw2" | "bo1" | "mw3" | "bo2";
+export type GameId =
+  | "cod1"
+  | "uo"
+  | "cod2"
+  | "cod3"
+  | "cod4"
+  | "waw"
+  | "mw2"
+  | "bo1"
+  | "mw3"
+  | "bo2"
+  | "ghosts"
+  | "aw"
+  | "bo3"
+  | "iw"
+  | "wwii"
+  | "bo4"
+  | "mw2019"
+  | "cw"
+  | "vg"
+  | "mwii"
+  | "mwiii"
+  | "bo6"
+  | "bo7";
 
 export type MapCard = {
   id: string;
@@ -24,12 +47,29 @@ export type Round = {
 export const maps = mapsJson as MapCard[];
 
 export const games: { id: GameId; short: string; year: number }[] = [
+  { id: "cod1", short: "CoD", year: 2003 },
+  { id: "uo", short: "United Offensive", year: 2004 },
+  { id: "cod2", short: "CoD2", year: 2005 },
+  { id: "cod3", short: "CoD3", year: 2006 },
   { id: "cod4", short: "CoD4", year: 2007 },
   { id: "waw", short: "World at War", year: 2008 },
   { id: "mw2", short: "MW2", year: 2009 },
   { id: "bo1", short: "Black Ops", year: 2010 },
   { id: "mw3", short: "MW3", year: 2011 },
   { id: "bo2", short: "Black Ops II", year: 2012 },
+  { id: "ghosts", short: "Ghosts", year: 2013 },
+  { id: "aw", short: "AW", year: 2014 },
+  { id: "bo3", short: "Black Ops III", year: 2015 },
+  { id: "iw", short: "IW", year: 2016 },
+  { id: "wwii", short: "WWII", year: 2017 },
+  { id: "bo4", short: "Black Ops 4", year: 2018 },
+  { id: "mw2019", short: "MW", year: 2019 },
+  { id: "cw", short: "Cold War", year: 2020 },
+  { id: "vg", short: "Vanguard", year: 2021 },
+  { id: "mwii", short: "MWII", year: 2022 },
+  { id: "mwiii", short: "MWIII", year: 2023 },
+  { id: "bo6", short: "Black Ops 6", year: 2024 },
+  { id: "bo7", short: "Black Ops 7", year: 2025 },
 ];
 
 export const ROUND_MS = 20_000;

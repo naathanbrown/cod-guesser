@@ -67,6 +67,7 @@ type Run = {
   bestStreak: number;
   answers: Answer[];
   intel: boolean;
+  eliminatedId: string | null;
   remaining: number;
   phase: "question" | "reveal";
   pickedId: string | null;
@@ -171,6 +172,7 @@ function runFromDaily(record: DailyRecord): Run {
     bestStreak: record.bestStreak,
     answers: record.answers,
     intel: false,
+    eliminatedId: null,
     remaining: 0,
     phase: "reveal",
     pickedId: null,
@@ -280,6 +282,7 @@ export function Game() {
       bestStreak: 0,
       answers: [],
       intel: false,
+      eliminatedId: null,
       remaining: ROUND_MS,
       phase: "question",
       pickedId: null,
@@ -381,6 +384,7 @@ export function Game() {
         index: run.index + 1,
         phase: "question",
         intel: false,
+        eliminatedId: null,
         remaining: ROUND_MS,
         pickedId: null,
         guess: null,
@@ -398,6 +402,7 @@ export function Game() {
       index: run.index + 1,
       phase: "question",
       intel: false,
+      eliminatedId: null,
       remaining: ROUND_MS,
       pickedId: null,
       guess: null,
@@ -451,10 +456,11 @@ export function Game() {
       }
       if (screen !== "play" || !run) return;
       if (run.phase === "question" && run.mode === "choice") {
+        const visible = run.rounds[run.index].choices.filter((map) => map.id !== run.eliminatedId);
         const choice = Number(event.key) - 1;
-        if (choice >= 0 && choice < run.rounds[run.index].choices.length) {
+        if (choice >= 0 && choice < visible.length) {
           event.preventDefault();
-          const picked = run.rounds[run.index].choices[choice];
+          const picked = visible[choice];
           playCue(picked.id === run.rounds[run.index].answer.id ? "correct" : "wrong", muted);
           submit({ mapId: picked.id });
         }
@@ -510,7 +516,18 @@ export function Game() {
           run={run}
           onFail={() => setImageFailed(true)}
           onIntel={() =>
-            setRun((current) => (current && current.phase === "question" ? { ...current, intel: true } : current))
+            setRun((current) => {
+              if (!current || current.phase !== "question" || current.intel) return current;
+              let eliminatedId = current.eliminatedId;
+              if (current.mode === "choice") {
+                const active = current.rounds[current.index];
+                const wrong = active.choices.filter((map) => map.id !== active.answer.id);
+                if (wrong.length > 0) {
+                  eliminatedId = wrong[Math.floor(Math.random() * wrong.length)].id;
+                }
+              }
+              return { ...current, intel: true, eliminatedId };
+            })
           }
           onEnd={endMatch}
           onGuess={(text) => {
@@ -975,7 +992,9 @@ function Question({
             <p className="font-display text-sm tracking-[0.16em] text-primary">{round.answer.name}</p>
           ) : run.intel ? (
             <p className="font-display text-sm tracking-[0.16em] text-primary">
-              {round.answer.short} · {round.answer.year}
+              {run.mode === "choice"
+                ? "One map is off the board"
+                : `${round.answer.short} · ${round.answer.year}`}
             </p>
           ) : (
             <Button type="button" variant="outline" size="sm" disabled={revealed} onClick={onIntel}>
@@ -987,14 +1006,15 @@ function Question({
 
       {run.mode === "typed" ? (
         <TypedAnswer
-          key={round.answer.id}
+          key={`${run.index}-${round.answer.id}`}
+          fieldKey={`${run.index}-${round.answer.id}`}
           guess={run.guess}
           revealed={revealed}
           onGuess={onGuess}
         />
       ) : (
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2" role="group" aria-label="Map choices">
-          {round.choices.map((map, index) => {
+          {round.choices.filter((map) => map.id !== run.eliminatedId).map((map, index) => {
             const label = run.kind === "remake" ? versionLabel(map) : choiceLabel(map, round.choices);
             const isAnswer = revealed && map.id === round.answer.id;
             const isWrong = revealed && map.id === run.pickedId && map.id !== round.answer.id;
@@ -1039,7 +1059,7 @@ function Question({
             ? "The map name is on the table. Keys pick the game this version is from."
             : run.mode === "typed"
               ? "Type the map. Capitalization does not matter. Intel shows the game and cuts the round in half."
-              : "Keys 1 to 4 answer. Intel shows the game and cuts the round in half."}
+              : "Keys 1 to 4 answer. Intel takes one wrong map off the board and cuts the round in half."}
         </p>
       )}
 
@@ -1165,18 +1185,22 @@ function Results({
 }
 
 function TypedAnswer({
+  fieldKey,
   revealed,
   guess,
   onGuess,
 }: {
+  fieldKey: string;
   revealed: boolean;
   guess: string | null;
   onGuess: (text: string) => void;
 }) {
   const [draft, setDraft] = useState("");
+  const fieldId = `map-guess-${fieldKey}`;
 
   return (
     <form
+      autoComplete="off"
       className="flex flex-col gap-2 sm:flex-row"
       onSubmit={(event) => {
         event.preventDefault();
@@ -1185,18 +1209,23 @@ function TypedAnswer({
         onGuess(text);
       }}
     >
-      <label className="sr-only" htmlFor="map-guess">
+      <label className="sr-only" htmlFor={fieldId}>
         Map name
       </label>
       <Input
-        id="map-guess"
+        id={fieldId}
+        name={fieldId}
         value={revealed ? (guess ?? "") : draft}
         onChange={(event) => setDraft(event.target.value)}
         disabled={revealed}
         autoFocus
+        autoComplete="off"
         autoCapitalize="off"
         autoCorrect="off"
         spellCheck={false}
+        data-1p-ignore="true"
+        data-lpignore="true"
+        data-form-type="other"
         placeholder="Type the map name"
         className="h-12 px-3 font-display text-lg tracking-wide uppercase"
       />

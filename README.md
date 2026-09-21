@@ -11,7 +11,7 @@ The roster runs from **Call of Duty 4: Modern Warfare** through **Black Ops II**
 - Call of Duty: Modern Warfare 3 (2011)
 - Call of Duty: Black Ops II (2012)
 
-Launch maps are the default. The full locker adds the DLC maps from those games. Each round is four choices and twenty seconds. Intel reveals the game and cuts that round's score in half.
+Launch maps are the default. The full locker adds the DLC maps from those games. Answer with four choices, or type the map name. Capitalization does not matter. A match can be 5, 10, or 15 rounds, or it can run until you end it. Intel reveals the game and cuts that round's score in half.
 
 ## Run it
 

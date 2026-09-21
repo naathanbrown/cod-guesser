@@ -4,18 +4,23 @@ import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   ROUND_MS,
   ROUND_OPTIONS,
   buildRounds,
   choiceLabel,
+  dealRound,
   games,
+  guessMatches,
   maps,
   rankFor,
   scoreRound,
+  type AnswerMode,
   type GameId,
   type MapCard,
   type Round,
+  type RoundLength,
 } from "@/lib/game";
 import { playCue } from "@/lib/sound";
 import { cn } from "@/lib/utils";
@@ -26,11 +31,18 @@ type Answer = {
   mapId: string;
   correct: boolean;
   pickedId: string | null;
+  guess: string | null;
   timedOut: boolean;
   points: number;
 };
 
+type Guess = { mapId?: string | null; text?: string | null };
+
 type Run = {
+  mode: AnswerMode;
+  unlimited: boolean;
+  pool: MapCard[];
+  dealt: string[];
   rounds: Round[];
   index: number;
   score: number;
@@ -41,6 +53,7 @@ type Run = {
   remaining: number;
   phase: "question" | "reveal";
   pickedId: string | null;
+  guess: string | null;
   timedOut: boolean;
   points: number;
 };
@@ -88,7 +101,8 @@ export function Game() {
   const [screen, setScreen] = useState<"menu" | "play" | "results">("menu");
   const [selected, setSelected] = useState<GameId[]>(games.map((game) => game.id));
   const [roster, setRoster] = useState<Roster>("launch");
-  const [roundCount, setRoundCount] = useState<(typeof ROUND_OPTIONS)[number]>(10);
+  const [roundLength, setRoundLength] = useState<RoundLength>(10);
+  const [answerMode, setAnswerMode] = useState<AnswerMode>("choice");
   const [mutedOverride, setMutedOverride] = useState<boolean | undefined>(undefined);
   const [bestOverride, setBestOverride] = useState<Best | null | undefined>(undefined);
   const [newBest, setNewBest] = useState(false);
@@ -116,7 +130,9 @@ export function Game() {
     [roster, selected],
   );
 
-  const plannedRounds = Math.min(roundCount, pool.length);
+  const minimumMaps = answerMode === "choice" ? 4 : 1;
+  const ready = pool.length >= minimumMaps;
+  const plannedRounds = roundLength === "unlimited" ? null : Math.min(roundLength, pool.length);
 
   function toggleMute() {
     const next = !muted;
@@ -131,11 +147,17 @@ export function Game() {
   }
 
   function start() {
-    if (pool.length < 4) return;
+    if (!ready) return;
+    const unlimited = roundLength === "unlimited";
+    const rounds = unlimited ? buildRounds(pool, 1, answerMode) : buildRounds(pool, roundLength, answerMode);
     setNewBest(false);
     setImageFailed(false);
     setRun({
-      rounds: buildRounds(pool, roundCount),
+      mode: answerMode,
+      unlimited,
+      pool,
+      dealt: rounds.map((round) => round.answer.id),
+      rounds,
       index: 0,
       score: 0,
       streak: 0,
@@ -145,17 +167,22 @@ export function Game() {
       remaining: ROUND_MS,
       phase: "question",
       pickedId: null,
+      guess: null,
       timedOut: false,
       points: 0,
     });
     setScreen("play");
   }
 
-  const submit = useCallback((pickedId: string | null) => {
+  const submit = useCallback((guess: Guess) => {
     setRun((current) => {
       if (!current || current.phase !== "question") return current;
       const round = current.rounds[current.index];
-      const correct = pickedId === round.answer.id;
+      const typed = current.mode === "typed";
+      const text = guess.text ?? null;
+      const pickedId = typed ? null : (guess.mapId ?? null);
+      const timedOut = typed ? text === null : pickedId === null;
+      const correct = typed ? text !== null && guessMatches(text, round.answer) : pickedId === round.answer.id;
       const streak = correct ? current.streak + 1 : 0;
       const points = scoreRound({
         correct,
@@ -167,7 +194,8 @@ export function Game() {
         ...current,
         phase: "reveal",
         pickedId,
-        timedOut: pickedId === null,
+        guess: typed ? text : null,
+        timedOut,
         points,
         streak,
         bestStreak: Math.max(current.bestStreak, streak),
@@ -178,7 +206,8 @@ export function Game() {
             mapId: round.answer.id,
             correct,
             pickedId,
-            timedOut: pickedId === null,
+            guess: typed ? text : null,
+            timedOut,
             points,
           },
         ],
@@ -188,7 +217,7 @@ export function Game() {
 
   function finish(current: Run) {
     const correct = current.answers.filter((answer) => answer.correct).length;
-    const next = { score: current.score, correct, rounds: current.rounds.length };
+    const next = { score: current.score, correct, rounds: current.answers.length };
     if (!best || next.score > best.score) {
       writeBest(next);
       setBestOverride(next);
@@ -199,20 +228,47 @@ export function Game() {
     setScreen("results");
   }
 
+  function endMatch() {
+    if (!run || run.answers.length === 0) {
+      setScreen("menu");
+      return;
+    }
+    finish(run);
+  }
+
   function nextRound() {
     if (!run) return;
-    if (run.index + 1 >= run.rounds.length) {
+    const hasAnother = run.index + 1 < run.rounds.length;
+    if (!hasAnother && !run.unlimited) {
       finish(run);
       return;
     }
     setImageFailed(false);
+    if (hasAnother) {
+      setRun({
+        ...run,
+        index: run.index + 1,
+        phase: "question",
+        intel: false,
+        remaining: ROUND_MS,
+        pickedId: null,
+        guess: null,
+        timedOut: false,
+        points: 0,
+      });
+      return;
+    }
+    const dealt = dealRound(run.pool, run.dealt, run.mode);
     setRun({
       ...run,
+      dealt: dealt.dealt,
+      rounds: [...run.rounds, dealt.round],
       index: run.index + 1,
       phase: "question",
       intel: false,
       remaining: ROUND_MS,
       pickedId: null,
+      guess: null,
       timedOut: false,
       points: 0,
     });
@@ -233,7 +289,7 @@ export function Game() {
       if (left <= 0) {
         window.clearInterval(id);
         playCue("timeout", mutedRef.current);
-        submit(null);
+        submit({});
       }
     }, 80);
     return () => window.clearInterval(id);
@@ -241,8 +297,15 @@ export function Game() {
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
-      if (event.repeat || event.target instanceof HTMLButtonElement) return;
-      if (screen === "menu" && event.key === "Enter" && pool.length >= 4) {
+      if (
+        event.repeat ||
+        event.target instanceof HTMLButtonElement ||
+        event.target instanceof HTMLInputElement ||
+        event.target instanceof HTMLTextAreaElement
+      ) {
+        return;
+      }
+      if (screen === "menu" && event.key === "Enter" && ready) {
         event.preventDefault();
         start();
         return;
@@ -253,15 +316,15 @@ export function Game() {
         return;
       }
       if (screen !== "play" || !run) return;
-      if (run.phase === "question") {
+      if (run.phase === "question" && run.mode === "choice") {
         const choice = Number(event.key) - 1;
         if (choice >= 0 && choice < run.rounds[run.index].choices.length) {
           event.preventDefault();
           const picked = run.rounds[run.index].choices[choice];
           playCue(picked.id === run.rounds[run.index].answer.id ? "correct" : "wrong", muted);
-          submit(picked.id);
+          submit({ mapId: picked.id });
         }
-      } else if (event.key === "Enter") {
+      } else if (event.key === "Enter" && run.phase === "reveal") {
         event.preventDefault();
         nextRound();
       }
@@ -286,14 +349,18 @@ export function Game() {
 
       {screen === "menu" ? (
         <Menu
+          answerMode={answerMode}
           best={best}
+          minimumMaps={minimumMaps}
           plannedRounds={plannedRounds}
           poolSize={pool.length}
+          ready={ready}
           roster={roster}
-          roundCount={roundCount}
+          roundLength={roundLength}
           selected={selected}
+          onAnswerMode={setAnswerMode}
           onRoster={setRoster}
-          onRoundCount={setRoundCount}
+          onRoundLength={setRoundLength}
           onStart={start}
           onToggleGame={toggleGame}
         />
@@ -307,10 +374,15 @@ export function Game() {
           onIntel={() =>
             setRun((current) => (current && current.phase === "question" ? { ...current, intel: true } : current))
           }
+          onEnd={endMatch}
+          onGuess={(text) => {
+            playCue(guessMatches(text, round.answer) ? "correct" : "wrong", muted);
+            submit({ text });
+          }}
           onNext={nextRound}
           onPick={(map) => {
             playCue(map.id === round.answer.id ? "correct" : "wrong", muted);
-            submit(map.id);
+            submit({ mapId: map.id });
           }}
         />
       ) : null}
@@ -328,29 +400,36 @@ export function Game() {
 }
 
 function Menu({
+  answerMode,
   best,
+  minimumMaps,
   plannedRounds,
   poolSize,
+  ready,
   roster,
-  roundCount,
+  roundLength,
   selected,
+  onAnswerMode,
   onRoster,
-  onRoundCount,
+  onRoundLength,
   onStart,
   onToggleGame,
 }: {
+  answerMode: AnswerMode;
   best: Best | null;
-  plannedRounds: number;
+  minimumMaps: number;
+  plannedRounds: number | null;
   poolSize: number;
+  ready: boolean;
   roster: Roster;
-  roundCount: number;
+  roundLength: RoundLength;
   selected: GameId[];
+  onAnswerMode: (mode: AnswerMode) => void;
   onRoster: (roster: Roster) => void;
-  onRoundCount: (count: (typeof ROUND_OPTIONS)[number]) => void;
+  onRoundLength: (length: RoundLength) => void;
   onStart: () => void;
   onToggleGame: (id: GameId) => void;
 }) {
-  const ready = poolSize >= 4;
   return (
     <main className="flex flex-1 flex-col gap-8">
       <div className="max-w-2xl">
@@ -359,7 +438,7 @@ function Menu({
           <span className="block text-primary">before you spawn.</span>
         </h1>
         <p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg">
-          A loading screen comes up. Four names sit under it. You have twenty seconds. The run covers Call of Duty 4
+          A loading screen comes up. Pick the name, or type it. You have twenty seconds. The run covers Call of Duty 4
           through Black Ops II, World at War and Modern Warfare 3 included.
         </p>
       </div>
@@ -430,19 +509,50 @@ function Menu({
             <p className="font-display text-xs tracking-[0.22em] text-muted-foreground">Match</p>
             <p className="mt-2 font-display text-4xl text-foreground">{poolSize}</p>
             <p className="text-sm text-muted-foreground">maps in this pool</p>
-            <div className="mt-4 flex gap-2">
+            <p className="mt-4 mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Answer</p>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                type="button"
+                size="sm"
+                variant={answerMode === "choice" ? "default" : "outline"}
+                aria-pressed={answerMode === "choice"}
+                onClick={() => onAnswerMode("choice")}
+              >
+                Four choices
+              </Button>
+              <Button
+                type="button"
+                size="sm"
+                variant={answerMode === "typed" ? "default" : "outline"}
+                aria-pressed={answerMode === "typed"}
+                onClick={() => onAnswerMode("typed")}
+              >
+                Type the name
+              </Button>
+            </div>
+            <p className="mt-4 mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Length</p>
+            <div className="flex flex-wrap gap-2">
               {ROUND_OPTIONS.map((count) => (
                 <Button
                   key={count}
                   type="button"
                   size="sm"
-                  variant={roundCount === count ? "default" : "outline"}
-                  aria-pressed={roundCount === count}
-                  onClick={() => onRoundCount(count)}
+                  variant={roundLength === count ? "default" : "outline"}
+                  aria-pressed={roundLength === count}
+                  onClick={() => onRoundLength(count)}
                 >
-                  {count} rounds
+                  {count}
                 </Button>
               ))}
+              <Button
+                type="button"
+                size="sm"
+                variant={roundLength === "unlimited" ? "default" : "outline"}
+                aria-pressed={roundLength === "unlimited"}
+                onClick={() => onRoundLength("unlimited")}
+              >
+                Unlimited
+              </Button>
             </div>
             {best ? (
               <p className="mt-4 text-sm text-muted-foreground">
@@ -452,7 +562,11 @@ function Menu({
             ) : null}
           </div>
           <Button type="button" size="lg" disabled={!ready} onClick={onStart} className="h-12 font-display text-lg tracking-[0.18em]">
-            {ready ? `Drop in · ${plannedRounds}` : "Pick at least 4 maps"}
+            {ready
+              ? plannedRounds === null
+                ? "Drop in"
+                : `Drop in · ${plannedRounds}`
+              : `Pick at least ${minimumMaps} ${minimumMaps === 1 ? "map" : "maps"}`}
           </Button>
         </div>
       </section>
@@ -464,15 +578,19 @@ function Question({
   run,
   imageFailed,
   onPick,
+  onGuess,
   onIntel,
   onNext,
+  onEnd,
   onFail,
 }: {
   run: Run;
   imageFailed: boolean;
   onPick: (map: MapCard) => void;
+  onGuess: (text: string) => void;
   onIntel: () => void;
   onNext: () => void;
+  onEnd: () => void;
   onFail: () => void;
 }) {
   const round = run.rounds[run.index];
@@ -484,7 +602,9 @@ function Question({
       <div className="flex items-end justify-between gap-3 font-display tracking-wide">
         <p className="text-sm text-muted-foreground">
           {String(run.index + 1).padStart(2, "0")}
-          <span className="text-foreground/40"> / {String(run.rounds.length).padStart(2, "0")}</span>
+          {run.unlimited ? null : (
+            <span className="text-foreground/40"> / {String(run.rounds.length).padStart(2, "0")}</span>
+          )}
         </p>
         <p className="text-sm text-muted-foreground">
           Streak <span className="text-foreground">{run.streak}</span>
@@ -524,41 +644,57 @@ function Question({
         <p className="font-display text-sm tracking-[0.18em] text-muted-foreground tabular-nums" aria-live="polite">
           {revealed ? "Locked" : `${seconds}s`}
         </p>
-        {run.intel ? (
-          <p className="font-display text-sm tracking-[0.16em] text-primary">
-            {round.answer.short} · {round.answer.year}
-          </p>
-        ) : (
-          <Button type="button" variant="outline" size="sm" disabled={revealed} onClick={onIntel}>
-            Intel · halves the round
-          </Button>
-        )}
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          {run.unlimited && !revealed ? (
+            <Button type="button" variant="ghost" size="sm" onClick={onEnd}>
+              End match
+            </Button>
+          ) : null}
+          {run.intel ? (
+            <p className="font-display text-sm tracking-[0.16em] text-primary">
+              {round.answer.short} · {round.answer.year}
+            </p>
+          ) : (
+            <Button type="button" variant="outline" size="sm" disabled={revealed} onClick={onIntel}>
+              Intel · halves the round
+            </Button>
+          )}
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2" role="group" aria-label="Map choices">
-        {round.choices.map((map, index) => {
-          const label = choiceLabel(map, round.choices);
-          const isAnswer = revealed && map.id === round.answer.id;
-          const isWrong = revealed && map.id === run.pickedId && map.id !== round.answer.id;
-          return (
-            <Button
-              key={map.id}
-              type="button"
-              variant="outline"
-              disabled={revealed}
-              onClick={() => onPick(map)}
-              className={cn(
-                "h-auto min-h-16 justify-start gap-3 px-3 py-3 text-left whitespace-normal disabled:opacity-100",
-                isAnswer && "border-primary bg-primary/20 text-foreground ring-2 ring-primary",
-                isWrong && "border-destructive bg-destructive/15 text-foreground",
-              )}
-            >
-              <span className="font-display w-5 text-primary tabular-nums">{index + 1}</span>
-              <span className="font-display text-lg leading-tight tracking-wide">{label}</span>
-            </Button>
-          );
-        })}
-      </div>
+      {run.mode === "typed" ? (
+        <TypedAnswer
+          key={round.answer.id}
+          guess={run.guess}
+          revealed={revealed}
+          onGuess={onGuess}
+        />
+      ) : (
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2" role="group" aria-label="Map choices">
+          {round.choices.map((map, index) => {
+            const label = choiceLabel(map, round.choices);
+            const isAnswer = revealed && map.id === round.answer.id;
+            const isWrong = revealed && map.id === run.pickedId && map.id !== round.answer.id;
+            return (
+              <Button
+                key={map.id}
+                type="button"
+                variant="outline"
+                disabled={revealed}
+                onClick={() => onPick(map)}
+                className={cn(
+                  "h-auto min-h-16 justify-start gap-3 px-3 py-3 text-left whitespace-normal disabled:opacity-100",
+                  isAnswer && "border-primary bg-primary/20 text-foreground ring-2 ring-primary",
+                  isWrong && "border-destructive bg-destructive/15 text-foreground",
+                )}
+              >
+                <span className="font-display w-5 text-primary tabular-nums">{index + 1}</span>
+                <span className="font-display text-lg leading-tight tracking-wide">{label}</span>
+              </Button>
+            );
+          })}
+        </div>
+      )}
 
       {revealed ? (
         <div className="border border-border bg-card p-4" aria-live="polite">
@@ -574,13 +710,24 @@ function Question({
             <p className="font-display text-2xl text-primary tabular-nums">
               {run.points > 0 ? `+${formatScore(run.points)}` : "0"}
             </p>
-            <Button type="button" onClick={onNext} className="font-display tracking-[0.16em]">
-              {run.index + 1 >= run.rounds.length ? "See the match" : "Next map"}
-            </Button>
+            <div className="flex flex-wrap gap-2">
+              {run.unlimited ? (
+                <Button type="button" variant="outline" onClick={onEnd}>
+                  End match
+                </Button>
+              ) : null}
+              <Button type="button" onClick={onNext} className="font-display tracking-[0.16em]">
+                {run.unlimited || run.index + 1 < run.rounds.length ? "Next map" : "See the match"}
+              </Button>
+            </div>
           </div>
         </div>
       ) : (
-        <p className="text-xs text-muted-foreground">Keys 1 to 4 answer. Intel shows the game and cuts the round in half.</p>
+        <p className="text-xs text-muted-foreground">
+          {run.mode === "typed"
+            ? "Type the map. Capitalization does not matter. Intel shows the game and cuts the round in half."
+            : "Keys 1 to 4 answer. Intel shows the game and cuts the round in half."}
+        </p>
       )}
     </main>
   );
@@ -600,7 +747,8 @@ function Results({
   onMenu: () => void;
 }) {
   const correct = run.answers.filter((answer) => answer.correct).length;
-  const accuracy = run.rounds.length === 0 ? 0 : correct / run.rounds.length;
+  const total = run.answers.length;
+  const accuracy = total === 0 ? 0 : correct / total;
   const rank = rankFor(accuracy);
   const byId = new Map(maps.map((map) => [map.id, map]));
 
@@ -614,7 +762,7 @@ function Results({
 
       <div className="grid grid-cols-3 gap-2 border border-border bg-card p-4">
         <Stat label="Score" value={formatScore(run.score)} />
-        <Stat label="Maps" value={`${correct}/${run.rounds.length}`} />
+        <Stat label="Maps" value={`${correct}/${total}`} />
         <Stat label="Best streak" value={String(run.bestStreak)} />
       </div>
       {newBest ? <p className="font-display tracking-[0.16em] text-primary">New best score</p> : null}
@@ -622,7 +770,7 @@ function Results({
         <p className="text-sm text-muted-foreground">Best score stays {formatScore(best.score)}.</p>
       ) : null}
 
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
+      <div className="grid max-h-[32rem] grid-cols-2 gap-2 overflow-y-auto sm:grid-cols-5">
         {run.answers.map((answer) => {
           const map = byId.get(answer.mapId);
           const picked = answer.pickedId ? byId.get(answer.pickedId) : undefined;
@@ -639,7 +787,9 @@ function Results({
                 <p className="text-[11px] text-muted-foreground">{map.short}</p>
                 {!answer.correct ? (
                   <p className="text-[11px] text-muted-foreground">
-                    {answer.timedOut ? "Time ran out" : `You said ${picked?.name ?? "another map"}`}
+                    {answer.timedOut
+                      ? "Time ran out"
+                      : `You said ${answer.guess?.trim() || picked?.name || "another map"}`}
                   </p>
                 ) : null}
               </figcaption>
@@ -657,6 +807,49 @@ function Results({
         </Button>
       </div>
     </main>
+  );
+}
+
+function TypedAnswer({
+  revealed,
+  guess,
+  onGuess,
+}: {
+  revealed: boolean;
+  guess: string | null;
+  onGuess: (text: string) => void;
+}) {
+  const [draft, setDraft] = useState("");
+
+  return (
+    <form
+      className="flex flex-col gap-2 sm:flex-row"
+      onSubmit={(event) => {
+        event.preventDefault();
+        const text = draft.trim();
+        if (!text || revealed) return;
+        onGuess(text);
+      }}
+    >
+      <label className="sr-only" htmlFor="map-guess">
+        Map name
+      </label>
+      <Input
+        id="map-guess"
+        value={revealed ? (guess ?? "") : draft}
+        onChange={(event) => setDraft(event.target.value)}
+        disabled={revealed}
+        autoFocus
+        autoCapitalize="off"
+        autoCorrect="off"
+        spellCheck={false}
+        placeholder="Type the map name"
+        className="h-12 px-3 font-display text-lg tracking-wide uppercase"
+      />
+      <Button type="submit" disabled={revealed || draft.trim().length === 0} className="h-12 font-display tracking-[0.16em]">
+        Lock in
+      </Button>
+    </form>
   );
 }
 

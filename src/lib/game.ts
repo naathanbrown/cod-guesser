@@ -33,6 +33,23 @@ export const games: { id: GameId; short: string; year: number }[] = [
 
 export const ROUND_MS = 20_000;
 export const ROUND_OPTIONS = [5, 10, 15] as const;
+export type RoundLength = (typeof ROUND_OPTIONS)[number] | "unlimited";
+export type AnswerMode = "choice" | "typed";
+
+export function normalizeGuess(value: string): string {
+  return value
+    .normalize("NFKC")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+export function guessMatches(guess: string, map: MapCard): boolean {
+  const normalized = normalizeGuess(guess);
+  return normalized.length > 0 && normalized === normalizeGuess(map.name);
+}
 
 export function shuffle<T>(items: readonly T[], rng: () => number = Math.random): T[] {
   const copy = [...items];
@@ -79,10 +96,48 @@ export function buildChoices(answer: MapCard, pool: readonly MapCard[], rng: () 
   return shuffle([answer, ...picks], rng);
 }
 
-export function buildRounds(pool: readonly MapCard[], count: number, rng: () => number = Math.random): Round[] {
+export function createRound(
+  answer: MapCard,
+  pool: readonly MapCard[],
+  mode: AnswerMode,
+  rng: () => number = Math.random,
+): Round {
+  return {
+    answer,
+    choices: mode === "choice" ? buildChoices(answer, pool, rng) : [],
+  };
+}
+
+export function buildRounds(
+  pool: readonly MapCard[],
+  count: number,
+  mode: AnswerMode = "choice",
+  rng: () => number = Math.random,
+): Round[] {
   return shuffle(pool, rng)
     .slice(0, Math.min(count, pool.length))
-    .map((answer) => ({ answer, choices: buildChoices(answer, pool, rng) }));
+    .map((answer) => createRound(answer, pool, mode, rng));
+}
+
+export function dealRound(
+  pool: readonly MapCard[],
+  dealt: readonly string[],
+  mode: AnswerMode,
+  rng: () => number = Math.random,
+): { round: Round; dealt: string[] } {
+  let remaining = pool.filter((map) => !dealt.includes(map.id));
+  let nextDealt = [...dealt];
+  if (remaining.length === 0) {
+    const lastId = dealt.at(-1);
+    remaining = pool.filter((map) => map.id !== lastId);
+    if (remaining.length === 0) remaining = [...pool];
+    nextDealt = [];
+  }
+  const answer = remaining[Math.floor(rng() * remaining.length)];
+  return {
+    round: createRound(answer, pool, mode, rng),
+    dealt: [...nextDealt, answer.id],
+  };
 }
 
 export function scoreRound(input: {

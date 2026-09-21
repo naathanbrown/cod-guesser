@@ -817,34 +817,38 @@ function Results({
         <p className="text-sm text-muted-foreground">Best score stays {formatScore(best.score)}.</p>
       ) : null}
 
-      <div className="grid max-h-[32rem] grid-cols-2 gap-2 overflow-y-auto sm:grid-cols-5">
+      <div className="flex max-h-[36rem] flex-col gap-2 overflow-y-auto sm:grid sm:grid-cols-5">
         {run.answers.map((answer) => {
           const map = byId.get(answer.mapId);
           const picked = answer.pickedId ? byId.get(answer.pickedId) : undefined;
           if (!map) return null;
+          const said = answer.guess?.trim() || picked?.name;
           return (
-            <figure key={`${answer.mapId}-${map.id}`} className="overflow-hidden border border-border bg-black">
-              <div className="relative aspect-video">
+            <figure
+              key={`${answer.mapId}-${map.id}`}
+              className="flex overflow-hidden border border-border bg-black sm:flex-col"
+            >
+              <div className="relative aspect-video w-28 shrink-0 sm:w-auto">
                 <Image
                   src={run.picture === "minimap" && map.minimap ? map.minimap : map.image}
                   alt=""
                   fill
-                  sizes="180px"
+                  sizes="(max-width: 640px) 112px, 180px"
                   className={run.picture === "minimap" ? "object-contain" : "object-cover"}
                 />
               </div>
-              <figcaption className="space-y-1 p-2">
-                <p className={cn("font-display text-sm leading-tight tracking-wide", answer.correct ? "text-emerald-400" : "text-destructive")}>
+              <figcaption className="min-w-0 flex-1 space-y-1 p-2.5 sm:p-2">
+                <p className={cn("font-display text-base leading-tight tracking-wide sm:text-sm", answer.correct ? "text-emerald-400" : "text-destructive")}>
                   {answer.correct ? "Hit" : "Miss"} · {map.name}
                 </p>
-                <p className="text-[11px] text-muted-foreground">{map.short}</p>
-                {!answer.correct ? (
-                  <p className="text-[11px] text-muted-foreground">
-                    {answer.timedOut
+                <p className="text-xs text-muted-foreground sm:text-[11px]">{map.short}</p>
+                <p className="text-xs text-muted-foreground sm:text-[11px]">
+                  {answer.correct
+                    ? `You said ${said || map.name}`
+                    : answer.timedOut
                       ? "Time ran out"
-                      : `You said ${answer.guess?.trim() || picked?.name || "another map"}`}
-                  </p>
-                ) : null}
+                      : `You said ${said || "another map"}`}
+                </p>
               </figcaption>
             </figure>
           );

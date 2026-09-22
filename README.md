@@ -17,17 +17,19 @@ Open the URL Next prints. Keys 1–4 answer a round. Enter continues.
 
 `npm run build` writes a static site to `out/`. Use that for hosting. `next start` is not used.
 
-## Host it (Cloudflare Pages)
+## Host it (Cloudflare)
 
-Connect [naathanbrown/cod-guesser](https://github.com/naathanbrown/cod-guesser) to a Pages project on `main`.
+Connect [naathanbrown/cod-guesser](https://github.com/naathanbrown/cod-guesser) to a Workers or Pages project on `main`. The repo already has `wrangler.jsonc`, so Cloudflare uploads the static `out/` folder. Do **not** pick the Next.js / OpenNext worker preset — that path looks for a server build this app does not have.
 
-- Framework preset: Next.js, or None
+If you are creating the project by hand:
+
+- Framework preset: None (static assets)
 - Build command: `npm run build`
 - Output directory: `out`
-- Node version: 20 or 22
+- Node version: 22 (`.nvmrc` is in the repo)
 - Environment variables: none
 
-The first build copies every loading screen and minimap, so it will take a few minutes. After that, map images are static assets and do not count as Workers requests. Add a custom domain on the same Pages project when you want a nicer URL.
+The first build copies every loading screen and minimap, so it will take a few minutes. After that, map images are static assets and do not count as Workers requests. Add a custom domain on the same project when you want a nicer URL.
 
 ## Images
 

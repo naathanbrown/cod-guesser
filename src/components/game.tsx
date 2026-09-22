@@ -6,8 +6,8 @@ import { Volume2, VolumeX } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
+  CHOICE_ROUND_MS,
   DAILY_ROUNDS,
-  ROUND_MS,
   ROUND_OPTIONS,
   buildDailyRounds,
   buildRemakeRounds,
@@ -21,9 +21,11 @@ import {
   guessMatches,
   localDateKey,
   maps,
+  nextDailyStreak,
   presets,
   rankFor,
   remakePool,
+  roundDuration,
   sameGameSet,
   scoreRound,
   versionLabel,
@@ -69,6 +71,8 @@ type Run = {
   intel: boolean;
   eliminatedId: string | null;
   remaining: number;
+  roundMs: number;
+  days?: number;
   phase: "question" | "reveal";
   pickedId: string | null;
   guess: string | null;
@@ -83,6 +87,7 @@ type DailyRecord = {
   rounds: number;
   bestStreak: number;
   answers: Answer[];
+  days: number;
 };
 
 type Best = { score: number; correct: number; rounds: number };
@@ -174,6 +179,8 @@ function runFromDaily(record: DailyRecord): Run {
     intel: false,
     eliminatedId: null,
     remaining: 0,
+    roundMs: CHOICE_ROUND_MS,
+    days: record.days ?? 1,
     phase: "reveal",
     pickedId: null,
     guess: null,
@@ -189,7 +196,8 @@ export function Game() {
   const [roundLength, setRoundLength] = useState<RoundLength>(10);
   const [answerMode, setAnswerMode] = useState<AnswerMode>("choice");
   const [picture, setPicture] = useState<Picture>("loading");
-  const [playKind, setPlayKind] = useState<PlayKind>("custom");
+  const [playKind, setPlayKind] = useState<PlayKind>("daily");
+  const [leaveOpen, setLeaveOpen] = useState(false);
   const [mutedOverride, setMutedOverride] = useState<boolean | undefined>(undefined);
   const [bestOverride, setBestOverride] = useState<Best | null | undefined>(undefined);
   const [dailyOverride, setDailyOverride] = useState<DailyRecord | null | undefined>(undefined);
@@ -259,18 +267,21 @@ export function Game() {
     const unlimited = playKind !== "daily" && roundLength === "unlimited";
     const dateKey = localDateKey();
     const count = unlimited || roundLength === "unlimited" ? 1 : roundLength;
+    const mode = playKind === "remake" || playKind === "daily" ? "choice" : answerMode;
+    const roundMs = roundDuration(mode);
     const rounds =
       playKind === "daily"
         ? buildDailyRounds(dateKey)
         : playKind === "remake"
           ? buildRemakeRounds(pool, count, picture)
-          : buildRounds(pool, count, answerMode);
+          : buildRounds(pool, count, mode);
     setNewBest(false);
     setImageFailed(false);
+    setLeaveOpen(false);
     setRun({
       kind: playKind,
       dateKey: playKind === "daily" ? dateKey : undefined,
-      mode: playKind === "remake" || playKind === "daily" ? "choice" : answerMode,
+      mode,
       picture: playKind === "daily" ? "loading" : picture,
       unlimited,
       pool,
@@ -283,7 +294,8 @@ export function Game() {
       answers: [],
       intel: false,
       eliminatedId: null,
-      remaining: ROUND_MS,
+      remaining: roundMs,
+      roundMs,
       phase: "question",
       pickedId: null,
       guess: null,
@@ -338,6 +350,7 @@ export function Game() {
     const correct = current.answers.filter((answer) => answer.correct).length;
     const next = { score: current.score, correct, rounds: current.answers.length };
     if (current.kind === "daily" && current.dateKey) {
+      const days = nextDailyStreak(dailyRecord, current.dateKey);
       const record: DailyRecord = {
         date: current.dateKey,
         score: current.score,
@@ -345,9 +358,11 @@ export function Game() {
         rounds: current.answers.length,
         bestStreak: current.bestStreak,
         answers: current.answers,
+        days,
       };
       writeDaily(record);
       setDailyOverride(record);
+      setRun({ ...current, days });
       setNewBest(false);
       setScreen("results");
       return;
@@ -385,7 +400,7 @@ export function Game() {
         phase: "question",
         intel: false,
         eliminatedId: null,
-        remaining: ROUND_MS,
+        remaining: run.roundMs,
         pickedId: null,
         guess: null,
         timedOut: false,
@@ -403,7 +418,7 @@ export function Game() {
       phase: "question",
       intel: false,
       eliminatedId: null,
-      remaining: ROUND_MS,
+      remaining: run.roundMs,
       pickedId: null,
       guess: null,
       timedOut: false,
@@ -413,10 +428,11 @@ export function Game() {
 
   const roundIndex = run?.index;
   const roundPhase = run?.phase;
+  const activeRoundMs = run?.roundMs ?? CHOICE_ROUND_MS;
 
   useEffect(() => {
     if (screen !== "play" || roundIndex === undefined || roundPhase !== "question") return;
-    const deadline = performance.now() + ROUND_MS;
+    const deadline = performance.now() + activeRoundMs;
     const id = window.setInterval(() => {
       const left = Math.max(0, deadline - performance.now());
       setRun((current) => {
@@ -430,7 +446,7 @@ export function Game() {
       }
     }, 80);
     return () => window.clearInterval(id);
-  }, [roundIndex, roundPhase, screen, submit]);
+  }, [activeRoundMs, roundIndex, roundPhase, screen, submit]);
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
@@ -475,7 +491,12 @@ export function Game() {
   return (
     <div className="mx-auto flex min-h-full w-full max-w-5xl flex-1 flex-col px-4 py-5 sm:px-6 sm:py-8">
       <header className="mb-5 flex items-center justify-between gap-3">
-        <button type="button" onClick={() => setScreen("menu")} className="text-left" title="Back to the lobby">
+        <button
+          type="button"
+          onClick={() => (screen === "play" ? setLeaveOpen(true) : setScreen("menu"))}
+          className="text-left"
+          title={screen === "play" ? "Leave this match" : "Back to the lobby"}
+        >
           <p className="font-display text-xs tracking-[0.35em] text-primary">Multiplayer</p>
           <p className="font-display text-2xl leading-none text-foreground">Callout</p>
         </button>
@@ -484,11 +505,36 @@ export function Game() {
         </Button>
       </header>
 
+      {leaveOpen ? (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/70 px-4">
+          <div className="w-full max-w-sm border border-border bg-card p-5">
+            <p className="font-display text-2xl text-foreground">Leave this match?</p>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">This run will not be saved.</p>
+            <div className="mt-5 flex flex-wrap gap-2">
+              <Button type="button" variant="outline" onClick={() => setLeaveOpen(false)}>
+                Stay
+              </Button>
+              <Button
+                type="button"
+                onClick={() => {
+                  setLeaveOpen(false);
+                  setRun(null);
+                  setScreen("menu");
+                }}
+              >
+                Leave
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       {screen === "menu" ? (
         <Menu
           answerMode={answerMode}
           picture={picture}
           best={best}
+          dailyRecord={dailyRecord}
           dailyToday={dailyToday}
           minimumMaps={minimumMaps}
           plannedRounds={plannedRounds}
@@ -557,6 +603,7 @@ export function Game() {
 function Menu({
   answerMode,
   best,
+  dailyRecord,
   dailyToday,
   minimumMaps,
   picture,
@@ -579,6 +626,7 @@ function Menu({
 }: {
   answerMode: AnswerMode;
   best: Best | null;
+  dailyRecord: DailyRecord | null;
   dailyToday: DailyRecord | null;
   minimumMaps: number;
   picture: Picture;
@@ -599,6 +647,8 @@ function Menu({
   onPreset: (ids: GameId[]) => void;
   onToggleGame: (id: GameId) => void;
 }) {
+  const [tuneGames, setTuneGames] = useState(false);
+
   return (
     <main className="flex flex-1 flex-col gap-8">
       <div className="max-w-2xl">
@@ -611,35 +661,65 @@ function Menu({
             ? "Ten launch maps, same set for everyone today. Play once, then send the score."
             : playKind === "remake"
               ? "A map that came back. You already know the name. Pick which game this version is from."
-              : "A loading screen or a minimap comes up. Pick the name, or type it. You have twenty seconds."}
+              : "A loading screen or a minimap comes up. Pick the name, or type it. Twenty seconds for four choices. Thirty if you type it."}
         </p>
       </div>
 
+      <div>
+        <p className="mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Match</p>
+        <div className="flex flex-wrap gap-2">
+          {(
+            [
+              ["daily", "Daily"],
+              ["remake", "Remakes"],
+              ["custom", "Custom"],
+            ] as const
+          ).map(([id, label]) => (
+            <Button
+              key={id}
+              type="button"
+              size="sm"
+              variant={playKind === id ? "default" : "outline"}
+              aria-pressed={playKind === id}
+              onClick={() => onPlayKind(id)}
+            >
+              {label}
+            </Button>
+          ))}
+        </div>
+      </div>
+
+      {playKind === "daily" ? (
+        <section className="max-w-xl border border-border bg-card p-5">
+          <p className="font-display text-xs tracking-[0.22em] text-muted-foreground">Today</p>
+          <p className="mt-2 font-display text-4xl text-foreground">{today ? formatDateLabel(today) : "Today"}</p>
+          <p className="mt-2 text-sm leading-6 text-muted-foreground">
+            Ten launch maps from the whole mainline roster. Same ten for everyone on this date.
+          </p>
+          {dailyToday ? (
+            <p className="mt-4 text-sm text-muted-foreground">
+              Today you went {dailyToday.correct}/{dailyToday.rounds} for{" "}
+              <span className="font-display text-foreground">{formatScore(dailyToday.score)}</span>
+              {dailyToday.days ? (
+                <>
+                  {" "}
+                  · <span className="font-display text-foreground">{dailyToday.days} day streak</span>
+                </>
+              ) : null}
+              .
+            </p>
+          ) : dailyRecord?.days && dailyRecord.date !== today ? (
+            <p className="mt-4 text-sm text-muted-foreground">
+              Last streak was {dailyRecord.days} {dailyRecord.days === 1 ? "day" : "days"}.
+            </p>
+          ) : null}
+          <Button type="button" size="lg" disabled={!ready && !dailyToday} onClick={onStart} className="mt-6 h-12 w-full font-display text-lg tracking-[0.18em] sm:w-auto">
+            {dailyToday ? "See today's result" : "Play today's ten"}
+          </Button>
+        </section>
+      ) : (
       <section className="grid gap-6 lg:grid-cols-[1.4fr_0.8fr]">
         <div className="space-y-5">
-          <div>
-            <p className="mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Match</p>
-            <div className="flex flex-wrap gap-2">
-              {(
-                [
-                  ["daily", "Daily"],
-                  ["remake", "Remakes"],
-                  ["custom", "Custom"],
-                ] as const
-              ).map(([id, label]) => (
-                <Button
-                  key={id}
-                  type="button"
-                  size="sm"
-                  variant={playKind === id ? "default" : "outline"}
-                  aria-pressed={playKind === id}
-                  onClick={() => onPlayKind(id)}
-                >
-                  {label}
-                </Button>
-              ))}
-            </div>
-          </div>
 
           {playKind === "custom" ? (
           <>
@@ -665,27 +745,39 @@ function Menu({
           </div>
 
           <div>
-            <p className="mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Games</p>
-            <div className="flex flex-wrap gap-2">
-              {games.map((game) => {
-                const on = selected.includes(game.id);
-                return (
-                  <Button
-                    key={game.id}
-                    type="button"
-                    variant={on ? "default" : "outline"}
-                    aria-pressed={on}
-                    onClick={() => onToggleGame(game.id)}
-                    className="h-auto flex-col items-start px-3 py-2"
-                  >
-                    <span className="font-display text-base tracking-wide">{game.short}</span>
-                    <span className={cn("text-[11px]", on ? "text-primary-foreground/70" : "text-muted-foreground")}>
-                      {game.year}
-                    </span>
-                  </Button>
-                );
-              })}
-            </div>
+            <Button
+              type="button"
+              size="sm"
+              variant={tuneGames ? "default" : "outline"}
+              aria-expanded={tuneGames}
+              onClick={() => setTuneGames((open) => !open)}
+            >
+              Fine-tune games
+            </Button>
+            {tuneGames ? (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {games.map((game) => {
+                  const on = selected.includes(game.id);
+                  return (
+                    <Button
+                      key={game.id}
+                      type="button"
+                      variant={on ? "default" : "outline"}
+                      aria-pressed={on}
+                      onClick={() => onToggleGame(game.id)}
+                      className="h-auto flex-col items-start px-3 py-2"
+                    >
+                      <span className="font-display text-base tracking-wide">{game.short}</span>
+                      <span className={cn("text-[11px]", on ? "text-primary-foreground/70" : "text-muted-foreground")}>
+                        {game.year}
+                      </span>
+                    </Button>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="mt-2 text-xs text-muted-foreground">{selected.length} games selected.</p>
+            )}
           </div>
 
           <div>
@@ -722,14 +814,9 @@ function Menu({
             </div>
           </div>
           </>
-          ) : playKind === "remake" ? (
-            <p className="max-w-xl text-sm leading-6 text-muted-foreground">
-              Choices are the games that shipped this map. Seasonal reskins stay out.
-            </p>
           ) : (
             <p className="max-w-xl text-sm leading-6 text-muted-foreground">
-              {today ? `${formatDateLabel(today)}. ` : ""}
-              Ten launch maps from the whole mainline roster. Same ten for everyone on this date.
+              Choices are the games that shipped this map. Seasonal reskins stay out.
             </p>
           )}
         </div>
@@ -737,18 +824,10 @@ function Menu({
         <div className="flex flex-col justify-between gap-4 border border-border bg-card p-4">
           <div>
             <p className="font-display text-xs tracking-[0.22em] text-muted-foreground">Match</p>
-            <p className="mt-2 font-display text-4xl text-foreground">{playKind === "daily" ? DAILY_ROUNDS : poolSize}</p>
+            <p className="mt-2 font-display text-4xl text-foreground">{poolSize}</p>
             <p className="text-sm text-muted-foreground">
-              {playKind === "daily" ? "maps today" : playKind === "remake" ? "remake versions" : "maps in this pool"}
+              {playKind === "remake" ? "remake versions" : "maps in this pool"}
             </p>
-            {dailyToday && playKind === "daily" ? (
-              <p className="mt-4 text-sm text-muted-foreground">
-                Today you went {dailyToday.correct}/{dailyToday.rounds} for{" "}
-                <span className="font-display text-foreground">{formatScore(dailyToday.score)}</span>.
-              </p>
-            ) : null}
-            {playKind !== "daily" ? (
-              <>
             <p className="mt-4 mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Picture</p>
             <div className="flex flex-wrap gap-2">
               <Button
@@ -770,8 +849,6 @@ function Menu({
                 Minimap
               </Button>
             </div>
-              </>
-            ) : null}
             {playKind === "custom" ? (
               <>
             <p className="mt-4 mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Answer</p>
@@ -797,8 +874,6 @@ function Menu({
             </div>
               </>
             ) : null}
-            {playKind !== "daily" ? (
-              <>
             <p className="mt-4 mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Length</p>
             <div className="flex flex-wrap gap-2">
               {ROUND_OPTIONS.map((count) => (
@@ -823,8 +898,6 @@ function Menu({
                 Unlimited
               </Button>
             </div>
-              </>
-            ) : null}
             {best && playKind === "custom" ? (
               <p className="mt-4 text-sm text-muted-foreground">
                 Best score <span className="font-display text-base text-foreground">{formatScore(best.score)}</span>
@@ -832,19 +905,16 @@ function Menu({
               </p>
             ) : null}
           </div>
-          <Button type="button" size="lg" disabled={!ready && playKind !== "daily"} onClick={onStart} className="h-12 font-display text-lg tracking-[0.18em]">
-            {playKind === "daily"
-              ? dailyToday
-                ? "See today's result"
-                : "Play today's ten"
-              : ready
-                ? plannedRounds === null
-                  ? "Drop in"
-                  : `Drop in · ${plannedRounds}`
-                : `Pick at least ${minimumMaps} ${minimumMaps === 1 ? "map" : "maps"}`}
+          <Button type="button" size="lg" disabled={!ready} onClick={onStart} className="h-12 font-display text-lg tracking-[0.18em]">
+            {ready
+              ? plannedRounds === null
+                ? "Drop in"
+                : `Drop in · ${plannedRounds}`
+              : `Pick at least ${minimumMaps} ${minimumMaps === 1 ? "map" : "maps"}`}
           </Button>
         </div>
       </section>
+      )}
     </main>
   );
 }
@@ -972,7 +1042,7 @@ function Question({
         <div className="h-1.5 bg-black" aria-hidden>
           <div
             className={cn("h-full", seconds <= 5 && !revealed ? "bg-destructive" : "bg-primary")}
-            style={{ width: `${(run.remaining / ROUND_MS) * 100}%` }}
+            style={{ width: `${(run.remaining / run.roundMs) * 100}%` }}
           />
         </div>
         <figcaption className="sr-only">Loading screen. Choose the map name.</figcaption>
@@ -1039,21 +1109,7 @@ function Question({
         </div>
       )}
 
-      {revealed ? (
-        <div className="border border-border bg-card p-4" aria-live="polite">
-          <p className={cn("font-display text-sm tracking-[0.2em]", run.answers.at(-1)?.correct ? "text-emerald-400" : "text-destructive")}>
-            {run.timedOut ? "Time" : run.answers.at(-1)?.correct ? "Confirmed" : "Negative"}
-          </p>
-          <h2 className="mt-1 font-display text-4xl leading-none text-foreground">{round.answer.name}</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            {round.answer.game} · {round.answer.year}
-          </p>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-foreground/90">{round.answer.blurb}</p>
-          <p className="mt-4 font-display text-2xl text-primary tabular-nums">
-            {run.points > 0 ? `+${formatScore(run.points)}` : "0"}
-          </p>
-        </div>
-      ) : (
+      {revealed ? null : (
         <p className="text-xs text-muted-foreground">
           {run.kind === "remake"
             ? "The map name is on the table. Keys pick the game this version is from."
@@ -1066,12 +1122,16 @@ function Question({
       {revealed ? (
         <div className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-background/95 px-4 py-3 backdrop-blur sm:px-6">
           <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="min-w-0">
+            <div className="min-w-0" aria-live="polite">
               <p className={cn("font-display text-xs tracking-[0.2em]", correct ? "text-emerald-400" : "text-destructive")}>
                 {run.timedOut ? "Time" : correct ? "Confirmed" : "Negative"}
                 <span className="text-primary"> · {run.points > 0 ? `+${formatScore(run.points)}` : "0"}</span>
               </p>
               <p className="truncate font-display text-2xl leading-none text-foreground">{round.answer.name}</p>
+              <p className="mt-1 truncate text-xs text-muted-foreground">
+                {round.answer.game} · {round.answer.year}
+                {round.answer.blurb ? ` · ${round.answer.blurb}` : ""}
+              </p>
             </div>
             <div className="flex gap-2">
               {run.unlimited ? (
@@ -1121,12 +1181,17 @@ function Results({
         </p>
         <h1 className="font-display text-6xl leading-none text-foreground sm:text-7xl">{rank.title}</h1>
         <p className="mt-2 text-muted-foreground">{rank.line}</p>
+        {run.kind === "daily" && run.days ? (
+          <p className="mt-3 font-display tracking-[0.16em] text-primary">
+            {run.days} day streak
+          </p>
+        ) : null}
       </div>
 
       <div className="grid grid-cols-3 gap-2 border border-border bg-card p-4">
         <Stat label="Score" value={formatScore(run.score)} />
         <Stat label="Maps" value={`${correct}/${total}`} />
-        <Stat label="Best streak" value={String(run.bestStreak)} />
+        <Stat label={run.kind === "daily" ? "Days" : "Best streak"} value={run.kind === "daily" ? String(run.days ?? 1) : String(run.bestStreak)} />
       </div>
       {newBest ? <p className="font-display tracking-[0.16em] text-primary">New best score</p> : null}
       {best && !newBest ? (
@@ -1244,6 +1309,7 @@ function ShareDaily({ run }: { run: Run }) {
     correct: run.answers.filter((answer) => answer.correct).length,
     rounds: run.answers.length,
     score: run.score,
+    days: run.days,
   });
 
   return (

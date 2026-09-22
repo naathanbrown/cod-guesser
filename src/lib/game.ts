@@ -109,10 +109,16 @@ export function sameGameSet(left: readonly GameId[], right: readonly GameId[]): 
   return right.every((id) => have.has(id));
 }
 
-export const ROUND_MS = 20_000;
+export const CHOICE_ROUND_MS = 20_000;
+export const TYPED_ROUND_MS = 30_000;
+export const ROUND_MS = CHOICE_ROUND_MS;
 export const ROUND_OPTIONS = [5, 10, 15] as const;
 export type RoundLength = (typeof ROUND_OPTIONS)[number] | "unlimited";
 export type AnswerMode = "choice" | "typed";
+
+export function roundDuration(mode: AnswerMode): number {
+  return mode === "typed" ? TYPED_ROUND_MS : CHOICE_ROUND_MS;
+}
 export type Picture = "loading" | "minimap";
 export type PlayKind = "custom" | "daily" | "remake";
 export const DAILY_ROUNDS = 10;
@@ -139,6 +145,20 @@ export function formatDateLabel(key: string): string {
     month: "short",
     year: "numeric",
   });
+}
+
+export function previousDateKey(key: string): string {
+  const [year, month, day] = key.split("-").map(Number);
+  const date = new Date(year, month - 1, day);
+  date.setDate(date.getDate() - 1);
+  return localDateKey(date);
+}
+
+export function nextDailyStreak(previous: { date: string; days?: number } | null, today: string): number {
+  if (!previous) return 1;
+  if (previous.date === today) return previous.days ?? 1;
+  if (previous.date === previousDateKey(today)) return (previous.days ?? 1) + 1;
+  return 1;
 }
 
 export function rngFromSeed(seed: string): () => number {
@@ -169,9 +189,11 @@ export function formatDailyShare(input: {
   correct: number;
   rounds: number;
   score: number;
+  days?: number;
 }): string {
   const rank = rankFor(input.rounds === 0 ? 0 : input.correct / input.rounds);
-  return `Callout Daily — ${formatDateLabel(input.date)}\n${input.correct}/${input.rounds} · ${rank.title}\n${input.score.toLocaleString("en-US")}`;
+  const streak = input.days && input.days > 0 ? `\n${input.days} day streak` : "";
+  return `Callout Daily — ${formatDateLabel(input.date)}\n${input.correct}/${input.rounds} · ${rank.title}\n${input.score.toLocaleString("en-US")}${streak}`;
 }
 
 export function remakeFamilyKey(map: MapCard): string | null {

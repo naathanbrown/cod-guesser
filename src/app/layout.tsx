@@ -17,7 +17,7 @@ const display = Barlow_Condensed({
 export const metadata: Metadata = {
   title: "Callout",
   description:
-    "Name the Call of Duty map from its loading screen. Call of Duty 4 through Black Ops II.",
+    "Name the Call of Duty map from its loading screen.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

@@ -95,6 +95,7 @@ type Best = { score: number; correct: number; rounds: number };
 const BEST_KEY = "callout-best";
 const MUTE_KEY = "callout-muted";
 const DAILY_KEY = "callout-daily";
+const KOFI_URL = "https://ko-fi.com/naathanbrown";
 
 function formatScore(value: number) {
   return value.toLocaleString("en-US");
@@ -594,7 +595,16 @@ export function Game() {
 
       <footer className="mt-auto pt-8 text-xs leading-5 text-muted-foreground">
         Loading screens and minimaps from the mainline games, via the Call of Duty Wiki.
-        Fan-made quiz. Not affiliated with Activision.
+        Fan-made quiz. Not affiliated with Activision.{" "}
+        <a
+          href={KOFI_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary underline-offset-2 hover:underline"
+        >
+          Support this on Ko-fi
+        </a>{" "}
+        if you want.
       </footer>
     </div>
   );

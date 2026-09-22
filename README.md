@@ -45,3 +45,5 @@ python3 scripts/hide_titles.py
 ```
 
 This is a fan-made quiz. It is not affiliated with or endorsed by Activision. Call of Duty is a trademark of Activision Publishing, Inc.
+
+The footer links to [Ko-fi](https://ko-fi.com/naathanbrown) if someone wants to tip. Change `KOFI_URL` in `src/components/game.tsx` if that is not your page.

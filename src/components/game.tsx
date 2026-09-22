@@ -971,7 +971,7 @@ function Cover({ box }: { box: CoverBox }) {
   return (
     <span
       aria-hidden
-      className="absolute bg-[#0c0f0b]/90"
+      className="absolute bg-[#080c09]/90"
       style={{
         left: `${box.x * 100}%`,
         top: `${box.y * 100}%`,
@@ -1123,7 +1123,7 @@ function Question({
         <div className="fixed inset-x-0 bottom-0 z-20 border-t border-border bg-background/95 px-4 py-3 backdrop-blur sm:px-6">
           <div className="mx-auto flex w-full max-w-5xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="min-w-0" aria-live="polite">
-              <p className={cn("font-display text-xs tracking-[0.2em]", correct ? "text-emerald-400" : "text-destructive")}>
+              <p className={cn("font-display text-xs tracking-[0.2em]", correct ? "text-success" : "text-destructive")}>
                 {run.timedOut ? "Time" : correct ? "Confirmed" : "Negative"}
                 <span className="text-primary"> · {run.points > 0 ? `+${formatScore(run.points)}` : "0"}</span>
               </p>
@@ -1215,7 +1215,7 @@ function Results({
                 <Plate framed map={map} picture={run.picture} sizes="(max-width: 640px) 112px, 180px" />
               </div>
               <figcaption className="min-w-0 flex-1 space-y-1 p-2.5 sm:p-2">
-                <p className={cn("font-display text-base leading-tight tracking-wide sm:text-sm", answer.correct ? "text-emerald-400" : "text-destructive")}>
+                <p className={cn("font-display text-base leading-tight tracking-wide sm:text-sm", answer.correct ? "text-success" : "text-destructive")}>
                   {answer.correct ? "Hit" : "Miss"} · {run.kind === "remake" ? versionLabel(map) : map.name}
                 </p>
                 <p className="text-xs text-muted-foreground sm:text-[11px]">

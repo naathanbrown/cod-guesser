@@ -15,6 +15,20 @@ npm run dev
 
 Open the URL Next prints. Keys 1–4 answer a round. Enter continues.
 
+`npm run build` writes a static site to `out/`. Use that for hosting. `next start` is not used.
+
+## Host it (Cloudflare Pages)
+
+Connect [naathanbrown/cod-guesser](https://github.com/naathanbrown/cod-guesser) to a Pages project on `main`.
+
+- Framework preset: Next.js, or None
+- Build command: `npm run build`
+- Output directory: `out`
+- Node version: 20 or 22
+- Environment variables: none
+
+The first build copies every loading screen and minimap, so it will take a few minutes. After that, map images are static assets and do not count as Workers requests. Add a custom domain on the same Pages project when you want a nicer URL.
+
 ## Images
 
 Loading screens and minimaps are pulled from the [Call of Duty Wiki](https://callofduty.fandom.com/) into `public/maps/` and `public/minimaps/`. Map metadata lives in `src/data/maps.json`.

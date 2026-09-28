@@ -4,7 +4,7 @@ A short multiplayer quiz: a Call of Duty loading screen comes up, and you name t
 
 The roster is the mainline console games, from the original **Call of Duty** (2003) through **Black Ops 7** (2025). Handheld, mobile, Online, and Warzone maps are left out. Each game can be turned off. Launch maps are the ones that shipped with the game. The full locker adds the later maps.
 
-There is a daily: ten launch maps, the same set for everyone on that date, plus a day streak if you come back tomorrow. Remake mode shows a map that came back and asks which game version it is. Custom matches still use the game filters, launch vs full locker, loading screen or minimap, four choices or typed answers, and 5 / 10 / 15 / unlimited rounds. Four-choice rounds last twenty seconds. Typed rounds last thirty. Intel cuts that round's score in half. The earliest games have almost no minimaps on the wiki, so minimap mode skips them. Printed map names are covered when OCR can read them.
+There are two dailies: loading screens and minimaps. Each is ten launch maps, the same set for everyone on that date. You can open previous days from the calendar. Remake mode shows a map that came back and asks which game version it is. Nuketown stays out of minimap remakes because the layouts are almost identical. Custom matches still use the game filters, launch vs full locker, core / Face Off / battle size, loading screen or minimap, four choices or typed answers, a timer or no clock, and 5 / 10 / 15 / unlimited rounds. Four-choice rounds last twenty seconds. Typed rounds last thirty, and typed names allow small spelling mistakes. Intel cuts that round's score in half. The earliest games have almost no minimaps on the wiki, so minimap mode skips them. Printed map names are painted out of the files, and the picture URLs are hashed so they do not spell the answer.
 
 ## Run it
 
@@ -33,7 +33,7 @@ The first build copies every loading screen and minimap, so it will take a few m
 
 ## Images
 
-Loading screens and minimaps are pulled from the [Call of Duty Wiki](https://callofduty.fandom.com/) into `public/maps/` and `public/minimaps/`. Map metadata lives in `src/data/maps.json`.
+Loading screens and minimaps are pulled from the [Call of Duty Wiki](https://callofduty.fandom.com/), then sealed into hashed files under `public/i/`. Map metadata lives in `src/data/maps.json`.
 
 To fetch them again (needs Python and Pillow):
 

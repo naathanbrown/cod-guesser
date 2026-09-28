@@ -7,7 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   CHOICE_ROUND_MS,
+  DAILY_EPOCH,
   DAILY_ROUNDS,
+  MAP_SCALES,
   ROUND_OPTIONS,
   buildDailyRounds,
   buildRemakeRounds,
@@ -21,18 +23,21 @@ import {
   guessMatches,
   localDateKey,
   maps,
-  nextDailyStreak,
   presets,
+  previousDateKey,
   rankFor,
   remakePool,
   roundDuration,
   sameGameSet,
+  scaleOf,
   scoreRound,
+  shiftMonth,
   versionLabel,
   type AnswerMode,
   type CoverBox,
   type GameId,
   type MapCard,
+  type MapScale,
   type Picture,
   type PlayKind,
   type Round,
@@ -60,6 +65,7 @@ type Run = {
   mode: AnswerMode;
   picture: Picture;
   unlimited: boolean;
+  timed: boolean;
   pool: MapCard[];
   dealt: string[];
   rounds: Round[];
@@ -82,6 +88,7 @@ type Run = {
 
 type DailyRecord = {
   date: string;
+  picture: Picture;
   score: number;
   correct: number;
   rounds: number;
@@ -90,11 +97,17 @@ type DailyRecord = {
   days: number;
 };
 
+type DailyStore = {
+  loading: Record<string, DailyRecord>;
+  minimap: Record<string, DailyRecord>;
+};
+
 type Best = { score: number; correct: number; rounds: number };
 
 const BEST_KEY = "callout-best";
 const MUTE_KEY = "callout-muted";
 const DAILY_KEY = "callout-daily";
+const DAILY_STORE_KEY = "callout-daily-v2";
 const KOFI_URL = "https://ko-fi.com/naathanbrown";
 
 function formatScore(value: number) {
@@ -131,30 +144,82 @@ function subscribeBrowserStore() {
   return () => {};
 }
 
-let cachedDailyRaw: string | null | undefined;
-let cachedDaily: DailyRecord | null = null;
+const EMPTY_DAILY_STORE: DailyStore = { loading: {}, minimap: {} };
 
-function readDaily(): DailyRecord | null {
-  const raw = window.localStorage.getItem(DAILY_KEY);
-  if (raw === cachedDailyRaw) return cachedDaily;
+let cachedDailyRaw: string | null | undefined;
+let cachedDailyStore: DailyStore = EMPTY_DAILY_STORE;
+
+function asDailyRecord(value: Partial<DailyRecord> | null | undefined, fallback: Picture = "loading"): DailyRecord | null {
+  if (!value?.date || !value.answers) return null;
+  return {
+    date: value.date,
+    picture: value.picture === "minimap" ? "minimap" : fallback,
+    score: value.score ?? 0,
+    correct: value.correct ?? 0,
+    rounds: value.rounds ?? value.answers.length,
+    bestStreak: value.bestStreak ?? 0,
+    answers: value.answers,
+    days: value.days ?? 1,
+  };
+}
+
+function migrateDailyStore(): DailyStore {
+  const store: DailyStore = { loading: {}, minimap: {} };
+  const next = window.localStorage.getItem(DAILY_STORE_KEY);
+  if (next) {
+    try {
+      const parsed = JSON.parse(next) as DailyStore;
+      store.loading = parsed.loading ?? {};
+      store.minimap = parsed.minimap ?? {};
+    } catch {
+      /* keep empty */
+    }
+  }
+  const legacy = window.localStorage.getItem(DAILY_KEY);
+  if (legacy) {
+    try {
+      const record = asDailyRecord(JSON.parse(legacy) as DailyRecord, "loading");
+      if (record && !store.loading[record.date]) store.loading[record.date] = record;
+    } catch {
+      /* ignore broken legacy */
+    }
+  }
+  return store;
+}
+
+function readDailyStore(): DailyStore {
+  const raw = `${window.localStorage.getItem(DAILY_STORE_KEY) ?? ""}|${window.localStorage.getItem(DAILY_KEY) ?? ""}`;
+  if (raw === cachedDailyRaw) return cachedDailyStore;
   cachedDailyRaw = raw;
-  if (!raw) {
-    cachedDaily = null;
-    return null;
-  }
-  try {
-    cachedDaily = JSON.parse(raw) as DailyRecord;
-  } catch {
-    cachedDaily = null;
-  }
-  return cachedDaily;
+  cachedDailyStore = migrateDailyStore();
+  return cachedDailyStore;
 }
 
 function writeDaily(value: DailyRecord) {
-  const raw = JSON.stringify(value);
-  window.localStorage.setItem(DAILY_KEY, raw);
-  cachedDailyRaw = raw;
-  cachedDaily = value;
+  const store = {
+    loading: { ...readDailyStore().loading },
+    minimap: { ...readDailyStore().minimap },
+  };
+  store[value.picture][value.date] = value;
+  window.localStorage.setItem(DAILY_STORE_KEY, JSON.stringify(store));
+  cachedDailyRaw = `${window.localStorage.getItem(DAILY_STORE_KEY) ?? ""}|${window.localStorage.getItem(DAILY_KEY) ?? ""}`;
+  cachedDailyStore = store;
+}
+
+function dailyRecordFor(store: DailyStore, picture: Picture, date: string): DailyRecord | null {
+  return store[picture][date] ?? null;
+}
+
+function latestDaily(store: DailyStore, picture: Picture): DailyRecord | null {
+  const dates = Object.keys(store[picture]).sort();
+  const last = dates.at(-1);
+  return last ? store[picture][last] : null;
+}
+
+function streakEndingOn(dates: Record<string, DailyRecord>, dateKey: string): number {
+  let days = 0;
+  for (let key = dateKey; dates[key]; key = previousDateKey(key)) days += 1;
+  return days;
 }
 
 function runFromDaily(record: DailyRecord): Run {
@@ -167,8 +232,9 @@ function runFromDaily(record: DailyRecord): Run {
     kind: "daily",
     dateKey: record.date,
     mode: "choice",
-    picture: "loading",
+    picture: record.picture,
     unlimited: false,
+    timed: true,
     pool: maps.filter((map) => map.standard),
     dealt: record.answers.map((answer) => answer.mapId),
     rounds,
@@ -194,14 +260,16 @@ export function Game() {
   const [screen, setScreen] = useState<"menu" | "play" | "results">("menu");
   const [selected, setSelected] = useState<GameId[]>(games.map((game) => game.id));
   const [roster, setRoster] = useState<Roster>("launch");
+  const [scales, setScales] = useState<MapScale[]>(["core", "faceoff", "battle"]);
   const [roundLength, setRoundLength] = useState<RoundLength>(10);
+  const [timed, setTimed] = useState(true);
   const [answerMode, setAnswerMode] = useState<AnswerMode>("choice");
   const [picture, setPicture] = useState<Picture>("loading");
   const [playKind, setPlayKind] = useState<PlayKind>("daily");
   const [leaveOpen, setLeaveOpen] = useState(false);
   const [mutedOverride, setMutedOverride] = useState<boolean | undefined>(undefined);
   const [bestOverride, setBestOverride] = useState<Best | null | undefined>(undefined);
-  const [dailyOverride, setDailyOverride] = useState<DailyRecord | null | undefined>(undefined);
+  const [dailyOverride, setDailyOverride] = useState<DailyStore | undefined>(undefined);
   const [newBest, setNewBest] = useState(false);
   const [run, setRun] = useState<Run | null>(null);
   const [imageFailed, setImageFailed] = useState(false);
@@ -211,12 +279,11 @@ export function Game() {
     () => window.localStorage.getItem(MUTE_KEY) === "1",
     () => false,
   );
-  const storedDaily = useSyncExternalStore(subscribeBrowserStore, readDaily, () => null);
+  const storedDaily = useSyncExternalStore(subscribeBrowserStore, readDailyStore, () => EMPTY_DAILY_STORE);
   const today = useSyncExternalStore(subscribeBrowserStore, localDateKey, () => "");
   const best = bestOverride === undefined ? storedBest : bestOverride;
   const muted = mutedOverride === undefined ? storedMuted : mutedOverride;
-  const dailyRecord = dailyOverride === undefined ? storedDaily : dailyOverride;
-  const dailyToday = dailyRecord && today && dailyRecord.date === today ? dailyRecord : null;
+  const dailyStore = dailyOverride === undefined ? storedDaily : dailyOverride;
   const mutedRef = useRef(muted);
 
   useEffect(() => {
@@ -229,9 +296,10 @@ export function Game() {
         (map) =>
           selected.includes(map.gameId) &&
           (roster === "all" || map.standard) &&
+          scales.includes(scaleOf(map)) &&
           (picture === "loading" || Boolean(map.minimap)),
       ),
-    [picture, roster, selected],
+    [picture, roster, scales, selected],
   );
   const remakes = useMemo(() => remakePool(picture), [picture]);
   const pool = playKind === "remake" ? remakes : playKind === "daily" ? maps.filter((map) => map.standard) : customPool;
@@ -256,35 +324,82 @@ export function Game() {
     setSelected(ids);
   }
 
-  function start() {
-    if (playKind === "daily" && dailyToday) {
+  function toggleScale(id: MapScale) {
+    setScales((current) => {
+      if (current.includes(id)) {
+        const next = current.filter((scale) => scale !== id);
+        return next.length > 0 ? next : current;
+      }
+      return [...current, id];
+    });
+  }
+
+  function startDaily(nextPicture: Picture, dateKey: string) {
+    const existing = dailyRecordFor(dailyStore, nextPicture, dateKey);
+    if (existing) {
       setNewBest(false);
       setImageFailed(false);
-      setRun(runFromDaily(dailyToday));
+      setRun(runFromDaily(existing));
       setScreen("results");
       return;
     }
+    const nextPool = maps.filter((map) => map.standard && (nextPicture === "loading" || Boolean(map.minimap)));
+    if (nextPool.length < DAILY_ROUNDS) return;
+    const roundMs = CHOICE_ROUND_MS;
+    const rounds = buildDailyRounds(dateKey, nextPicture);
+    setNewBest(false);
+    setImageFailed(false);
+    setLeaveOpen(false);
+    setRun({
+      kind: "daily",
+      dateKey,
+      mode: "choice",
+      picture: nextPicture,
+      unlimited: false,
+      timed: true,
+      pool: nextPool,
+      dealt: rounds.map((round) => round.answer.id),
+      rounds,
+      index: 0,
+      score: 0,
+      streak: 0,
+      bestStreak: 0,
+      answers: [],
+      intel: false,
+      eliminatedId: null,
+      remaining: roundMs,
+      roundMs,
+      phase: "question",
+      pickedId: null,
+      guess: null,
+      timedOut: false,
+      points: 0,
+    });
+    setScreen("play");
+  }
+
+  function start() {
+    if (playKind === "daily") {
+      if (!today) return;
+      startDaily("loading", today);
+      return;
+    }
     if (!ready) return;
-    const unlimited = playKind !== "daily" && roundLength === "unlimited";
-    const dateKey = localDateKey();
-    const count = unlimited || roundLength === "unlimited" ? 1 : roundLength;
-    const mode = playKind === "remake" || playKind === "daily" ? "choice" : answerMode;
+    const unlimited = roundLength === "unlimited";
+    const count = unlimited ? 1 : roundLength;
+    const mode = playKind === "remake" ? "choice" : answerMode;
     const roundMs = roundDuration(mode);
     const rounds =
-      playKind === "daily"
-        ? buildDailyRounds(dateKey)
-        : playKind === "remake"
-          ? buildRemakeRounds(pool, count, picture)
-          : buildRounds(pool, count, mode);
+      playKind === "remake" ? buildRemakeRounds(pool, count, picture) : buildRounds(pool, count, mode);
     setNewBest(false);
     setImageFailed(false);
     setLeaveOpen(false);
     setRun({
       kind: playKind,
-      dateKey: playKind === "daily" ? dateKey : undefined,
       mode,
-      picture: playKind === "daily" ? "loading" : picture,
+      picture,
       unlimited,
+      timed,
       pool,
       dealt: rounds.map((round) => round.answer.id),
       rounds,
@@ -318,7 +433,7 @@ export function Game() {
       const streak = correct ? current.streak + 1 : 0;
       const points = scoreRound({
         correct,
-        remainingMs: current.remaining,
+        remainingMs: current.timed ? current.remaining : current.roundMs,
         streak,
         intel: current.intel,
       });
@@ -351,9 +466,11 @@ export function Game() {
     const correct = current.answers.filter((answer) => answer.correct).length;
     const next = { score: current.score, correct, rounds: current.answers.length };
     if (current.kind === "daily" && current.dateKey) {
-      const days = nextDailyStreak(dailyRecord, current.dateKey);
+      const bucket = { ...dailyStore[current.picture] };
+      const days = streakEndingOn({ ...bucket, [current.dateKey]: { date: current.dateKey } as DailyRecord }, current.dateKey);
       const record: DailyRecord = {
         date: current.dateKey,
+        picture: current.picture,
         score: current.score,
         correct,
         rounds: current.answers.length,
@@ -362,7 +479,10 @@ export function Game() {
         days,
       };
       writeDaily(record);
-      setDailyOverride(record);
+      setDailyOverride({
+        loading: { ...dailyStore.loading, ...(record.picture === "loading" ? { [record.date]: record } : {}) },
+        minimap: { ...dailyStore.minimap, ...(record.picture === "minimap" ? { [record.date]: record } : {}) },
+      });
       setRun({ ...current, days });
       setNewBest(false);
       setScreen("results");
@@ -432,7 +552,7 @@ export function Game() {
   const activeRoundMs = run?.roundMs ?? CHOICE_ROUND_MS;
 
   useEffect(() => {
-    if (screen !== "play" || roundIndex === undefined || roundPhase !== "question") return;
+    if (screen !== "play" || roundIndex === undefined || roundPhase !== "question" || !run?.timed) return;
     const deadline = performance.now() + activeRoundMs;
     const id = window.setInterval(() => {
       const left = Math.max(0, deadline - performance.now());
@@ -447,7 +567,7 @@ export function Game() {
       }
     }, 80);
     return () => window.clearInterval(id);
-  }, [activeRoundMs, roundIndex, roundPhase, screen, submit]);
+  }, [activeRoundMs, roundIndex, roundPhase, run?.timed, screen, submit]);
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
@@ -455,7 +575,13 @@ export function Game() {
       const target = event.target;
       const onLiveButton = target instanceof HTMLButtonElement && !target.disabled;
       const inField = target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement;
-      if (screen === "play" && run?.phase === "reveal" && event.key === "Enter" && !onLiveButton) {
+      if (
+        screen === "play" &&
+        run?.phase === "reveal" &&
+        (event.key === "Enter" || event.key === " ") &&
+        !onLiveButton &&
+        !inField
+      ) {
         event.preventDefault();
         nextRound();
         return;
@@ -495,7 +621,7 @@ export function Game() {
         <button
           type="button"
           onClick={() => (screen === "play" ? setLeaveOpen(true) : setScreen("menu"))}
-          className="text-left"
+          className="cursor-pointer text-left"
           title={screen === "play" ? "Leave this match" : "Back to the lobby"}
         >
           <p className="font-display text-xs tracking-[0.35em] text-primary">Multiplayer</p>
@@ -535,23 +661,27 @@ export function Game() {
           answerMode={answerMode}
           picture={picture}
           best={best}
-          dailyRecord={dailyRecord}
-          dailyToday={dailyToday}
+          dailyStore={dailyStore}
           minimumMaps={minimumMaps}
           plannedRounds={plannedRounds}
           playKind={playKind}
           poolSize={pool.length}
           ready={ready}
           roster={roster}
+          scales={scales}
           roundLength={roundLength}
           selected={selected}
+          timed={timed}
           today={today}
           onAnswerMode={setAnswerMode}
           onPicture={setPicture}
           onPlayKind={setPlayKind}
           onRoster={setRoster}
+          onToggleScale={toggleScale}
           onRoundLength={setRoundLength}
+          onTimed={setTimed}
           onStart={start}
+          onStartDaily={startDaily}
           onPreset={applyPreset}
           onToggleGame={toggleGame}
         />
@@ -610,11 +740,84 @@ export function Game() {
   );
 }
 
+function DailyArchive({
+  store,
+  today,
+  onPlay,
+}: {
+  store: DailyStore;
+  today: string;
+  onPlay: (picture: Picture, date: string) => void;
+}) {
+  const [month, setMonth] = useState(`${today.slice(0, 7)}-01`);
+  const year = Number(month.slice(0, 4));
+  const monthIndex = Number(month.slice(5, 7)) - 1;
+  const first = new Date(year, monthIndex, 1);
+  const pad = first.getDay();
+  const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+  const label = first.toLocaleDateString("en-GB", { month: "long", year: "numeric" });
+  const prevMonth = shiftMonth(month, -1);
+  const nextMonth = shiftMonth(month, 1);
+  const canPrev = prevMonth.slice(0, 7) >= DAILY_EPOCH.slice(0, 7);
+  const canNext = nextMonth.slice(0, 7) <= today.slice(0, 7);
+
+  return (
+    <div className="mt-4">
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <Button type="button" size="sm" variant="outline" disabled={!canPrev} onClick={() => setMonth(prevMonth)}>
+          Prev
+        </Button>
+        <p className="font-display text-lg text-foreground">{label}</p>
+        <Button type="button" size="sm" variant="outline" disabled={!canNext} onClick={() => setMonth(nextMonth)}>
+          Next
+        </Button>
+      </div>
+      <div className="grid grid-cols-7 gap-1 text-center text-[11px] tracking-[0.12em] text-muted-foreground uppercase">
+        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+          <p key={day}>{day}</p>
+        ))}
+      </div>
+      <div className="mt-1 grid grid-cols-7 gap-1">
+        {Array.from({ length: pad }, (_, index) => (
+          <span key={`pad-${index}`} />
+        ))}
+        {Array.from({ length: daysInMonth }, (_, index) => {
+          const day = index + 1;
+          const date = `${year}-${String(monthIndex + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+          const open = date >= DAILY_EPOCH && date <= today;
+          return (
+            <div key={date} className="min-h-16 border border-border/70 p-1">
+              <p className={cn("text-xs tabular-nums", date === today ? "text-primary" : "text-muted-foreground")}>{day}</p>
+              {open ? (
+                <div className="mt-1 flex flex-col gap-1">
+                  {(["loading", "minimap"] as const).map((kind) => {
+                    const done = Boolean(dailyRecordFor(store, kind, date));
+                    return (
+                      <button
+                        key={kind}
+                        type="button"
+                        onClick={() => onPlay(kind, date)}
+                        className="cursor-pointer px-1 py-0.5 text-left text-[10px] leading-tight text-primary hover:underline"
+                      >
+                        {kind === "minimap" ? "Mini" : "Load"}
+                        {done ? " · done" : ""}
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : null}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function Menu({
   answerMode,
   best,
-  dailyRecord,
-  dailyToday,
+  dailyStore,
   minimumMaps,
   picture,
   plannedRounds,
@@ -622,22 +825,26 @@ function Menu({
   poolSize,
   ready,
   roster,
+  scales,
   roundLength,
   selected,
+  timed,
   today,
   onAnswerMode,
   onPicture,
   onPlayKind,
   onRoster,
+  onToggleScale,
   onRoundLength,
+  onTimed,
   onStart,
+  onStartDaily,
   onPreset,
   onToggleGame,
 }: {
   answerMode: AnswerMode;
   best: Best | null;
-  dailyRecord: DailyRecord | null;
-  dailyToday: DailyRecord | null;
+  dailyStore: DailyStore;
   minimumMaps: number;
   picture: Picture;
   plannedRounds: number | null;
@@ -645,15 +852,20 @@ function Menu({
   poolSize: number;
   ready: boolean;
   roster: Roster;
+  scales: MapScale[];
   roundLength: RoundLength;
   selected: GameId[];
+  timed: boolean;
   today: string;
   onAnswerMode: (mode: AnswerMode) => void;
   onPicture: (picture: Picture) => void;
   onPlayKind: (kind: PlayKind) => void;
   onRoster: (roster: Roster) => void;
+  onToggleScale: (scale: MapScale) => void;
   onRoundLength: (length: RoundLength) => void;
+  onTimed: (timed: boolean) => void;
   onStart: () => void;
+  onStartDaily: (picture: Picture, date: string) => void;
   onPreset: (ids: GameId[]) => void;
   onToggleGame: (id: GameId) => void;
 }) {
@@ -668,7 +880,7 @@ function Menu({
         </h1>
         <p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg">
           {playKind === "daily"
-            ? "Ten launch maps, same set for everyone today. Play once, then send the score."
+            ? "Two dailies each day: loading screens and minimaps. Same sets for everyone. Play today, or open a previous date."
             : playKind === "remake"
               ? "A map that came back. You already know the name. Pick which game this version is from."
               : "A loading screen or a minimap comes up. Pick the name, or type it. Twenty seconds for four choices. Thirty if you type it."}
@@ -700,33 +912,56 @@ function Menu({
       </div>
 
       {playKind === "daily" ? (
-        <section className="max-w-xl border border-border bg-card p-5">
-          <p className="font-display text-xs tracking-[0.22em] text-muted-foreground">Today</p>
-          <p className="mt-2 font-display text-4xl text-foreground">{today ? formatDateLabel(today) : "Today"}</p>
-          <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            Ten launch maps from the whole mainline roster. Same ten for everyone on this date.
-          </p>
-          {dailyToday ? (
-            <p className="mt-4 text-sm text-muted-foreground">
-              Today you went {dailyToday.correct}/{dailyToday.rounds} for{" "}
-              <span className="font-display text-foreground">{formatScore(dailyToday.score)}</span>
-              {dailyToday.days ? (
-                <>
-                  {" "}
-                  · <span className="font-display text-foreground">{dailyToday.days} day streak</span>
-                </>
-              ) : null}
-              .
+        <div className="grid gap-4 lg:grid-cols-2">
+          {(["loading", "minimap"] as const).map((kind) => {
+            const record = today ? dailyRecordFor(dailyStore, kind, today) : null;
+            const latest = latestDaily(dailyStore, kind);
+            return (
+              <section key={kind} className="border border-border bg-card p-5">
+                <p className="font-display text-xs tracking-[0.22em] text-muted-foreground">
+                  {kind === "minimap" ? "Minimap daily" : "Loading-screen daily"}
+                </p>
+                <p className="mt-2 font-display text-3xl text-foreground">{today ? formatDateLabel(today) : "Today"}</p>
+                <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                  Ten launch maps. Same ten for everyone on this date.
+                </p>
+                {record ? (
+                  <p className="mt-4 text-sm text-muted-foreground">
+                    Today you went {record.correct}/{record.rounds} for{" "}
+                    <span className="font-display text-foreground">{formatScore(record.score)}</span>
+                    {record.days ? (
+                      <>
+                        {" "}
+                        · <span className="font-display text-foreground">{record.days} day streak</span>
+                      </>
+                    ) : null}
+                    .
+                  </p>
+                ) : latest?.days && latest.date !== today ? (
+                  <p className="mt-4 text-sm text-muted-foreground">
+                    Last streak was {latest.days} {latest.days === 1 ? "day" : "days"}.
+                  </p>
+                ) : null}
+                <Button
+                  type="button"
+                  size="lg"
+                  disabled={!today}
+                  onClick={() => today && onStartDaily(kind, today)}
+                  className="mt-6 h-12 w-full font-display text-lg tracking-[0.18em]"
+                >
+                  {record ? "See today's result" : "Play today's ten"}
+                </Button>
+              </section>
+            );
+          })}
+          <section className="border border-border bg-card p-5 lg:col-span-2">
+            <p className="font-display text-xs tracking-[0.22em] text-muted-foreground">Previous days</p>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              Same puzzles as on the day. Loading screens on the left, minimaps on the right.
             </p>
-          ) : dailyRecord?.days && dailyRecord.date !== today ? (
-            <p className="mt-4 text-sm text-muted-foreground">
-              Last streak was {dailyRecord.days} {dailyRecord.days === 1 ? "day" : "days"}.
-            </p>
-          ) : null}
-          <Button type="button" size="lg" disabled={!ready && !dailyToday} onClick={onStart} className="mt-6 h-12 w-full font-display text-lg tracking-[0.18em] sm:w-auto">
-            {dailyToday ? "See today's result" : "Play today's ten"}
-          </Button>
-        </section>
+            {today ? <DailyArchive store={dailyStore} today={today} onPlay={onStartDaily} /> : null}
+          </section>
+        </div>
       ) : (
       <section className="grid gap-6 lg:grid-cols-[1.4fr_0.8fr]">
         <div className="space-y-5">
@@ -823,10 +1058,38 @@ function Menu({
               </Button>
             </div>
           </div>
+          <div>
+            <p className="mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Size</p>
+            <div className="grid gap-2 sm:grid-cols-3">
+              {MAP_SCALES.map((item) => {
+                const on = scales.includes(item.id);
+                return (
+                  <Button
+                    key={item.id}
+                    type="button"
+                    variant={on ? "default" : "outline"}
+                    aria-pressed={on}
+                    onClick={() => onToggleScale(item.id)}
+                    className="h-auto items-start justify-start px-3 py-3 text-left whitespace-normal"
+                  >
+                    <span>
+                      <span className="font-display block text-base tracking-wide">{item.label}</span>
+                      <span className={cn("mt-1 block text-xs font-normal normal-case tracking-normal", on ? "text-primary-foreground/75" : "text-muted-foreground")}>
+                        {item.line}
+                      </span>
+                    </span>
+                  </Button>
+                );
+              })}
+            </div>
+          </div>
           </>
           ) : (
             <p className="max-w-xl text-sm leading-6 text-muted-foreground">
               Choices are the games that shipped this map. Seasonal reskins stay out.
+              {picture === "minimap"
+                ? " Nuketown stays out of minimap remakes — the layouts are almost the same."
+                : ""}
             </p>
           )}
         </div>
@@ -906,6 +1169,15 @@ function Menu({
                 onClick={() => onRoundLength("unlimited")}
               >
                 Unlimited
+              </Button>
+            </div>
+            <p className="mt-4 mb-2 font-display text-xs tracking-[0.22em] text-muted-foreground">Clock</p>
+            <div className="flex flex-wrap gap-2">
+              <Button type="button" size="sm" variant={timed ? "default" : "outline"} aria-pressed={timed} onClick={() => onTimed(true)}>
+                Timer
+              </Button>
+              <Button type="button" size="sm" variant={!timed ? "default" : "outline"} aria-pressed={!timed} onClick={() => onTimed(false)}>
+                No timer
               </Button>
             </div>
             {best && playKind === "custom" ? (
@@ -1049,18 +1321,20 @@ function Question({
             />
           )}
         </div>
-        <div className="h-1.5 bg-black" aria-hidden>
-          <div
-            className={cn("h-full", seconds <= 5 && !revealed ? "bg-destructive" : "bg-primary")}
-            style={{ width: `${(run.remaining / run.roundMs) * 100}%` }}
-          />
-        </div>
+        {run.timed ? (
+          <div className="h-1.5 bg-black" aria-hidden>
+            <div
+              className={cn("h-full", seconds <= 5 && !revealed ? "bg-destructive" : "bg-primary")}
+              style={{ width: `${run.roundMs ? (run.remaining / run.roundMs) * 100 : 0}%` }}
+            />
+          </div>
+        ) : null}
         <figcaption className="sr-only">Loading screen. Choose the map name.</figcaption>
       </figure>
 
       <div className="flex items-center justify-between gap-3">
         <p className="font-display text-sm tracking-[0.18em] text-muted-foreground tabular-nums" aria-live="polite">
-          {revealed ? "Locked" : `${seconds}s`}
+          {revealed ? "Locked" : run.timed ? `${seconds}s` : "No clock"}
         </p>
         <div className="flex flex-wrap items-center justify-end gap-2">
           {run.unlimited && !revealed ? (
@@ -1184,7 +1458,7 @@ function Results({
       <div>
         <p className="font-display text-xs tracking-[0.28em] text-primary">
           {run.kind === "daily" && run.dateKey
-            ? `Daily · ${formatDateLabel(run.dateKey)}`
+            ? `${run.picture === "minimap" ? "Minimap daily" : "Loading-screen daily"} · ${formatDateLabel(run.dateKey)}`
             : run.kind === "remake"
               ? "Remakes"
               : "Match complete"}
@@ -1320,6 +1594,8 @@ function ShareDaily({ run }: { run: Run }) {
     rounds: run.answers.length,
     score: run.score,
     days: run.days,
+    picture: run.picture,
+    url: window.location.origin,
   });
 
   return (
@@ -1336,7 +1612,7 @@ function ShareDaily({ run }: { run: Run }) {
         window.setTimeout(() => setCopied(false), 1600);
       }}
     >
-      {copied ? "Copied" : "Copy today's score"}
+      {copied ? "Copied" : "Copy this score"}
     </Button>
   );
 }

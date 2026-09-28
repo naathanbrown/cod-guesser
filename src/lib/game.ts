@@ -32,6 +32,8 @@ export type CoverBox = {
   h: number;
 };
 
+export type MapScale = "core" | "faceoff" | "battle";
+
 export type MapCard = {
   id: string;
   name: string;
@@ -40,6 +42,7 @@ export type MapCard = {
   short: string;
   year: number;
   standard: boolean;
+  scale?: MapScale;
   blurb: string;
   image: string;
   minimap: string | null;
@@ -123,6 +126,16 @@ export type Picture = "loading" | "minimap";
 export type PlayKind = "custom" | "daily" | "remake";
 export const DAILY_ROUNDS = 10;
 export const DAILY_SEED_PREFIX = "callout-daily-v1";
+export const DAILY_EPOCH = "2026-09-21";
+export const MAP_SCALES: { id: MapScale; label: string; line: string }[] = [
+  { id: "core", label: "Core", line: "6v6 and the usual multiplayer size." },
+  { id: "faceoff", label: "Face Off", line: "Gunfight, 2v2, 3v3, and other small maps." },
+  { id: "battle", label: "Battle", line: "Ground War, Invasion, and the big battle maps." },
+];
+
+export function scaleOf(map: MapCard): MapScale {
+  return map.scale ?? "core";
+}
 
 const SEASONAL_NAME = /\b(holiday|halloween|christmas|shipmas)\b/;
 
@@ -176,12 +189,34 @@ export function rngFromSeed(seed: string): () => number {
   };
 }
 
-export function dailyPool(): MapCard[] {
-  return maps.filter((map) => map.standard);
+export function dailyPool(picture: Picture = "loading"): MapCard[] {
+  return maps.filter((map) => map.standard && (picture === "loading" || Boolean(map.minimap)));
 }
 
-export function buildDailyRounds(dateKey: string): Round[] {
-  return buildRounds(dailyPool(), DAILY_ROUNDS, "choice", rngFromSeed(`${DAILY_SEED_PREFIX}-${dateKey}`));
+export function dailySeed(dateKey: string, picture: Picture): string {
+  return picture === "loading" ? `${DAILY_SEED_PREFIX}-${dateKey}` : `${DAILY_SEED_PREFIX}-minimap-${dateKey}`;
+}
+
+export function buildDailyRounds(dateKey: string, picture: Picture = "loading"): Round[] {
+  return buildRounds(dailyPool(picture), DAILY_ROUNDS, "choice", rngFromSeed(dailySeed(dateKey, picture)));
+}
+
+export function nextDateKey(key: string): string {
+  const [year, month, day] = key.split("-").map(Number);
+  const date = new Date(year, month - 1, day);
+  date.setDate(date.getDate() + 1);
+  return localDateKey(date);
+}
+
+export function shiftMonth(key: string, delta: number): string {
+  const [year, month] = key.split("-").map(Number);
+  return localDateKey(new Date(year, month - 1 + delta, 1));
+}
+
+export function eachDateKey(from: string, to: string): string[] {
+  const keys: string[] = [];
+  for (let key = from; key <= to; key = nextDateKey(key)) keys.push(key);
+  return keys;
 }
 
 export function formatDailyShare(input: {
@@ -190,10 +225,14 @@ export function formatDailyShare(input: {
   rounds: number;
   score: number;
   days?: number;
+  picture?: Picture;
+  url?: string;
 }): string {
   const rank = rankFor(input.rounds === 0 ? 0 : input.correct / input.rounds);
+  const kind = input.picture === "minimap" ? "Minimaps" : "Loading screens";
   const streak = input.days && input.days > 0 ? `\n${input.days} day streak` : "";
-  return `Callout Daily — ${formatDateLabel(input.date)}\n${input.correct}/${input.rounds} · ${rank.title}\n${input.score.toLocaleString("en-US")}${streak}`;
+  const link = input.url ? `\n${input.url}` : "";
+  return `Callout Daily — ${formatDateLabel(input.date)}\n${kind}\n${input.correct}/${input.rounds} · ${rank.title}\n${input.score.toLocaleString("en-US")}${streak}${link}`;
 }
 
 export function remakeFamilyKey(map: MapCard): string | null {
@@ -205,11 +244,12 @@ export function remakeFamilyKey(map: MapCard): string | null {
   return name;
 }
 
-export function remakeGroups(pool: readonly MapCard[] = maps): MapCard[][] {
+export function remakeGroups(pool: readonly MapCard[] = maps, picture: Picture = "loading"): MapCard[][] {
   const buckets = new Map<string, MapCard[]>();
   for (const map of pool) {
     const key = remakeFamilyKey(map);
     if (!key) continue;
+    if (picture === "minimap" && key === "nuketown") continue;
     const list = buckets.get(key) ?? [];
     list.push(map);
     buckets.set(key, list);
@@ -219,7 +259,7 @@ export function remakeGroups(pool: readonly MapCard[] = maps): MapCard[][] {
 
 export function remakePool(picture: Picture): MapCard[] {
   const source = maps.filter((map) => picture === "loading" || Boolean(map.minimap));
-  return remakeGroups(source).flat();
+  return remakeGroups(source, picture).flat();
 }
 
 export function versionLabel(map: MapCard): string {
@@ -233,7 +273,7 @@ export function buildRemakeRound(
 ): Round {
   const key = remakeFamilyKey(answer);
   const group =
-    remakeGroups(maps.filter((map) => picture === "loading" || Boolean(map.minimap))).find(
+    remakeGroups(maps.filter((map) => picture === "loading" || Boolean(map.minimap)), picture).find(
       (mapsInGroup) => remakeFamilyKey(mapsInGroup[0]) === key,
     ) ?? [answer];
   return { answer, choices: shuffle(group, rng) };
@@ -273,17 +313,64 @@ export function dealRemakeRound(
 
 export function normalizeGuess(value: string): string {
   return value
-    .normalize("NFKC")
+    .normalize("NFKD")
+    .replace(/\p{M}+/gu, "")
     .trim()
     .toLowerCase()
+    .replace(/&/g, " and ")
     .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\b(the|map|mp)\b/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }
 
+function compactGuess(value: string): string {
+  return value.replace(/ /g, "");
+}
+
+function editDistance(left: string, right: string): number {
+  if (left === right) return 0;
+  if (!left.length) return right.length;
+  if (!right.length) return left.length;
+  const row = Array.from({ length: right.length + 1 }, (_, index) => index);
+  for (let i = 1; i <= left.length; i += 1) {
+    let prev = i;
+    for (let j = 1; j <= right.length; j += 1) {
+      const next = left[i - 1] === right[j - 1] ? row[j - 1] : Math.min(row[j - 1], row[j], prev) + 1;
+      row[j - 1] = prev;
+      prev = next;
+    }
+    row[right.length] = prev;
+  }
+  return row[right.length];
+}
+
+function allowedEdits(name: string): number {
+  if (name.length >= 12) return 2;
+  if (name.length >= 5) return 1;
+  return 0;
+}
+
+function fuzzyEqual(guess: string, name: string): boolean {
+  if (!guess || !name) return false;
+  if (guess === name) return true;
+  const guessCompact = compactGuess(guess);
+  const nameCompact = compactGuess(name);
+  if (guessCompact === nameCompact) return true;
+  const edits = allowedEdits(name);
+  if (!edits) return false;
+  if (Math.abs(guess.length - name.length) <= edits && editDistance(guess, name) <= edits) return true;
+  return Math.abs(guessCompact.length - nameCompact.length) <= edits && editDistance(guessCompact, nameCompact) <= edits;
+}
+
 export function guessMatches(guess: string, map: MapCard): boolean {
   const normalized = normalizeGuess(guess);
-  return normalized.length > 0 && normalized === normalizeGuess(map.name);
+  if (!normalized) return false;
+  if (fuzzyEqual(normalized, normalizeGuess(map.name))) return true;
+  const family = remakeFamilyKey(map);
+  if (family === "nuketown" && fuzzyEqual(normalized, "nuketown")) return true;
+  if (family === "shipment" && fuzzyEqual(normalized, "shipment")) return true;
+  return false;
 }
 
 export function shuffle<T>(items: readonly T[], rng: () => number = Math.random): T[] {

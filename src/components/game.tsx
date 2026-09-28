@@ -301,6 +301,16 @@ export function Game() {
       ),
     [picture, roster, scales, selected],
   );
+  const scaleCounts = useMemo(() => {
+    const counts: Record<MapScale, number> = { core: 0, faceoff: 0, battle: 0 };
+    for (const map of maps) {
+      if (!selected.includes(map.gameId)) continue;
+      if (roster === "launch" && !map.standard) continue;
+      if (picture === "minimap" && !map.minimap) continue;
+      counts[scaleOf(map)] += 1;
+    }
+    return counts;
+  }, [picture, roster, selected]);
   const remakes = useMemo(() => remakePool(picture), [picture]);
   const pool = playKind === "remake" ? remakes : playKind === "daily" ? maps.filter((map) => map.standard) : customPool;
   const minimumMaps = playKind === "remake" ? 1 : playKind === "daily" ? DAILY_ROUNDS : answerMode === "choice" ? 4 : 1;
@@ -668,6 +678,7 @@ export function Game() {
           poolSize={pool.length}
           ready={ready}
           roster={roster}
+          scaleCounts={scaleCounts}
           scales={scales}
           roundLength={roundLength}
           selected={selected}
@@ -825,6 +836,7 @@ function Menu({
   poolSize,
   ready,
   roster,
+  scaleCounts,
   scales,
   roundLength,
   selected,
@@ -852,6 +864,7 @@ function Menu({
   poolSize: number;
   ready: boolean;
   roster: Roster;
+  scaleCounts: Record<MapScale, number>;
   scales: MapScale[];
   roundLength: RoundLength;
   selected: GameId[];
@@ -1073,7 +1086,12 @@ function Menu({
                     className="h-auto items-start justify-start px-3 py-3 text-left whitespace-normal"
                   >
                     <span>
-                      <span className="font-display block text-base tracking-wide">{item.label}</span>
+                      <span className="font-display block text-base tracking-wide">
+                        {item.label}{" "}
+                        <span className={cn("font-sans text-xs tracking-normal", on ? "text-primary-foreground/70" : "text-muted-foreground")}>
+                          {scaleCounts[item.id]}
+                        </span>
+                      </span>
                       <span className={cn("mt-1 block text-xs font-normal normal-case tracking-normal", on ? "text-primary-foreground/75" : "text-muted-foreground")}>
                         {item.line}
                       </span>

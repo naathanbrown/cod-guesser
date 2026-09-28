@@ -2545,7 +2545,7 @@
     "image": "/i/7d337d63bca1b66c.jpg",
     "source": "https://callofduty.fandom.com/wiki/Aground",
     "minimap": "/i/c6d16cddf409cce1.jpg",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "arkaden-mw3",
@@ -2685,7 +2685,7 @@
     "image": "/i/b17a14bb63e31572.jpg",
     "source": "https://callofduty.fandom.com/wiki/Erosion",
     "minimap": "/i/bc0be68393e33d4f.jpg",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "fallen-mw3",
@@ -2727,7 +2727,7 @@
     "image": "/i/6645d51ef0d980ee.jpg",
     "source": "https://callofduty.fandom.com/wiki/Getaway",
     "minimap": "/i/b4883a49a1818ff3.jpg",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "gulch-mw3",
@@ -2783,7 +2783,7 @@
     "image": "/i/3320201a7e6b9ea0.jpg",
     "source": "https://callofduty.fandom.com/wiki/Intersection",
     "minimap": "/i/a5eb53cbad6d5d1b.jpg",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "liberation-mw3",
@@ -2825,7 +2825,7 @@
     "image": "/i/718ec599d5be1546.jpg",
     "source": "https://callofduty.fandom.com/wiki/Lookout",
     "minimap": "/i/4293f3ba8e26ab18.jpg",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "mission-mw3",
@@ -2993,7 +2993,7 @@
     "image": "/i/b9ed3804565a9d30.jpg",
     "source": "https://callofduty.fandom.com/wiki/U-Turn",
     "minimap": "/i/478d19b299064f9a.jpg",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "underground-mw3",
@@ -3035,7 +3035,7 @@
     "image": "/i/ddfe58a4f0af5aec.jpg",
     "source": "https://callofduty.fandom.com/wiki/Vortex",
     "minimap": "/i/1ae01a40c5893039.jpg",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "aftermath-bo2",
@@ -6927,7 +6927,7 @@
     "image": "/i/6586ef8639ab3b9a.jpg",
     "minimap": "/i/d9af0a8ab92ee1f5.jpg",
     "source": "https://callofduty.fandom.com/wiki/Verdansk_Stadium",
-    "scale": "battle"
+    "scale": "faceoff"
   },
   {
     "id": "winter-docks-mw2019",
@@ -6997,7 +6997,7 @@
     "image": "/i/9998c6e76639dba7.jpg",
     "minimap": "/i/a03e7ecedf1d2026.jpg",
     "source": "https://callofduty.fandom.com/wiki/Amsterdam_%28map%29",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "apocalypse-cw",
@@ -7109,7 +7109,7 @@
     "image": "/i/1d113bc88b5686da.jpg",
     "minimap": "/i/a1e128f898250bda.jpg",
     "source": "https://callofduty.fandom.com/wiki/Diesel",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "drive-in-cw",
@@ -7179,7 +7179,7 @@
     "image": "/i/be39d3e117b9c197.jpg",
     "minimap": "/i/78259db2490e1eb0.jpg",
     "source": "https://callofduty.fandom.com/wiki/Game_Show",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "garrison-cw",
@@ -7207,7 +7207,7 @@
     "image": "/i/df170d453352c199.jpg",
     "minimap": "/i/9cf6ca948bf62c54.jpg",
     "source": "https://callofduty.fandom.com/wiki/Gluboko",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "golova-cw",
@@ -7249,7 +7249,7 @@
     "image": "/i/433d74440b17a83a.jpg",
     "minimap": "/i/3622345f7ad8f103.jpg",
     "source": "https://callofduty.fandom.com/wiki/ICBM_%28map%29",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "jungle-cw",
@@ -7277,7 +7277,7 @@
     "image": "/i/a9999d50d49e86ef.jpg",
     "minimap": "/i/00bce2c095383c96.jpg",
     "source": "https://callofduty.fandom.com/wiki/KGB_%28map%29",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "mansion-cw",
@@ -7291,7 +7291,7 @@
     "image": "/i/6a53c22690313909.jpg",
     "minimap": "/i/2db65b5401aad5b5.jpg",
     "source": "https://callofduty.fandom.com/wiki/Mansion_%28Cold_War%29",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "miami-cw",
@@ -7445,7 +7445,7 @@
     "image": "/i/565a4d96aeaedcb2.jpg",
     "minimap": "/i/4fcd662bc5edf96d.jpg",
     "source": "https://callofduty.fandom.com/wiki/Showroom",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "slums-cw",
@@ -7501,7 +7501,7 @@
     "image": "/i/8fecebd8ae02ce3b.jpg",
     "minimap": "/i/84ba7c4fc6b89e1c.jpg",
     "source": "https://callofduty.fandom.com/wiki/U-Bahn",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "wmd-cw",
@@ -7641,7 +7641,7 @@
     "image": "/i/0d37a086f95cb38d.jpg",
     "minimap": "/i/d7f0ed268b975404.jpg",
     "source": "https://callofduty.fandom.com/wiki/Das_Haus",
-    "scale": "faceoff"
+    "scale": "core"
   },
   {
     "id": "decoy-vg",
@@ -8019,7 +8019,7 @@
     "image": "/i/e1a3f99ec9e12c92.jpg",
     "minimap": "/i/558dd1791223e2ac.jpg",
     "source": "https://callofduty.fandom.com/wiki/Black_Gold",
-    "scale": "faceoff"
+    "scale": "core"
   },
   {
     "id": "blacksite-mwii",
@@ -8089,7 +8089,7 @@
     "image": "/i/9c16e5266052e0a8.jpg",
     "minimap": "/i/1e242e3932ba3bdd.jpg",
     "source": "https://callofduty.fandom.com/wiki/DRC_%E2%80%93_Zone_1",
-    "scale": "faceoff"
+    "scale": "core"
   },
   {
     "id": "dome-mwii",
@@ -8103,7 +8103,7 @@
     "image": "/i/4ae4849350066817.jpg",
     "minimap": "/i/bfcdc1a4a6856136.jpg",
     "source": "https://callofduty.fandom.com/wiki/Dome_%28Modern_Warfare_3%29",
-    "scale": "faceoff"
+    "scale": "core"
   },
   {
     "id": "el-asilo-mwii",
@@ -8187,7 +8187,7 @@
     "image": "/i/1610194bd5ef3361.jpg",
     "minimap": "/i/97c13caefb8cad32.jpg",
     "source": "https://callofduty.fandom.com/wiki/Guijarro",
-    "scale": "faceoff"
+    "scale": "battle"
   },
   {
     "id": "himmelmatt-expo-mwii",
@@ -8229,7 +8229,7 @@
     "image": "/i/9e82d452d434a60a.jpg",
     "minimap": "/i/e09af54bfcd1e6b3.jpg",
     "source": "https://callofduty.fandom.com/wiki/Koro_Village",
-    "scale": "faceoff"
+    "scale": "core"
   },
   {
     "id": "kunstenaar-district-mwii",
@@ -8257,7 +8257,7 @@
     "image": "/i/968dd5a070fdcc95.jpg",
     "minimap": "/i/3699451b02de2d21.jpg",
     "source": "https://callofduty.fandom.com/wiki/La_Casa",
-    "scale": "faceoff"
+    "scale": "core"
   },
   {
     "id": "lounge-mwii",
@@ -8299,7 +8299,7 @@
     "image": "/i/b92543275f0bdeec.jpg",
     "minimap": "/i/edbb633c9eca6c45.jpg",
     "source": "https://callofduty.fandom.com/wiki/Mercado",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "mercado-las-almas-mwii",
@@ -8495,7 +8495,7 @@
     "image": "/i/2f095d7fffb5a775.jpg",
     "minimap": "/i/f3e8c2ca029eebf3.jpg",
     "source": "https://callofduty.fandom.com/wiki/Showdown",
-    "scale": "faceoff"
+    "scale": "core"
   },
   {
     "id": "strike-mwii",
@@ -8509,7 +8509,7 @@
     "image": "/i/82ae62e62c583f77.jpg",
     "minimap": "/i/feca95e3bc5253db.jpg",
     "source": "https://callofduty.fandom.com/wiki/Strike_%28map%29",
-    "scale": "faceoff"
+    "scale": "core"
   },
   {
     "id": "taraq-mwii",
@@ -8649,7 +8649,7 @@
     "image": "/i/f4c30fb2025898b8.jpg",
     "minimap": "/i/65496d73d5cc0b53.jpg",
     "source": "https://callofduty.fandom.com/wiki/Alley",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "arena-shipment-mwiii",
@@ -8719,7 +8719,7 @@
     "image": "/i/f063cae8287e54a8.jpg",
     "minimap": "/i/25e1d28af521765a.jpg",
     "source": "https://callofduty.fandom.com/wiki/Blacksite",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "breenbergh-hotel-mwiii",
@@ -8803,7 +8803,7 @@
     "image": "/i/52fd69b3c79efbdd.jpg",
     "minimap": "/i/fd690902b2ce428c.jpg",
     "source": "https://callofduty.fandom.com/wiki/Das_Haus",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "departures-mwiii",
@@ -8901,7 +8901,7 @@
     "image": "/i/b660c6b51b68e0d3.jpg",
     "minimap": "/i/284816d40e5011a5.jpg",
     "source": "https://callofduty.fandom.com/wiki/Exhibit",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "farm-18-mwiii",
@@ -9111,7 +9111,7 @@
     "image": "/i/f51faaaa7653c6d7.jpg",
     "minimap": "/i/068dd4ef47270fd3.jpg",
     "source": "https://callofduty.fandom.com/wiki/Levin_Resort",
-    "scale": "core"
+    "scale": "battle"
   },
   {
     "id": "mad-cow-mwiii",
@@ -9139,7 +9139,7 @@
     "image": "/i/796bcde81c99e1a1.jpg",
     "minimap": "/i/567dcdd95c0808ac.jpg",
     "source": "https://callofduty.fandom.com/wiki/Meat_%28map%29",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "mercado-las-almas-mwiii",
@@ -9195,7 +9195,7 @@
     "image": "/i/2d2d2ffd3cbc5d4f.jpg",
     "minimap": "/i/b1b2718b2b9a7628.jpg",
     "source": "https://callofduty.fandom.com/wiki/Orlov_Military_Base",
-    "scale": "core"
+    "scale": "battle"
   },
   {
     "id": "paris-mwiii",
@@ -9223,7 +9223,7 @@
     "image": "/i/a7fd33e799f4b11d.jpg",
     "minimap": "/i/4fc468a5e10e5d85.jpg",
     "source": "https://callofduty.fandom.com/wiki/Popov_Power",
-    "scale": "core"
+    "scale": "battle"
   },
   {
     "id": "quarry-mwiii",
@@ -9405,7 +9405,7 @@
     "image": "/i/9091a230387a1131.jpg",
     "minimap": "/i/7ccccea320486eaf.jpg",
     "source": "https://callofduty.fandom.com/wiki/Stash_House",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "stay-high-mwiii",
@@ -9531,7 +9531,7 @@
     "image": "/i/0f8872fb605d165d.jpg",
     "minimap": "/i/a451d56f05c0e422.jpg",
     "source": "https://callofduty.fandom.com/wiki/Training_Facility",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "underpass-mwiii",
@@ -9615,7 +9615,7 @@
     "image": "/i/edeb8029c3a5ece1.jpg",
     "minimap": "/i/3bf9347d490a6585.jpg",
     "source": "https://callofduty.fandom.com/wiki/Babylon",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "barrage-bo6",
@@ -9629,7 +9629,7 @@
     "image": "/i/212b247c5c5a6509.jpg",
     "minimap": "/i/534dd15254d72da2.jpg",
     "source": "https://callofduty.fandom.com/wiki/Barrage",
-    "scale": "faceoff"
+    "scale": "core"
   },
   {
     "id": "blazetown-bo6",
@@ -9699,7 +9699,7 @@
     "image": "/i/c8a597ff9d345304.jpg",
     "minimap": "/i/16def86920e85823.jpg",
     "source": "https://callofduty.fandom.com/wiki/Bullet",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "dealership-bo6",
@@ -9713,7 +9713,7 @@
     "image": "/i/b07bb63064e8f145.jpg",
     "minimap": "/i/48e0768f0b3f4fe5.jpg",
     "source": "https://callofduty.fandom.com/wiki/Dealership",
-    "scale": "faceoff"
+    "scale": "core"
   },
   {
     "id": "derelict-bo6",
@@ -9741,7 +9741,7 @@
     "image": "/i/3788c767459ba3cc.jpg",
     "minimap": "/i/cff077cc9b980b40.jpg",
     "source": "https://callofduty.fandom.com/wiki/Eclipse_%28map%29",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "exchange-bo6",
@@ -9755,7 +9755,7 @@
     "image": "/i/5e4bac2bfc71c735.jpg",
     "minimap": "/i/a91379004742590d.jpg",
     "source": "https://callofduty.fandom.com/wiki/Exchange",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "extraction-bo6",
@@ -9769,7 +9769,7 @@
     "image": "/i/b0dd4fb2e801f0c1.jpg",
     "minimap": "/i/8bb335f69a87e279.jpg",
     "source": "https://callofduty.fandom.com/wiki/Extraction",
-    "scale": "faceoff"
+    "scale": "core"
   },
   {
     "id": "firing-range-bo6",
@@ -9825,7 +9825,7 @@
     "image": "/i/c3d2db810a4dd49e.jpg",
     "minimap": "/i/68bee237cb45fdd8.jpg",
     "source": "https://callofduty.fandom.com/wiki/Gala",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "gravity-bo6",
@@ -9909,7 +9909,7 @@
     "image": "/i/6549e5fe27266ad3.jpg",
     "minimap": "/i/bffd109fd44b9714.jpg",
     "source": "https://callofduty.fandom.com/wiki/Heirloom",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "hideout-bo6",
@@ -9923,7 +9923,7 @@
     "image": "/i/9a663d604ab065f2.jpg",
     "minimap": "/i/34f1f9da90bfdf01.jpg",
     "source": "https://callofduty.fandom.com/wiki/Hideout",
-    "scale": "faceoff"
+    "scale": "core"
   },
   {
     "id": "jackpot-bo6",
@@ -9979,7 +9979,7 @@
     "image": "/i/431d4e1846b2c362.jpg",
     "minimap": "/i/6eebbb7b3175d757.jpg",
     "source": "https://callofduty.fandom.com/wiki/Mothball",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "nomad-bo6",
@@ -9993,7 +9993,7 @@
     "image": "/i/ab82e68e84398639.jpg",
     "minimap": "/i/1d3a798052e7100d.jpg",
     "source": "https://callofduty.fandom.com/wiki/Nomad_%28map%29",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "nuketown-bo6",
@@ -10049,7 +10049,7 @@
     "image": "/i/9215cf9da1ef0173.jpg",
     "minimap": "/i/53c53dd913f615df.jpg",
     "source": "https://callofduty.fandom.com/wiki/Pit",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "protocol-bo6",
@@ -10175,7 +10175,7 @@
     "image": "/i/b92487bcb33db2e1.jpg",
     "minimap": "/i/a75cff48ab411dea.jpg",
     "source": "https://callofduty.fandom.com/wiki/Signal",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "skyline-bo6",
@@ -10203,7 +10203,7 @@
     "image": "/i/6edb5bdbce727cb0.jpg",
     "minimap": "/i/272c2e79b4839530.jpg",
     "source": "https://callofduty.fandom.com/wiki/Stakeout_%28map%29",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "subsonic-bo6",
@@ -10287,7 +10287,7 @@
     "image": "/i/483146303248c866.jpg",
     "minimap": "/i/057de9589d251b4c.jpg",
     "source": "https://callofduty.fandom.com/wiki/Warhead",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "abyss-bo7",
@@ -10301,7 +10301,7 @@
     "image": "/i/76cbd7325db873eb.jpg",
     "minimap": "/i/626118d5047729c6.jpg",
     "source": "https://callofduty.fandom.com/wiki/Abyss",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "ascent-bo7",
@@ -10343,7 +10343,7 @@
     "image": "/i/b5b23da16fe87876.jpg",
     "minimap": "/i/e77f7c4d7530952d.jpg",
     "source": "https://callofduty.fandom.com/wiki/Blackheart",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "bloodstead-bo7",
@@ -10399,7 +10399,7 @@
     "image": "/i/511a4c52b97f2e30.jpg",
     "minimap": "/i/c6172ebfda5cef4e.jpg",
     "source": "https://callofduty.fandom.com/wiki/Cortex_%28map%29",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "den-bo7",
@@ -10511,7 +10511,7 @@
     "image": "/i/f12d4f312d35b1c0.jpg",
     "minimap": "/i/39be50d4367f7ce5.jpg",
     "source": "https://callofduty.fandom.com/wiki/Flagship",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "frequency-bo7",
@@ -10707,7 +10707,7 @@
     "image": "/i/c6abd9a8f9061b03.jpg",
     "minimap": "/i/495770a0be022bf6.jpg",
     "source": "https://callofduty.fandom.com/wiki/Liminal",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "lost-bo7",
@@ -10749,7 +10749,7 @@
     "image": "/i/a9ed09795f0d7b38.jpg",
     "minimap": "/i/02fc66c9f7a27bb9.jpg",
     "source": "https://callofduty.fandom.com/wiki/Mission%3A_Edge",
-    "scale": "core"
+    "scale": "battle"
   },
   {
     "id": "mission-peak-bo7",
@@ -10763,7 +10763,7 @@
     "image": "/i/8fac4bf6a641d7e8.jpg",
     "minimap": "/i/2b6da7569514316d.jpg",
     "source": "https://callofduty.fandom.com/wiki/Mission%3A_Peak",
-    "scale": "core"
+    "scale": "battle"
   },
   {
     "id": "mission-tide-bo7",
@@ -10777,7 +10777,7 @@
     "image": "/i/bbd173e9e2018f97.jpg",
     "minimap": "/i/1c2fc1a5bbdfe129.jpg",
     "source": "https://callofduty.fandom.com/wiki/Mission%3A_Tide",
-    "scale": "core"
+    "scale": "battle"
   },
   {
     "id": "mission-trident-bo7",
@@ -10791,7 +10791,7 @@
     "image": "/i/45955b473abf2cae.jpg",
     "minimap": "/i/70350c5c8b08b835.jpg",
     "source": "https://callofduty.fandom.com/wiki/Mission%3A_Trident",
-    "scale": "core"
+    "scale": "battle"
   },
   {
     "id": "nexus-bo7",
@@ -10805,7 +10805,7 @@
     "image": "/i/bedb9369d221a217.jpg",
     "minimap": "/i/f514466e151b8274.jpg",
     "source": "https://callofduty.fandom.com/wiki/Nexus",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "nuketown-2025-bo7",
@@ -10833,7 +10833,7 @@
     "image": "/i/001c2e863f2d3d9c.jpg",
     "minimap": "/i/5cb889b59102099b.jpg",
     "source": "https://callofduty.fandom.com/wiki/Odysseus_%28map%29",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "onsen-bo7",
@@ -10847,7 +10847,7 @@
     "image": "/i/e7341ff6d0e17f44.jpg",
     "minimap": "/i/fa942331df0ce8d6.jpg",
     "source": "https://callofduty.fandom.com/wiki/Onsen",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "paranoia-bo7",
@@ -10861,7 +10861,7 @@
     "image": "/i/30969e7def001d5f.jpg",
     "minimap": "/i/ac83a78443ad30b2.jpg",
     "source": "https://callofduty.fandom.com/wiki/Paranoia_%28map%29",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "plaza-bo7",
@@ -11071,7 +11071,7 @@
     "image": "/i/9244efe3bd4b1237.jpg",
     "minimap": "/i/d8555cd695b9551a.jpg",
     "source": "https://callofduty.fandom.com/wiki/Torque_%28map%29",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "toshin-bo7",
@@ -11099,7 +11099,7 @@
     "image": "/i/edef0fc038ef824e.jpg",
     "minimap": "/i/5e2d7c8e28fe593b.jpg",
     "source": "https://callofduty.fandom.com/wiki/Turbo_Tilt",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "utopia-bo7",
@@ -11169,7 +11169,7 @@
     "image": "/i/47245d2fb5e13ddb.jpg",
     "minimap": "/i/66257a0b12dba490.jpg",
     "source": "https://callofduty.fandom.com/wiki/Yakei",
-    "scale": "core"
+    "scale": "faceoff"
   },
   {
     "id": "zenith-bo7",
@@ -11183,6 +11183,6 @@
     "image": "/i/bff102fd9b0fcb9a.jpg",
     "minimap": "/i/92d552b98d0f8188.jpg",
     "source": "https://callofduty.fandom.com/wiki/Zenith",
-    "scale": "core"
+    "scale": "faceoff"
   }
 ]
